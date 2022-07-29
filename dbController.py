@@ -44,13 +44,25 @@ def getallrecentrawbarcodes():
     return dl
 
 
-def appendrawbarcode(data):
+def appendrawbarcodes(data, day, time):
     wb = openfile("barcode")
     _ = wb.active
     ws = wb["rawBarcode"]
-    ws.append(data)
+    _ = 0
+    gi = setgroupid()
+    for i in data:
+        _ += 1
+        gi += _
+        for j in i:
+            ws.append([j[6:12], j, day, time, str(gi)])
     wb.save(getpath("barcode"))
     wb.close()
+
+
+def setgroupid():
+    wb = opensheet("barcode", "rawBarcode")
+    length = len(list(wb.rows))
+    return 10000+length
 
 
 # engineController
@@ -64,6 +76,5 @@ def gettype(mip):
             return row[1].value
     print("Invalid MIP")
     return -1
-
 
 
