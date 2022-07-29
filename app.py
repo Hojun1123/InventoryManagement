@@ -1,47 +1,54 @@
 from flask import Flask
 from flask import request, render_template, redirect
 import dbController as dc
+import main.convertRawDataToList as crl
 import datetime
 # Flask 객체 생성
 app = Flask(__name__)
+
+# Flask var
+inputBuffer = []
+rowBuffer = []
 
 
 # 데코레이션 테스트
 @app.route('/test')
 def test():
-    return "test print"
+    return render_template("./main/main.html")
 
 
 # 인덱스 페이지
 @app.route('/')
 def index():  # put application's code here
-    return render_template("index.html")
+    return render_template("./main/login.html")
 
 
 # 입고(바코드 입력 페이지)
 @app.route('/inputrawbarcodestring')
 def inputrawbarcodestring():  # put application's code here
     data = dc.getallrecentrawbarcodes()
-    return render_template("./main/inputRawBarcodeString.html", data=data)
+    return render_template("./main/readBarcodeString.html", data=data)
 
 
 # 바코드 읽기
 @app.route('/readBarcode', methods=['GET', 'POST'])
 def readbarcode():
+    global rowBuffer
+    global inputBuffer
     if request.method == 'GET':
-        # GET으로 들어올때
-        data = dc.getallrecentrawbarcodes()
-        return render_template("./main/inputRawBarcodeString.html", data=data)
+        return render_template("./main/readBarcodeString.html")
     else:
-        # GET이 아닌 request
+        # GET이 아닌 request (확인submit)
         rawBarcodeData = request.form.get("barcode")
-        #locationData = request.form.get("location")
-        if rawBarcodeData != "":
-            tm = datetime.datetime.now()
+        if rawBarcodeData != "" and rawBarcodeData is not None:
+            blist = crl.convert(rawBarcodeData)
+            groupid = dc.setgroupid()
             # time부분 나중에 함수로 빼기
-            dc.appendrawbarcode([rawBarcodeData[6:12], rawBarcodeData, tm.strftime("%Y%m%d"), tm.strftime("%X")])
+            tm = datetime.datetime.now()
+            dc.appendrawbarcodes(blist, tm.strftime("%Y%m%d"), tm.strftime("%X"))
+        #최근순으로 모든 raw바코드열 가져오기
         data = dc.getallrecentrawbarcodes()
-        return render_template("./main/inputRawBarcodeString.html", data=data)
+        return render_template("./main/readBarcodeString.html", data=data)
 
 
 # flask 구동 (main)
