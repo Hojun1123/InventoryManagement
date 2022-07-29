@@ -45,18 +45,31 @@ def getallrecentrawbarcodes():
 
 
 def appendrawbarcodes(data, day, time):
-    wb = openfile("barcode")
-    _ = wb.active
-    ws = wb["rawBarcode"]
+    wb1 = openfile("barcode")
+    _ = wb1.active
+    w1s1 = wb1["rawBarcode"]
+
+    wb2 = openfile("engine")
+    __ = wb2.active
+    w2s1 = wb2["engineDB"]
+    w2s2 = wb2["engineGroup"]
+
     _ = 0
     gi = setgroupid()
     for i in data:
         _ += 1
         gi += _
+        #gk, location
+        w2s2.append([str(gi), ""])
         for j in i:
-            ws.append([j[6:12], j, day, time, str(gi)])
-    wb.save(getpath("barcode"))
-    wb.close()
+            # 엔진시리얼번호, 바코드, 날짜, 시간, 그룹ID
+            w1s1.append([j[6:12], j, day, time, str(gi)])
+            # 엔진시리얼번호, mip, mip_type, 입고일, 포장일, 출고일, 출고설명, 그룹ID, 불량엔진bool타입, 비고
+            w2s1.append([j[6:12], j[12:], gettype(j[12:]), day, day, "", "", str(gi), 0, ""])
+    wb1.save(getpath("barcode"))
+    wb1.close()
+    wb2.save(getpath("engine"))
+    wb2.close()
 
 
 def setgroupid():
@@ -66,6 +79,8 @@ def setgroupid():
 
 
 # engineController
+
+
 def gettype(mip):
     rs = opensheet("engine", "types")
     for row in rs.rows:
