@@ -6,10 +6,6 @@ import datetime
 # Flask 객체 생성
 app = Flask(__name__)
 
-# Flask var
-inputBuffer = []
-rowBuffer = []
-
 
 # 데코레이션 테스트
 @app.route('/test')
@@ -33,8 +29,6 @@ def inputrawbarcodestring():  # put application's code here
 # 바코드 읽기
 @app.route('/readBarcode', methods=['GET', 'POST'])
 def readbarcode():
-    global rowBuffer
-    global inputBuffer
     if request.method == 'GET':
         return render_template("./main/readBarcodeString.html")
     else:
@@ -48,7 +42,7 @@ def readbarcode():
             dc.appendrawbarcodes(blist, tm.strftime("%Y%m%d"), tm.strftime("%X"))
         #최근순으로 모든 raw바코드열 가져오기
         data = dc.getallrecentrawbarcodes()
-        return render_template("./main/readBarcodeString.html", data=data)
+        return render_template("./main/readBarcodeString.html")
 
 
 # flask 구동 (main)
@@ -58,3 +52,21 @@ if __name__ == '__main__':
     # 49.174.54.239:9375
     #
     app.run(host='0.0.0.0', debug=True)
+
+
+'''
+TEST
+G4FMNU259752BE02
+G4FMNU259751BE02
+G4FMNU259750BE02
+G4FMNU259749BE02
+G4FDEH408157G20Y
+G4FMNU259750BE02
+G4FMNU259749BE02
+G4FMNU259750BE02
+G4FMNU259749BE02
+G4FDEH408157G20Y
+G4FMNU259752BE02
+G4FMNU259751BE02
+G4FDEH408157G20Y
+'''
