@@ -4,6 +4,33 @@
     <meta charset="UTF-8">
     <title>main-Demo</title>
     <link href="/static/css/style.css" rel="stylesheet"/>
+
+    <!--datepicker 관련-->
+
+    <link rel="stylesheet" href="/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
+    <script type='text/javascript'
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
+
+    <script src="/static/js/javascript.js" charset="UTF-8"></script>
+    <script type='text/javascript'>    $(function () {
+        $('.input-group.date').datepicker({
+            calendarWeeks: false,
+            todayHighlight: true,
+            autoclose: true,
+            format: "yyyy/mm/dd",
+            endDate: '0d',
+            language: "kr"
+        });
+    });
+    </script>
+    <!--datepicker 관련 end -->
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
@@ -30,8 +57,35 @@
     </div>
 </nav>
 <main>
-    <div class="m-5 bg-success">
-        달력 / 체크박스 / 외
+    <div class="m-5 bg-success d-flex justify-content-around">
+        체크박스 / 외
+        <div class="justify-content-around">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                    Default checkbox
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                <label class="form-check-label" for="flexCheckChecked">
+                    Checked checkbox
+                </label>
+            </div>
+        </div>
+        <form action="" method="">
+            <div class="bg-info d-flex  p-2">
+                <div class="input-group date"><input type="text" class="form-control"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-calendar"></i></span>
+                </div>
+                <span>~</span>
+                <div class="input-group date"><input type="text" class="form-control"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-calendar"></i></span>
+                </div>
+
+            </div>
+            <button type="submit" onclick="">조회하기</button>
+        </form>
     </div>
     <div class="table-responsive-sm">
         <table class="table table-striped">
@@ -318,20 +372,20 @@
                 <td></td>
                 <td>Test</td>
             </tr>
-            <tr>
-                <th scope="row">7</th>
-                <td><input type="text" /></td>
-                <td><input type="text" /></td>
-                <td><input type="text" /></td>
-                <td><input type="text" /></td>
-                <td><input type="text" /></td>
-                <td><input type="text" /></td>
-                <td><input type="text" /></td>
-                <td><input type="text" /></td>
-                <td><input type="text" /></td>
-                <td><input type="text" /></td>
-                <td><input type="text" /></td>
-            </tr>
+            <!--           <tr>
+                           <th scope="row">7</th>
+                           <td><input type="text"/></td>
+                           <td><input type="text"/></td>
+                           <td><input type="text"/></td>
+                           <td><input type="text"/></td>
+                           <td><input type="text"/></td>
+                           <td><input type="text"/></td>
+                           <td><input type="text"/></td>
+                           <td><input type="text"/></td>
+                           <td><input type="text"/></td>
+                           <td><input type="text"/></td>
+                           <td><input type="text"/></td>
+                       </tr> -->
             </tbody>
         </table>
     </div>
