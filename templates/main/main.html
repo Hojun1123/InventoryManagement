@@ -7,8 +7,15 @@
     <title>main-Demo</title>
     <link href="/static/css/style.css" rel="stylesheet"/>
 
-    <!--datepicker 관련-->
 
+    <!--dropdown 관련-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+    <!--datepicker 관련-->
     <link rel="stylesheet" href="/css/jquery-ui.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
     <link rel="stylesheet"
@@ -71,12 +78,12 @@
     <div class="m-5" style="background-color: #cfe2ff;">
         <form action="" method="">
             <div class="d-flex p-2 flex-wrap align-items-center">
-                <div class="input-group date" style="width : 250px;"><input type="text" class="form-control"><span
+                <div class="input-group date" style="width : 250px;"><input type="text" class="form-control" id="fromDate"><span
                         class="input-group-addon"><i
                         class="glyphicon glyphicon-calendar"></i></span>
                 </div>
                 <div class="m-2"> ~</div>
-                <div class="input-group date" style="width : 250px;"><input type="text" class="form-control"><span
+                <div class="input-group date" style="width : 250px;"><input type="text" class="form-control" id="toDate"><span
                         class="input-group-addon"><i
                         class="glyphicon glyphicon-calendar"></i></span>
                 </div>
@@ -92,7 +99,17 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">기종</th>
+                    <th scope="col dropdown">
+                        <a class="btn dropdown-toggle btn-sm border-dark" href="#" role="button" id="dropdownMenuLink"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            기종
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </th>
                     <th scope="col">MIP</th>
                     <th scope="col">ENG 1</th>
                     <th scope="col">ENG 2</th>
