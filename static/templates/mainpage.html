@@ -1,0 +1,1940 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>재고관리 프로그램</title>
+    <style>
+        /* cspell:disable-file */
+        /* webkit printing magic: print all background colors */
+        html {
+            -webkit-print-color-adjust: exact;
+        }
+
+        * {
+            box-sizing : border-box;
+            -webkit-print-color-adjust: exact;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        @media only screen {
+            body {
+                margin: 0 0 0 350px;
+                max-width: 900px;
+                color: rgb(55, 53, 47);
+            }
+        }
+
+        body {
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        a,
+        a.visited {
+            color: inherit;
+            text-decoration: underline;
+        }
+
+        .pdf-relative-link-path {
+            font-size: 80%;
+            color: #444;
+        }
+
+        h1,
+        h2,
+        h3 {
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 0.75em;
+        }
+
+        h1 {
+            font-size: 1.875rem;
+            margin-top: 1.875rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-top: 1.25rem;
+        }
+
+        .source {
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            padding: 1.5em;
+            word-break: break-all;
+        }
+
+        .callout {
+            border-radius: 3px;
+            padding: 1rem;
+        }
+
+        figure {
+            margin: 1.25em 0;
+            page-break-inside: avoid;
+        }
+
+        figcaption {
+            opacity: 0.5;
+            font-size: 85%;
+            margin-top: 0.5em;
+        }
+
+        mark {
+            background-color: transparent;
+        }
+
+        .indented {
+            padding-left: 1.5em;
+        }
+
+        hr {
+            background: transparent;
+            display: block;
+            width: 100%;
+            height: 1px;
+            visibility: visible;
+            border: none;
+            border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        @media only print {
+            img {
+                max-height: 100vh;
+                object-fit: contain;
+            }
+        }
+
+        @page {
+            margin: 1in;
+        }
+
+        .collection-content {
+            font-size: 0.875rem;
+        }
+
+        .column-list {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .column {
+            padding: 0 1em;
+        }
+
+        .column:first-child {
+            padding-left: 0;
+        }
+
+        .column:last-child {
+            padding-right: 0;
+        }
+
+        .table_of_contents-item {
+            display: block;
+            font-size: 0.875rem;
+            line-height: 1.3;
+            padding: 0.125rem;
+        }
+
+        .table_of_contents-indent-1 {
+            margin-left: 1.5rem;
+        }
+
+        .table_of_contents-indent-2 {
+            margin-left: 3rem;
+        }
+
+        .table_of_contents-indent-3 {
+            margin-left: 4.5rem;
+        }
+
+        .table_of_contents-link {
+            text-decoration: none;
+            opacity: 0.7;
+            border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid rgba(55, 53, 47, 0.09);
+            border-collapse: collapse;
+
+        }
+
+
+
+        table {
+            border-left: none;
+            border-right: none;
+        }
+
+        th,
+        td {
+            font-weight: normal;
+            padding: 0.25em 0.25em;
+            line-height: 1.5;
+            min-height: 1.5em;
+            text-align: left;
+        }
+
+        th {
+            color: rgba(55, 53, 47, 0.6);
+        }
+
+        ol,
+        ul {
+            margin: 0;
+            margin-block-start: 0.6em;
+            margin-block-end: 0.6em;
+        }
+
+        li > ol:first-child,
+        li > ul:first-child {
+            margin-block-start: 0.6em;
+        }
+
+        ul > li {
+            list-style: disc;
+        }
+
+        ul.to-do-list {
+            text-indent: -1.7em;
+        }
+
+        ul.to-do-list > li {
+            list-style: none;
+        }
+
+        .to-do-children-checked {
+            text-decoration: line-through;
+            opacity: 0.375;
+        }
+
+        ul.toggle > li {
+            list-style: none;
+        }
+
+        ul {
+            padding-inline-start: 1.7em;
+        }
+
+        ul > li {
+            padding-left: 0.1em;
+        }
+
+        ol {
+            padding-inline-start: 1.6em;
+        }
+
+        ol > li {
+            padding-left: 0.2em;
+        }
+
+        .mono ol {
+            padding-inline-start: 2em;
+        }
+
+        .mono ol > li {
+            text-indent: -0.4em;
+        }
+
+        .toggle {
+            padding-inline-start: 0em;
+            list-style-type: none;
+        }
+
+        /* Indent toggle children */
+        .toggle > li > details {
+            padding-left: 1.7em;
+        }
+
+        .toggle > li > details > summary {
+            margin-left: -1.1em;
+        }
+
+        .selected-value {
+            display: inline-block;
+            padding: 0 0.5em;
+            background: rgba(206, 205, 202, 0.5);
+            border-radius: 3px;
+            margin-right: 0.5em;
+            margin-top: 0.3em;
+            margin-bottom: 0.3em;
+            white-space: nowrap;
+        }
+
+        .collection-title {
+            display: inline-block;
+            margin-right: 1em;
+        }
+
+        .simple-table {
+            margin-top: 1em;
+            font-size: 0.875rem;
+            empty-cells: show;
+        }
+
+        .simple-table td {
+            height: 29px;
+            min-width: 120px;
+        }
+
+        .simple-table th {
+            height: 29px;
+            min-width: 120px;
+        }
+
+        .simple-table-header-color {
+            background: rgb(247, 246, 243);
+            color: black;
+        }
+
+        .simple-table-header {
+            font-weight: 500;
+        }
+
+        time {
+            opacity: 0.5;
+        }
+
+        .icon {
+            display: inline-block;
+            max-width: 1.2em;
+            max-height: 1.2em;
+            text-decoration: none;
+            vertical-align: text-bottom;
+            margin-right: 0.5em;
+        }
+
+        img.icon {
+            border-radius: 3px;
+        }
+
+        .user-icon {
+            width: 1.5em;
+            height: 1.5em;
+            border-radius: 100%;
+            margin-right: 0.5rem;
+        }
+
+        .user-icon-inner {
+            font-size: 0.8em;
+        }
+
+        .text-icon {
+            border: 1px solid #000;
+            text-align: center;
+        }
+
+        .page-cover-image {
+            display: block;
+            object-fit: cover;
+            width: 100%;
+            max-height: 30vh;
+        }
+
+        .page-header-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header-icon-with-cover {
+            margin-top: -0.72em;
+            margin-left: 0.07em;
+        }
+
+        .page-header-icon img {
+            border-radius: 3px;
+        }
+
+        .link-to-page {
+            margin: 1em 0;
+            padding: 0;
+            border: none;
+            font-weight: 500;
+        }
+
+        p > .user {
+            opacity: 0.5;
+        }
+
+        td > .user,
+        td > time {
+            white-space: nowrap;
+        }
+
+        input[type="checkbox"] {
+            transform: scale(1.5);
+            margin-right: 0.6em;
+            vertical-align: middle;
+        }
+
+        p {
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+
+        .image {
+            border: none;
+            margin: 1.5em 0;
+            padding: 0;
+            border-radius: 0;
+            text-align: center;
+        }
+
+        .code,
+        code {
+            background: rgba(135, 131, 120, 0.15);
+            border-radius: 3px;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-size: 85%;
+            tab-size: 2;
+        }
+
+        code {
+            color: #eb5757;
+        }
+
+        .code {
+            padding: 1.5em 1em;
+        }
+
+        .code-wrap {
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .code > code {
+            background: none;
+            padding: 0;
+            font-size: 100%;
+            color: inherit;
+        }
+
+        blockquote {
+            font-size: 1.25em;
+            margin: 1em 0;
+            padding-left: 1em;
+            border-left: 3px solid rgb(55, 53, 47);
+        }
+
+        .bookmark {
+            text-decoration: none;
+            max-height: 8em;
+            padding: 0;
+            display: flex;
+            width: 100%;
+            align-items: stretch;
+        }
+
+        .bookmark-title {
+            font-size: 0.85em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: 1.75em;
+            white-space: nowrap;
+        }
+
+        .bookmark-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bookmark-info {
+            flex: 4 1 180px;
+            padding: 12px 14px 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .bookmark-image {
+            width: 33%;
+            flex: 1 1 180px;
+            display: block;
+            position: relative;
+            object-fit: cover;
+            border-radius: 1px;
+        }
+
+        .bookmark-description {
+            color: rgba(55, 53, 47, 0.6);
+            font-size: 0.75em;
+            overflow: hidden;
+            max-height: 4.5em;
+            word-break: break-word;
+        }
+
+        .bookmark-href {
+            font-size: 0.75em;
+            margin-top: 0.25em;
+        }
+
+        .sans {
+            font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+
+        .code {
+            font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace;
+        }
+
+        .serif {
+            font-family: Lyon-Text, Georgia, ui-serif, serif;
+        }
+
+        .mono {
+            font-family: iawriter-mono, Nitti, Menlo, Courier, monospace;
+        }
+
+        .pdf .sans {
+            font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP';
+        }
+
+        .pdf:lang(zh-CN) .sans {
+            font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC';
+        }
+
+        .pdf:lang(zh-TW) .sans {
+            font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC';
+        }
+
+        .pdf:lang(ko-KR) .sans {
+            font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR';
+        }
+
+        .pdf .code {
+            font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP';
+        }
+
+        .pdf:lang(zh-CN) .code {
+            font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC';
+        }
+
+        .pdf:lang(zh-TW) .code {
+            font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC';
+        }
+
+        .pdf:lang(ko-KR) .code {
+            font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR';
+        }
+
+        .pdf .serif {
+            font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP';
+        }
+
+        .pdf:lang(zh-CN) .serif {
+            font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC';
+        }
+
+        .pdf:lang(zh-TW) .serif {
+            font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC';
+        }
+
+        .pdf:lang(ko-KR) .serif {
+            font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR';
+        }
+
+        .pdf .mono {
+            font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP';
+        }
+
+        .pdf:lang(zh-CN) .mono {
+            font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC';
+        }
+
+        .pdf:lang(zh-TW) .mono {
+            font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC';
+        }
+
+        .pdf:lang(ko-KR) .mono {
+            font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR';
+        }
+
+        .highlight-default {
+            color: rgba(55, 53, 47, 1);
+        }
+
+        .highlight-gray {
+            color: rgba(120, 119, 116, 1);
+            fill: rgba(120, 119, 116, 1);
+        }
+
+        .highlight-brown {
+            color: rgba(159, 107, 83, 1);
+            fill: rgba(159, 107, 83, 1);
+        }
+
+        .highlight-orange {
+            color: rgba(217, 115, 13, 1);
+            fill: rgba(217, 115, 13, 1);
+        }
+
+        .highlight-yellow {
+            color: rgba(203, 145, 47, 1);
+            fill: rgba(203, 145, 47, 1);
+        }
+
+        .highlight-teal {
+            color: rgba(68, 131, 97, 1);
+            fill: rgba(68, 131, 97, 1);
+        }
+
+        .highlight-blue {
+            color: rgba(51, 126, 169, 1);
+            fill: rgba(51, 126, 169, 1);
+        }
+
+        .highlight-purple {
+            color: rgba(144, 101, 176, 1);
+            fill: rgba(144, 101, 176, 1);
+        }
+
+        .highlight-pink {
+            color: rgba(193, 76, 138, 1);
+            fill: rgba(193, 76, 138, 1);
+        }
+
+        .highlight-red {
+            color: rgba(212, 76, 71, 1);
+            fill: rgba(212, 76, 71, 1);
+        }
+
+        .highlight-gray_background {
+            background: rgba(241, 241, 239, 1);
+        }
+
+        .highlight-brown_background {
+            background: rgba(244, 238, 238, 1);
+        }
+
+        .highlight-orange_background {
+            background: rgba(251, 236, 221, 1);
+        }
+
+        .highlight-yellow_background {
+            background: rgba(251, 243, 219, 1);
+        }
+
+        .highlight-teal_background {
+            background: rgba(237, 243, 236, 1);
+        }
+
+        .highlight-blue_background {
+            background: rgba(231, 243, 248, 1);
+        }
+
+        .highlight-purple_background {
+            background: rgba(244, 240, 247, 0.8);
+        }
+
+        .highlight-pink_background {
+            background: rgba(249, 238, 243, 0.8);
+        }
+
+        .highlight-red_background {
+            background: rgba(253, 235, 236, 1);
+        }
+
+        .block-color-default {
+            color: inherit;
+            fill: inherit;
+        }
+
+        .block-color-gray {
+            color: rgba(120, 119, 116, 1);
+            fill: rgba(120, 119, 116, 1);
+        }
+
+        .block-color-brown {
+            color: rgba(159, 107, 83, 1);
+            fill: rgba(159, 107, 83, 1);
+        }
+
+        .block-color-orange {
+            color: rgba(217, 115, 13, 1);
+            fill: rgba(217, 115, 13, 1);
+        }
+
+        .block-color-yellow {
+            color: rgba(203, 145, 47, 1);
+            fill: rgba(203, 145, 47, 1);
+        }
+
+        .block-color-teal {
+            color: rgba(68, 131, 97, 1);
+            fill: rgba(68, 131, 97, 1);
+        }
+
+        .block-color-blue {
+            color: rgba(51, 126, 169, 1);
+            fill: rgba(51, 126, 169, 1);
+        }
+
+        .block-color-purple {
+            color: rgba(144, 101, 176, 1);
+            fill: rgba(144, 101, 176, 1);
+        }
+
+        .block-color-pink {
+            color: rgba(193, 76, 138, 1);
+            fill: rgba(193, 76, 138, 1);
+        }
+
+        .block-color-red {
+            color: rgba(212, 76, 71, 1);
+            fill: rgba(212, 76, 71, 1);
+        }
+
+        .block-color-gray_background {
+            background: rgba(241, 241, 239, 1);
+        }
+
+        .block-color-brown_background {
+            background: rgba(244, 238, 238, 1);
+        }
+
+        .block-color-orange_background {
+            background: rgba(251, 236, 221, 1);
+        }
+
+        .block-color-yellow_background {
+            background: rgba(251, 243, 219, 1);
+        }
+
+        .block-color-teal_background {
+            background: rgba(237, 243, 236, 1);
+        }
+
+        .block-color-blue_background {
+            background: rgba(231, 243, 248, 1);
+        }
+
+        .block-color-purple_background {
+            background: rgba(244, 240, 247, 0.8);
+        }
+
+        .block-color-pink_background {
+            background: rgba(249, 238, 243, 0.8);
+        }
+
+        .block-color-red_background {
+            background: rgba(253, 235, 236, 1);
+        }
+
+        .select-value-color-pink {
+            background-color: rgba(245, 224, 233, 1);
+        }
+
+        .select-value-color-purple {
+            background-color: rgba(232, 222, 238, 1);
+        }
+
+        .select-value-color-green {
+            background-color: rgba(219, 237, 219, 1);
+        }
+
+        .select-value-color-gray {
+            background-color: rgba(227, 226, 224, 1);
+        }
+
+        .select-value-color-opaquegray {
+            background-color: rgba(255, 255, 255, 0.0375);
+        }
+
+        .select-value-color-orange {
+            background-color: rgba(250, 222, 201, 1);
+        }
+
+        .select-value-color-brown {
+            background-color: rgba(238, 224, 218, 1);
+        }
+
+        .select-value-color-red {
+            background-color: rgba(255, 226, 221, 1);
+        }
+
+        .select-value-color-yellow {
+            background-color: rgba(253, 236, 200, 1);
+        }
+
+        .select-value-color-blue {
+            background-color: rgba(211, 229, 239, 1);
+        }
+
+        .checkbox {
+            display: inline-flex;
+            vertical-align: text-bottom;
+            width: 16px;
+            height: 16px;
+            background-size: 16px;
+            margin-left: 2px;
+            margin-right: 5px;
+        }
+
+        .checkbox-on {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+        }
+
+        .checkbox-off {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+        }
+
+       div input {
+            position : absolute;
+            top : 300px;
+            bottom : 2000px;
+            left : 1100px;
+            height:40px;
+            width:400px;
+            border: 1px solid #1b5ac2;
+            background: #ffffff;
+        }
+        searching-bar{
+            position : absolute;
+            top : 270px;
+            left :
+            font-size: 16px;
+            width: 325px;
+            padding: 10px;
+            border:1px;
+            outline-color : #0a53be;
+            float:left;
+            outline-style: solid;
+        }
+        button{
+            width:40px;
+            height:40px;
+            border:0px;
+            background: #1b5ac2;
+            outline: none;
+            float: right;
+            color: #ffffff;
+            position : absolute;
+            top: 270px;
+            right :
+        }
+
+    start{
+        position : absolute;
+        right: 500px;
+        top : 500px;
+    }
+    input{
+        position : absolute;
+        top : 330px;
+    }
+
+    input.underline {
+        　BORDER-BOTTOM: teal 1px solid;
+        BORDER-LEFT: medium none;
+        BORDER-RIGHT: medium none;
+        BORDER-TOP: medium none;
+        position : absolute;
+        top : 150px;
+        width : 700px;
+        height : 50px;
+        font-size : 16px;
+        outline : none;
+    }
+#topMenu {            // topMenu의 ID를 가진 태그의 스타일 지정
+                        height: 30px; // topMenu의 높이를 30px로 설정(제대로 설정 안하면 아래 내용이 깨짐)
+                        width: 850px; // topMenu의 넓이를 850px로 설정(제대로 설정 안하면 브라우져 넓이가 좁아지면 깨짐)
+                }
+                #topMenu ul li {                       // topMenu의 ID를 가진 태그 안에 <ul> 태그 안에 <li> 태그의 스타일을 지정
+                        list-style: none;           // <li> 태그는 위의 이미지처럼 목록을 나타내는 점을 없앤다
+                        color: white;               // 글씨 색을 흰색으로 설정
+                        background-color: #2d2d2d;  // 배경색을 진한 회색(RGB(2D,2D,2D)으로 설정
+                        float: left;                // <li>태그들이 왼쪽에 흐르게 설정(그러면 아래있는 내용은 오른쪽으로 옴)
+                        line-height: 30px;          // 글씨가 가운데로 오도록 설정하기 위해 한줄의 높이를 30px로 설정
+                        vertical-align: middle;     // 세로 정렬을 가운데로 설정(위의 line-height와 같이 설정 필요함)
+                        text-align: center;         // 글씨 정렬을 가운데로 설정
+                }
+                #topMenu .menuLink {                               // topMenu 아이디를 가진 태그 안에 있는 menuLink 클래스 태그들의 스타일 설정
+                        text-decoration:none;                      // 링크(<a> 태그)가 가지는 기본 꾸밈 효과(밑줄 등)을 없앰
+                        color: white;                              // 폰트색을 흰색으로 설정
+                        display: block;                            // 링크를 글씨가 있는 부분 뿐만아니라 전체 영역을 클릭해도 링크가 걸리게 설정
+                        width: 150px;                              // 메뉴링크의 넓이 설정
+                        font-size: 12px;                           // 폰트 사이즈 12px로 설정
+                        font-weight: bold;                         // 폰트를 굵게
+                        font-family: "Trebuchet MS", Dotum, Arial; // 기본 폰트 적용, 시스템 폰트를 종류별로 순서대로
+                }
+                #topMenu .menuLink:hover {            //topMenu 아이디를 가진 태그 안에 menuLink클래스를 가진 태그에 마우스가 over되면 스타일 설정
+                        color: red;                   // 글씨 색을 붉은색으로 설정
+                        background-color: #4d4d4d;    // 배경색을 조금 더 밝은 회색으로 설정
+                }
+    </style>
+
+
+</head>
+<body>
+
+<input class="underline" type="text" placeholder="바코드를 입력해 주세요">
+<input type="date" id="start" name="trip-start" value="2022-08-01" min="2022-01-01" max="2022-12-31">                    <input type="date" id="end" name="trip-end" value="2022-08-01" min="2022-01-01" max="2022-12-31">
+
+<div class="searching-bar">
+    <input type="text" placeholder="검색어 입력">
+</div>
+
+
+<article id="4f8b6095-32b6-4ae7-aaf7-39be5500ed3d" class="page sans">
+    <header><h1 class="page-title"></h1></header>
+    <div style="overflow:auto; width:1200px; height:500px;" class="page-body">
+        <table class="collection-content">
+            <thead>
+            <tr>
+                <th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+                                                          style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden"
+                                                          class="typesTitle"><path d=""></path></svg></span>번호
+                </th>
+                <th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+                                                          style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden"
+                                                          class="typesText"><path d=""></path></svg></span>기종
+                </th>
+                <th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+                                                          style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden"
+                                                          class="typesText"><path d=""></path></svg></span>MIP
+                </th>
+                <th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+                                                          style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden"
+                                                          class="typesText"><path d=""></path></svg></span>ENG1
+                </th>
+                <th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+                                                          style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden"
+                                                          class="typesText"><path d=""></path></svg></span>ENG2
+                </th>
+                <th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+                                                          style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden"
+                                                          class="typesText"><path d=""></path></svg></span>ENG3
+                </th>
+                <th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+                                                          style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden"
+                                                          class="typesText"><path d=""></path></svg></span>ENG4
+                </th>
+                <th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+                                                          style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden"
+                                                          class="typesText"><path d=""></path></svg></span>입고일
+                </th>
+                <th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+                                                          style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden"
+                                                          class="typesText"><path d=""></path></svg></span>포장일
+                </th>
+                <th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+                                                          style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden"
+                                                          class="typesText"><path d=""></path></svg></span>LOCATION
+                </th>
+                <th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+                                                          style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden"
+                                                          class="typesText"><path d=""></path></svg></span>불출일
+                </th>
+                <th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+                                                          style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden"
+                                                          class="typesText"><path d=""></path></svg></span>비고
+                </th>
+                <th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+                                                          style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden"
+                                                          class="typesText"><path d=""></path></svg></span>코드네임
+                </th>
+                <th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+                                                          style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden"
+                                                          class="typesText"><path d=""></path></svg></span>속성
+                    1
+                </th>
+                <th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+                                                          style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden"
+                                                          class="typesText"><path d=""></path></svg></span>속성
+                    2
+                </th>
+                <th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+                                                          style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden"
+                                                          class="typesText"><path d=""></path></svg></span>속성
+                    3
+                </th>
+                <th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+                                                          style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden"
+                                                          class="typesText"><path d=""></path></svg></span>속성
+                    4
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr id="22d004cc-0127-4791-a9ef-4ecdba88375c">
+                <td class="cell-title"><a href="https://www.notion.so/1-22d004cc01274791a9ef4ecdba88375c">1</a></td>
+                <td class="cell-{r_}" contenteditable="false" data-default="카파">카파</td>
+                <td class="cell-|neX">r18k</td>
+                <td class="cell-F:K@">462919</td>
+                <td class="cell-RBAF">462950</td>
+                <td class="cell-_OoT">462953</td>
+                <td class="cell-^Bfo">462951</td>
+                <td class="cell-v?ek">19.1.24</td>
+                <td class="cell-Kw[n">19.1.24</td>
+                <td class="cell-FoWv">L-31-17</td>
+                <td class="cell-Po&gt;X">19-6-14</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="50d14ac7-1ef0-44e3-96b5-dbce8785f343">
+                <td class="cell-title"><a href="https://www.notion.so/2-50d14ac71ef044e396b5dbce8785f343">2</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">462947</td>
+                <td class="cell-RBAF">462949</td>
+                <td class="cell-_OoT">462906</td>
+                <td class="cell-^Bfo">462887</td>
+                <td class="cell-v?ek">19.1.24</td>
+                <td class="cell-Kw[n">19.1.24</td>
+                <td class="cell-FoWv">L-31-18</td>
+                <td class="cell-Po&gt;X">19-6-14</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="82b0d864-5e80-4735-8e43-4545c8ef0c4a">
+                <td class="cell-title"><a href="https://www.notion.so/3-82b0d8645e8047358e434545c8ef0c4a">3</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">462905</td>
+                <td class="cell-RBAF">462907</td>
+                <td class="cell-_OoT">462909</td>
+                <td class="cell-^Bfo">462898</td>
+                <td class="cell-v?ek">19.1.24</td>
+                <td class="cell-Kw[n">19.1.24</td>
+                <td class="cell-FoWv">L-31-19</td>
+                <td class="cell-Po&gt;X">19-6-14</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="2af6292b-7862-404f-9733-96c1dce8ef6b">
+                <td class="cell-title"><a href="https://www.notion.so/4-2af6292b7862404f973396c1dce8ef6b">4</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">r18k</td>
+                <td class="cell-F:K@">462939</td>
+                <td class="cell-RBAF">462925</td>
+                <td class="cell-_OoT">462941</td>
+                <td class="cell-^Bfo">462943</td>
+                <td class="cell-v?ek">19.1.24</td>
+                <td class="cell-Kw[n">19.1.24</td>
+                <td class="cell-FoWv">L-31-20</td>
+                <td class="cell-Po&gt;X">19-6-14</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="0c15e2da-d974-4beb-94b4-2d1ff88955c5">
+                <td class="cell-title"><a href="https://www.notion.so/5-0c15e2dad9744beb94b42d1ff88955c5">5</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">462937</td>
+                <td class="cell-RBAF">462940</td>
+                <td class="cell-_OoT">462945</td>
+                <td class="cell-^Bfo">462938</td>
+                <td class="cell-v?ek">19.1.24</td>
+                <td class="cell-Kw[n">19.1.24</td>
+                <td class="cell-FoWv">L-20-01</td>
+                <td class="cell-Po&gt;X">19-7-4</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="0be4ff04-55b7-4736-9da8-2700772286c4">
+                <td class="cell-title"><a href="https://www.notion.so/6-0be4ff0455b747369da82700772286c4">6</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">370298</td>
+                <td class="cell-RBAF">370297</td>
+                <td class="cell-_OoT">370300</td>
+                <td class="cell-^Bfo">370299</td>
+                <td class="cell-v?ek">18.6.19</td>
+                <td class="cell-Kw[n">18.6.19</td>
+                <td class="cell-FoWv">S-16-14</td>
+                <td class="cell-Po&gt;X">19-1-25</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="caf948f7-f4ce-4009-877a-0154e2b65559">
+                <td class="cell-title"><a href="https://www.notion.so/7-caf948f7f4ce4009877a0154e2b65559">7</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">370303</td>
+                <td class="cell-RBAF">370302</td>
+                <td class="cell-_OoT">370301</td>
+                <td class="cell-^Bfo">370304</td>
+                <td class="cell-v?ek">18.6.19</td>
+                <td class="cell-Kw[n">18.6.19</td>
+                <td class="cell-FoWv">S-16-15</td>
+                <td class="cell-Po&gt;X">19-1-25</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="526975b1-b635-44c9-9bff-6e5cde1866a5">
+                <td class="cell-title"><a href="https://www.notion.so/8-526975b1b63544c99bff6e5cde1866a5">8</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372334</td>
+                <td class="cell-RBAF">372339</td>
+                <td class="cell-_OoT">372333</td>
+                <td class="cell-^Bfo">372337</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">O-21-01</td>
+                <td class="cell-Po&gt;X">18-11-12</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="e46cca91-7c05-41a7-8e5c-ab50d5d1ecae">
+                <td class="cell-title"><a href="https://www.notion.so/9-e46cca917c0541a78e5cab50d5d1ecae">9</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372338</td>
+                <td class="cell-RBAF">372335</td>
+                <td class="cell-_OoT">372316</td>
+                <td class="cell-^Bfo">372315</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">O-21-02</td>
+                <td class="cell-Po&gt;X">18-11-12</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="4ebe1af3-9b12-4562-80d4-92eb37e06ae3">
+                <td class="cell-title"><a href="https://www.notion.so/10-4ebe1af39b12456280d492eb37e06ae3">10</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372100</td>
+                <td class="cell-RBAF">372101</td>
+                <td class="cell-_OoT">372098</td>
+                <td class="cell-^Bfo">372099</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">O-21-03</td>
+                <td class="cell-Po&gt;X">18-11-12</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="a843439d-6cc0-4de6-ab06-d1f76a2c1e36">
+                <td class="cell-title"><a href="https://www.notion.so/11-a843439d6cc04de6ab06d1f76a2c1e36">11</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372437</td>
+                <td class="cell-RBAF">372436</td>
+                <td class="cell-_OoT">372398</td>
+                <td class="cell-^Bfo">372438</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">O-21-04</td>
+                <td class="cell-Po&gt;X">18-11-12</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="ba94c627-5488-43f3-b03e-0f4133e06c13">
+                <td class="cell-title"><a href="https://www.notion.so/12-ba94c627548843f3b03e0f4133e06c13">12</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372439</td>
+                <td class="cell-RBAF">372441</td>
+                <td class="cell-_OoT">372342</td>
+                <td class="cell-^Bfo">372336</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">O-21-05</td>
+                <td class="cell-Po&gt;X">18-11-12</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="4ec65439-d407-48cc-8adc-afac0f48a2d9">
+                <td class="cell-title"><a href="https://www.notion.so/13-4ec65439d40748cc8adcafac0f48a2d9">13</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372340</td>
+                <td class="cell-RBAF">372345</td>
+                <td class="cell-_OoT">372341</td>
+                <td class="cell-^Bfo">372343</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">O-21-06</td>
+                <td class="cell-Po&gt;X">18-11-12</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="a4531cd4-f57f-4ae7-8095-9e2a6cd3f575">
+                <td class="cell-title"><a href="https://www.notion.so/14-a4531cd4f57f4ae780959e2a6cd3f575">14</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372447</td>
+                <td class="cell-RBAF">372452</td>
+                <td class="cell-_OoT">372449</td>
+                <td class="cell-^Bfo">372453</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">O-21-07</td>
+                <td class="cell-Po&gt;X">18-11-12</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="878403eb-5d71-4245-bc61-4ba281f4738e">
+                <td class="cell-title"><a href="https://www.notion.so/15-878403eb5d714245bc614ba281f4738e">15</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372454</td>
+                <td class="cell-RBAF">372455</td>
+                <td class="cell-_OoT">372442</td>
+                <td class="cell-^Bfo">372440</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">O-21-08</td>
+                <td class="cell-Po&gt;X">18-11-12</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="af175afd-3ef5-4b38-8d78-0d86e92436e3">
+                <td class="cell-title"><a href="https://www.notion.so/16-af175afd3ef54b388d780d86e92436e3">16</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372445</td>
+                <td class="cell-RBAF">372443</td>
+                <td class="cell-_OoT">372444</td>
+                <td class="cell-^Bfo">372446</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">O-21-09</td>
+                <td class="cell-Po&gt;X">18-11-12</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="22252fad-65ab-4d78-8963-d728d6af994a">
+                <td class="cell-title"><a href="https://www.notion.so/17-22252fad65ab4d788963d728d6af994a">17</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372431</td>
+                <td class="cell-RBAF">372432</td>
+                <td class="cell-_OoT">372429</td>
+                <td class="cell-^Bfo">372433</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">O-21-10</td>
+                <td class="cell-Po&gt;X">18-11-12</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="d8f5920c-631a-4352-9edc-a22fd7a43216">
+                <td class="cell-title"><a href="https://www.notion.so/18-d8f5920c631a43529edca22fd7a43216">18</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372434</td>
+                <td class="cell-RBAF">372435</td>
+                <td class="cell-_OoT">372420</td>
+                <td class="cell-^Bfo">372424</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">O-21-11</td>
+                <td class="cell-Po&gt;X">18-11-12</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="77285dab-b9d3-4d28-872e-692bdecccb86">
+                <td class="cell-title"><a href="https://www.notion.so/19-77285dabb9d34d28872e692bdecccb86">19</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372426</td>
+                <td class="cell-RBAF">372428</td>
+                <td class="cell-_OoT">372427</td>
+                <td class="cell-^Bfo">372430</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">O-21-12</td>
+                <td class="cell-Po&gt;X">18-11-12</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="7bee210a-1332-4052-afca-4570357a25b2">
+                <td class="cell-title"><a href="https://www.notion.so/20-7bee210a13324052afca4570357a25b2">20</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372727</td>
+                <td class="cell-RBAF">372732</td>
+                <td class="cell-_OoT">372733</td>
+                <td class="cell-^Bfo">372728</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-01</td>
+                <td class="cell-Po&gt;X">18-11-7</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="158f3c49-7fa9-4a2d-89cc-53539e148591">
+                <td class="cell-title"><a href="https://www.notion.so/21-158f3c497fa94a2d89cc53539e148591">21</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372725</td>
+                <td class="cell-RBAF">372726</td>
+                <td class="cell-_OoT">372741</td>
+                <td class="cell-^Bfo">372740</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-02</td>
+                <td class="cell-Po&gt;X">18-11-7</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="0e44855b-b9da-4144-824d-ba9e99717e22">
+                <td class="cell-title"><a href="https://www.notion.so/22-0e44855bb9da4144824dba9e99717e22">22</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372731</td>
+                <td class="cell-RBAF">372738</td>
+                <td class="cell-_OoT">372700</td>
+                <td class="cell-^Bfo">372739</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-03</td>
+                <td class="cell-Po&gt;X">18-11-7</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="d44ce365-4aab-47b0-bd01-e33d4ad64a9a">
+                <td class="cell-title"><a href="https://www.notion.so/23-d44ce3654aab47b0bd01e33d4ad64a9a">23</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372114</td>
+                <td class="cell-RBAF">372119</td>
+                <td class="cell-_OoT">372116</td>
+                <td class="cell-^Bfo">372112</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-04</td>
+                <td class="cell-Po&gt;X">18-11-7</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="a0415891-284d-4ff4-af8f-676b66d5d71e">
+                <td class="cell-title"><a href="https://www.notion.so/24-a0415891284d4ff4af8f676b66d5d71e">24</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372118</td>
+                <td class="cell-RBAF">372113</td>
+                <td class="cell-_OoT">372126</td>
+                <td class="cell-^Bfo">372127</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-05</td>
+                <td class="cell-Po&gt;X">18-11-7</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="d2ef0dd3-416d-4976-aee6-d7ba0e640964">
+                <td class="cell-title"><a href="https://www.notion.so/25-d2ef0dd3416d4976aee6d7ba0e640964">25</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372123</td>
+                <td class="cell-RBAF">372122</td>
+                <td class="cell-_OoT">372120</td>
+                <td class="cell-^Bfo">372117</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-06</td>
+                <td class="cell-Po&gt;X">18-11-7</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="9a206870-9ea6-49a0-9c2f-63a49267c590">
+                <td class="cell-title"><a href="https://www.notion.so/26-9a2068709ea649a09c2f63a49267c590">26</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372110</td>
+                <td class="cell-RBAF">372115</td>
+                <td class="cell-_OoT">372111</td>
+                <td class="cell-^Bfo">372108</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-07</td>
+                <td class="cell-Po&gt;X">18-11-7</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="a3973b88-ec3e-4ed1-b19f-d2570aaa1717">
+                <td class="cell-title"><a href="https://www.notion.so/27-a3973b88ec3e4ed1b19fd2570aaa1717">27</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372109</td>
+                <td class="cell-RBAF">372104</td>
+                <td class="cell-_OoT">372321</td>
+                <td class="cell-^Bfo">372320</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-08</td>
+                <td class="cell-Po&gt;X">18-11-7</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="45e88690-f183-42bc-8cd6-0b3d1607123f">
+                <td class="cell-title"><a href="https://www.notion.so/28-45e88690f18342bc8cd60b3d1607123f">28</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372319</td>
+                <td class="cell-RBAF">372318</td>
+                <td class="cell-_OoT">372317</td>
+                <td class="cell-^Bfo">372313</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-09</td>
+                <td class="cell-Po&gt;X">18-11-7</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="121eceb8-3606-4d34-b191-b04d87ec8466">
+                <td class="cell-title"><a href="https://www.notion.so/29-121eceb836064d34b191b04d87ec8466">29</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372102</td>
+                <td class="cell-RBAF">372105</td>
+                <td class="cell-_OoT">372107</td>
+                <td class="cell-^Bfo">372106</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-10</td>
+                <td class="cell-Po&gt;X">18-11-7</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="736eeaa5-ae13-4528-a1fd-56e36d40f428">
+                <td class="cell-title"><a href="https://www.notion.so/30-736eeaa5ae134528a1fd56e36d40f428">30</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372103</td>
+                <td class="cell-RBAF">372092</td>
+                <td class="cell-_OoT">372723</td>
+                <td class="cell-^Bfo">372730</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-11</td>
+                <td class="cell-Po&gt;X">18-11-7</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="cac028c9-defe-48cd-95bf-3b8d70354b79">
+                <td class="cell-title"><a href="https://www.notion.so/31-cac028c9defe48cd95bf3b8d70354b79">31</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372737</td>
+                <td class="cell-RBAF">372736</td>
+                <td class="cell-_OoT">372729</td>
+                <td class="cell-^Bfo">372735</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-12</td>
+                <td class="cell-Po&gt;X">18-11-7</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="95ce0a1b-3eae-4701-a9b5-857ff7276503">
+                <td class="cell-title"><a href="https://www.notion.so/32-95ce0a1b3eae4701a9b5857ff7276503">32</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372743</td>
+                <td class="cell-RBAF">372745</td>
+                <td class="cell-_OoT">372749</td>
+                <td class="cell-^Bfo">372746</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-13</td>
+                <td class="cell-Po&gt;X">18-11-7</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="d5017198-e800-408e-8b1c-7a44947e8379">
+                <td class="cell-title"><a href="https://www.notion.so/33-d5017198e800408e8b1c7a44947e8379">33</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372744</td>
+                <td class="cell-RBAF">372734</td>
+                <td class="cell-_OoT">372742</td>
+                <td class="cell-^Bfo">372755</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-14</td>
+                <td class="cell-Po&gt;X">18-11-7</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="249887a6-5d11-4bcd-8346-ba18354e7a7b">
+                <td class="cell-title"><a href="https://www.notion.so/34-249887a65d114bcd8346ba18354e7a7b">34</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372752</td>
+                <td class="cell-RBAF">372750</td>
+                <td class="cell-_OoT">372747</td>
+                <td class="cell-^Bfo">372751</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-15</td>
+                <td class="cell-Po&gt;X">18-11-7</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="503f70d4-9db8-4ef9-a32b-765937f86576">
+                <td class="cell-title"><a href="https://www.notion.so/35-503f70d49db84ef9a32b765937f86576">35</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372829</td>
+                <td class="cell-RBAF">372826</td>
+                <td class="cell-_OoT">372832</td>
+                <td class="cell-^Bfo">372831</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-16</td>
+                <td class="cell-Po&gt;X">18-11-8</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="26e7de7f-2293-4ca1-b24d-5e6715eab95c">
+                <td class="cell-title"><a href="https://www.notion.so/36-26e7de7f22934ca1b24d5e6715eab95c">36</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372842</td>
+                <td class="cell-RBAF">372841</td>
+                <td class="cell-_OoT">372827</td>
+                <td class="cell-^Bfo">372830</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-17</td>
+                <td class="cell-Po&gt;X">18-11-8</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="f5ae785e-c989-4353-bdda-6cea065a08fc">
+                <td class="cell-title"><a href="https://www.notion.so/37-f5ae785ec9894353bdda6cea065a08fc">37</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372837</td>
+                <td class="cell-RBAF">372840</td>
+                <td class="cell-_OoT">372839</td>
+                <td class="cell-^Bfo">372838</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-18</td>
+                <td class="cell-Po&gt;X">18-11-8</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="f984a067-13d7-4538-9cbb-5b5caed4c509">
+                <td class="cell-title"><a href="https://www.notion.so/38-f984a06713d745389cbb5b5caed4c509">38</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372815</td>
+                <td class="cell-RBAF">372816</td>
+                <td class="cell-_OoT">372804</td>
+                <td class="cell-^Bfo">372818</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-19</td>
+                <td class="cell-Po&gt;X">18-11-8</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="e02b0fc7-34f3-426d-9067-33cb288e47fe">
+                <td class="cell-title"><a href="https://www.notion.so/39-e02b0fc734f3426d906733cb288e47fe">39</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372824</td>
+                <td class="cell-RBAF">372823</td>
+                <td class="cell-_OoT">372812</td>
+                <td class="cell-^Bfo">372817</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-20</td>
+                <td class="cell-Po&gt;X">18-11-8</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="396001f3-bd97-4ded-8568-45cd8a6556d4">
+                <td class="cell-title"><a href="https://www.notion.so/40-396001f3bd974ded856845cd8a6556d4">40</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372821</td>
+                <td class="cell-RBAF">372819</td>
+                <td class="cell-_OoT">372820</td>
+                <td class="cell-^Bfo">372822</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-21</td>
+                <td class="cell-Po&gt;X">18-11-8</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="bea9104a-b8fa-476a-8faa-d156c0d8ab73">
+                <td class="cell-title"><a href="https://www.notion.so/41-bea9104ab8fa476a8faad156c0d8ab73">41</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372834</td>
+                <td class="cell-RBAF">372835</td>
+                <td class="cell-_OoT">372828</td>
+                <td class="cell-^Bfo">372836</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-22</td>
+                <td class="cell-Po&gt;X">18-11-8</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="d31b8018-3e87-4fd0-ae47-dce609300400">
+                <td class="cell-title"><a href="https://www.notion.so/42-d31b80183e874fd0ae47dce609300400">42</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372814</td>
+                <td class="cell-RBAF">372813</td>
+                <td class="cell-_OoT">372833</td>
+                <td class="cell-^Bfo">372825</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-23</td>
+                <td class="cell-Po&gt;X">18-11-8</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="192318c5-64b6-484a-97af-984cac62cd02">
+                <td class="cell-title"><a href="https://www.notion.so/43-192318c564b6484a97af984cac62cd02">43</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372785</td>
+                <td class="cell-RBAF">372798</td>
+                <td class="cell-_OoT">372811</td>
+                <td class="cell-^Bfo">372810</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">P-20-24</td>
+                <td class="cell-Po&gt;X">18-11-8</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="84fd62e4-4c7d-489a-a124-3525a50221b8">
+                <td class="cell-title"><a href="https://www.notion.so/44-84fd62e44c7d489aa1243525a50221b8">44</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372803</td>
+                <td class="cell-RBAF">372801</td>
+                <td class="cell-_OoT">372807</td>
+                <td class="cell-^Bfo">372806</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">S-07-01</td>
+                <td class="cell-Po&gt;X">18-11-12</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="e09c3c67-af61-471e-99ca-a528bd2615db">
+                <td class="cell-title"><a href="https://www.notion.so/45-e09c3c67af61471e99caa528bd2615db">45</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372797</td>
+                <td class="cell-RBAF">372809</td>
+                <td class="cell-_OoT">372796</td>
+                <td class="cell-^Bfo">372802</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">S-07-02</td>
+                <td class="cell-Po&gt;X">18-11-12</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="838095f6-09e3-403d-b77d-3fca4d3b0cae">
+                <td class="cell-title"><a href="https://www.notion.so/46-838095f609e3403db77d3fca4d3b0cae">46</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372773</td>
+                <td class="cell-RBAF">372805</td>
+                <td class="cell-_OoT">372808</td>
+                <td class="cell-^Bfo">372784</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">S-07-03</td>
+                <td class="cell-Po&gt;X">18-11-12</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="742a98fa-64a8-431a-9ee2-b80ed38ab1bd">
+                <td class="cell-title"><a href="https://www.notion.so/47-742a98fa64a8431a9ee2b80ed38ab1bd">47</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372794</td>
+                <td class="cell-RBAF">372799</td>
+                <td class="cell-_OoT">372780</td>
+                <td class="cell-^Bfo">372800</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">S-07-04</td>
+                <td class="cell-Po&gt;X">18-11-12</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="8e016841-081c-4f98-9188-195d95e99f22">
+                <td class="cell-title"><a href="https://www.notion.so/48-8e016841081c4f989188195d95e99f22">48</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372791</td>
+                <td class="cell-RBAF">372790</td>
+                <td class="cell-_OoT">372793</td>
+                <td class="cell-^Bfo">372795</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">S-07-05</td>
+                <td class="cell-Po&gt;X">18-11-12</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="91a3f5d1-054b-4199-b172-ff2a14b037d0">
+                <td class="cell-title"><a href="https://www.notion.so/49-91a3f5d1054b4199b172ff2a14b037d0">49</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">372788</td>
+                <td class="cell-RBAF">　</td>
+                <td class="cell-_OoT">372789</td>
+                <td class="cell-^Bfo">372792</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">S-07-06</td>
+                <td class="cell-Po&gt;X">18-11-12</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            <tr id="48ae55c2-524a-46f4-85df-3f12298f03d7">
+                <td class="cell-title"><a href="https://www.notion.so/50-48ae55c2524a46f485df3f12298f03d7">50</a></td>
+                <td class="cell-{r_}">카파</td>
+                <td class="cell-|neX">R18K</td>
+                <td class="cell-F:K@">　</td>
+                <td class="cell-RBAF">372786</td>
+                <td class="cell-_OoT">　</td>
+                <td class="cell-^Bfo">　</td>
+                <td class="cell-v?ek">18.6.23</td>
+                <td class="cell-Kw[n">18.6.23</td>
+                <td class="cell-FoWv">S-07-06</td>
+                <td class="cell-Po&gt;X">18-11-12</td>
+                <td class="cell-d?t}"></td>
+                <td class="cell-:O||"></td>
+                <td class="cell-Y|gf"></td>
+                <td class="cell-;gkT"></td>
+                <td class="cell-H@cV"></td>
+                <td class="cell-B&lt;L{"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</article>
+</body>
+</html>
