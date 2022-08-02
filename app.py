@@ -1,8 +1,11 @@
 from flask import Flask
 from flask import request, render_template, redirect
+from math import ceil
 import dbController as dc
 import main.convertRawDataToList as crl
 import datetime
+
+import dbTest as dt
 # Flask 객체 생성
 app = Flask(__name__)
 
@@ -11,6 +14,15 @@ app = Flask(__name__)
 @app.route('/test')
 def test():
     return render_template("./main/main.html")
+
+@app.route('/dbTest')
+def dtest():
+    printColumnsNum = 11
+    excellist = dt.readTest()
+    length = len(excellist)
+    length = ceil(length/printColumnsNum)
+    print(length)
+    return render_template("./main/excelTohtml.html", var1 = excellist, length = length)
 
 
 # 인덱스 페이지
