@@ -3,6 +3,7 @@ from flask import request, render_template, redirect
 import dbController as dc
 import main.convertRawDataToList as crl
 import main.makeReportTable as mrt
+import main.getDateList as gdl
 import datetime
 # Flask 객체 생성
 app = Flask(__name__)
@@ -49,12 +50,9 @@ def read_barcode():
 # 보유 엔진 보고서
 @app.route('/holdingengines')
 def holding_engines_report():
-    #1. 열의 크기는 날짜의 리스트로 동적구현되야함
-    #1-2. 월아래에 날짜의 리스트로 보여지는 형식, or 7/27 7/28 ...
-    #1-3. 모든 셀의 값은 날짜별로 동적구현되어야함
-    #2. 행은
-    #3. 맨위 또는 맨아래에 총 MIP에 대해 입고/불출/재고의 합이 출력되어야함
-    dates = ["20220729", "20220730", "20220731", "20220801", "20220802", "20220803"]
+
+    #test dates
+    dates = gdl.datelist("20220725", "20220810")
     table = mrt.make(dc.select_all_for_report(dates[0]), dates)
     return render_template("./main/holdingEnginesReport.html", table=table)
 
