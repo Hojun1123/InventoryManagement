@@ -17,20 +17,20 @@ def header(datelist):
     #datalist가 20220728 과같이 들어온다고 가정
     for i in datelist:
         s += "<td>"+i[4:6]+"/"+i[6:]+"</td>"
-    return s + "</tr></thead>"
+    return s + "<td>합계</td></tr></thead>"
 
 
 def mtableheader(datelist, model, l):
     s = "<tr><td colspan='2' rowspan='3'>"+model+"</td><td>입고계</td>"
     for d in datelist:
         s += "<td>"+inputcell(d, l)+"</td>"
-    s += "</tr><tr><td>불출계</td>"
+    s += "<td>"+inputsum(datelist[0], datelist[-1], l)+"</td></tr><tr><td>불출계</td>"
     for d in datelist:
         s += "<td>"+outputcell(d, l)+"</td>"
-    s += "</tr><tr><td>재고계</td>"
+    s += "<td>"+outputsum(datelist[0], datelist[-1], l)+"</td></tr><tr><td>재고계</td>"
     for d in datelist:
         s += "<td>"+stockcell(d, l)+"</td>"
-    return s + "</tr>"
+    return s + "<td>"+stockcell(datelist[-1], l)+"</td></tr>"
 
 
 def mtablebody(datelist, dic):
@@ -39,17 +39,14 @@ def mtablebody(datelist, dic):
     for k, v in dic.items():
         s += "<td rowspan='3'>"+str(k)+"</td><td>입고</td>"
         for d in datelist:
-            # + cells, 각 날짜에 맞는 수량들
             s += "<td>"+inputcell(d, v)+"</td>"
-        s += "</tr><tr><td>출고</td>"
+        s += "<td>"+inputsum(datelist[0], datelist[-1], v)+"</td></tr><tr><td>출고</td>"
         for d in datelist:
-            # + cells, 각 날짜에 맞는 수량들
             s += "<td>"+outputcell(d, v)+"</td>"
-        s += "</tr><tr><td>재고</td>"
+        s += "<td>"+outputsum(datelist[0], datelist[-1], v)+"</td></tr><tr><td>재고</td>"
         for d in datelist:
-            # + cells, 각 날짜에 맞는 수량들
             s += "<td>"+stockcell(d, v)+"</td>"
-        s += "</tr>"
+        s += "<td>"+stockcell(datelist[-1], v)+"</td></tr>"
     return s
 
 
@@ -95,3 +92,24 @@ def stockcell(day, l):
         return "-"
     return str(cnt)
 
+
+def inputsum(sday, eday, l):
+    cnt = 0
+    for i in l:
+        if (int(i[0]) >= int(sday)) and (int(i[0]) <= int(eday)):
+            cnt += 1
+    if cnt == 0:
+        return "-"
+    return str(cnt)
+
+
+def outputsum(sday, eday, l):
+    cnt = 0
+    for i in l:
+        if (i[1] == "") or (i[1] is None):
+            continue
+        if (int(i[1]) >= int(sday)) and (int(i[1]) <= int(eday)):
+            cnt += 1
+    if cnt == 0:
+        return "-"
+    return str(cnt)
