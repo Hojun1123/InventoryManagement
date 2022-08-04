@@ -17,12 +17,7 @@
 
         main {
             background-color: antiquewhite;
-            height: 700px;
-        }
-
-        footer {
-            background: lightgray;
-            height: 50px;
+            height: 850px;
         }
 
         /*내비게이션 바 */
@@ -30,67 +25,137 @@
             display: inline;
             padding: 10px;
         }
+        div.current-stock{
+            height : 400px;
+        }
 
-        div {
+        div.table-page {
             width: 100%;
             height: 100%;
             border: 1px solid #000;
+            padding : 0;
         }
 
         div.left {
-            width: 50%;
-            float: left;
-            box-sizing: border-box;
-            background: white;
+            float : left;
         }
 
         div.right {
-            width: 50%;
             float: right;
-            box-sizing: border-box;
-            background: white;
-        }
-        div.barcode-write{
-            height:150px;
         }
 
+        div.left,
+        div.right{
+            width : 50%;
+            box-sizing: border-box;
+            background: white;
+            padding : 20px 20px 20px 20px;
+
+        }
+        table{
+            border-collapse: collapse;
+            border : 2px solid;
+        }
+
+        table.stock-table{
+            width : 600px;
+            height : 200px;
+            text-align: center;
+        }
+        td,th{
+            border : 1px solid;
+        }
+        /* table 3번째 줄 스타일 설정, 특정 td에 따로 값을 못주겠음*/
+        tr:nth-child(3){
+            background-color : red;
+        }
     </style>
 </head>
 <body>
 <header>
     <nav class="navbar">
         <ul class="navbar-menu">
-            <li><a href="#">menu1</a></li>
-            <li><a href="#">menu2</a></li>
-            <li><a href="#">menu3</a></li>
-            <li><a href="#">menu4</a></li>
+            <li><a href="#">nav1</a></li>
+            <li><a href="#">nav2</a></li>
+            <li><a href="#">nav3</a></li>
+            <li><a href="#">도움말</a></li>
         </ul>
     </nav>
 </header>
 <main>
-    <div class="barcode-write">
-        <textarea style="height: 80%; width:600px;" name="barcode" id="barcode" class="form-control form-control-lg" placeholder="바코드를 입력해 주세요." autofocus></textarea>
-        <br>
-        <button>확인</button>
+    <!--아마 삭제할듯-->
+    <div class="current-stock">
+        금일 재고 현황입니다
+        <table class="stock-table">
+            <thead>
+                <tr>
+                    <th>엔진사양</th>
+                    <th>구분</th>
+                    <th>이월재고</th>
+                    <th>재고</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td rowspan="3">
+                    <select name="" id="">
+                        <option value="">감마</option>
+                        <option value="">베타</option>
+                        <option value="">오메가</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>입고계</td>
+                <td>1200</td>
+                <td>1600</td>
+            </tr>
+            <tr>
+                <td>불출계</td>
+                <td>800</td>
+                <td>100</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>재고계</td>
+                <td></td>
+                <td>1800</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
+    <!--main 내 테이블 2개를 넣을 div-->
     <div class="table-page">
         <!--main 좌측 페이지-->
-        <div class="left" style="overflow:auto; width:50%; height:100%;">
+        <div class="left" style="overflow:auto; width:50%; height:40%;">
             <span>금일 입고 현황입니다</span>
-            <table border="1" class="receive-table" width="100%">
+            <!-- 입고 테이블-->
+            <table class="receive-table" width="100%">
                 <thead>
                 <tr>
                     <th>번호</th>
-                    <th>기종</th>
-                    <th>MIP</th>
+                    <th>
+                        <select name="machine-type" id="">
+                            <option value="">카파</option>
+                            <option value="">A</option>
+                            <option value="">B</option>
+                            <option value="">D</option>
+                        </select>
+                    </th>
+                    <th>
+                        <select name="inherence-code" id="">
+                            <option value="">R18K</option>
+                            <option value="">A</option>
+                            <option value="">B</option>
+                            <option value="">D</option>
+                        </select>
+                    </th>
                     <th>ENG1</th>
                     <th>ENG2</th>
                     <th>ENG3</th>
                     <th>ENG4</th>
-                    <th>입고일</th>
-                    <th>포장일</th>
+                    <th>입고일<input type="date"></th>
                     <th>LOCATION</th>
-                    <th>불출일</th>
                     <th>비고</th>
                 </tr>
                 </thead>
@@ -104,9 +169,7 @@
                     <td>462953</td>
                     <td>462951</td>
                     <td>19.1.24</td>
-                    <td>19.1.24</td>
                     <td>L-31-17</td>
-                    <td>19-6-14</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -118,12 +181,10 @@
                     <td>462906</td>
                     <td>462887</td>
                     <td>19.1.24</td>
-                    <td>19.1.24</td>
                     <td>L-31-18</td>
-                    <td>19-6-14</td>
                     <td></td>
                 </tr>
-                <tr>
+                <tr id="error">
                     <td>3</td>
                     <td>카파</td>
                     <td>R18K</td>
@@ -132,10 +193,8 @@
                     <td>462909</td>
                     <td>462898</td>
                     <td>19.1.24</td>
-                    <td>19.1.24</td>
                     <td>L-31-19</td>
-                    <td>19-6-14</td>
-                    <td></td>
+                    <td>ERROR(출고기한 임박)</td>
                 </tr>
                 <tr>
                     <td>4</td>
@@ -146,9 +205,7 @@
                     <td>462941</td>
                     <td>462943</td>
                     <td>19.1.24</td>
-                    <td>19.1.24</td>
                     <td>L-31-20</td>
-                    <td>19-6-14</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -160,9 +217,7 @@
                     <td>462945</td>
                     <td>462938</td>
                     <td>19.1.24</td>
-                    <td>19.1.24</td>
                     <td>L-20-01</td>
-                    <td>19-7-4</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -174,9 +229,7 @@
                     <td>370300</td>
                     <td>370299</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-14</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -188,9 +241,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -202,9 +253,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -216,9 +265,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -230,9 +277,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -244,9 +289,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -258,9 +301,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -272,9 +313,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -286,9 +325,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -300,9 +337,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -314,9 +349,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -328,9 +361,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -342,9 +373,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -356,9 +385,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -370,9 +397,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -384,9 +409,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -398,9 +421,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -412,9 +433,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -426,9 +445,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -440,9 +457,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -454,9 +469,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -468,9 +481,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -482,9 +493,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -496,9 +505,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -510,32 +517,42 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
-
                 </tbody>
             </table>
         </div>
         <!--main 우측 페이지-->
-        <div class="right" style="overflow:auto;width:50%;height:100%;">
+        <div class="right" style="overflow:auto;width:50%;height:40%;">
             <span>금일 출고 현황입니다</span>
-            <table border="1" class="release-table" width="100%">
+            <!--출고 테이블-->
+            <table class="release-table" width="100%">
                 <thead>
                 <tr>
                     <th>번호</th>
-                    <th>기종</th>
-                    <th>MIP</th>
+                    <th>
+                        <select name="machine-type" id="">
+                            <option value="">카파</option>
+                            <option value="">A</option>
+                            <option value="">B</option>
+                            <option value="">D</option>
+                        </select>
+                    </th>
+                    <th>
+                        <select name="inherence-code" id="">
+                            <option value="">R18K</option>
+                            <option value="">A</option>
+                            <option value="">B</option>
+                            <option value="">D</option>
+                        </select>
+                    </th>
                     <th>ENG1</th>
                     <th>ENG2</th>
                     <th>ENG3</th>
                     <th>ENG4</th>
-                    <th>입고일</th>
-                    <th>포장일</th>
+                    <th>출고일<input type="date"></th>
                     <th>LOCATION</th>
-                    <th>불출일</th>
                     <th>비고</th>
                 </tr>
                 </thead>
@@ -549,9 +566,7 @@
                     <td>462953</td>
                     <td>462951</td>
                     <td>19.1.24</td>
-                    <td>19.1.24</td>
                     <td>L-31-17</td>
-                    <td>19-6-14</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -563,12 +578,10 @@
                     <td>462906</td>
                     <td>462887</td>
                     <td>19.1.24</td>
-                    <td>19.1.24</td>
                     <td>L-31-18</td>
-                    <td>19-6-14</td>
                     <td></td>
                 </tr>
-                <tr>
+                <tr class="error">
                     <td>3</td>
                     <td>카파</td>
                     <td>R18K</td>
@@ -577,10 +590,8 @@
                     <td>462909</td>
                     <td>462898</td>
                     <td>19.1.24</td>
-                    <td>19.1.24</td>
                     <td>L-31-19</td>
-                    <td>19-6-14</td>
-                    <td></td>
+                    <td>ERROR(엔진 불량)</td>
                 </tr>
                 <tr>
                     <td>4</td>
@@ -591,9 +602,7 @@
                     <td>462941</td>
                     <td>462943</td>
                     <td>19.1.24</td>
-                    <td>19.1.24</td>
                     <td>L-31-20</td>
-                    <td>19-6-14</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -605,9 +614,7 @@
                     <td>462945</td>
                     <td>462938</td>
                     <td>19.1.24</td>
-                    <td>19.1.24</td>
                     <td>L-20-01</td>
-                    <td>19-7-4</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -619,9 +626,7 @@
                     <td>370300</td>
                     <td>370299</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-14</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -633,9 +638,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -647,9 +650,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -661,9 +662,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -675,9 +674,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -689,9 +686,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -703,9 +698,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -717,9 +710,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -731,9 +722,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -745,9 +734,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -759,9 +746,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -773,9 +758,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -787,9 +770,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -801,9 +782,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -815,9 +794,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -829,9 +806,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -843,9 +818,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -857,9 +830,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -871,9 +842,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -885,9 +854,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -899,9 +866,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -913,9 +878,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -927,9 +890,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -941,9 +902,7 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -955,18 +914,13 @@
                     <td>370301</td>
                     <td>370304</td>
                     <td>18.6.19</td>
-                    <td>18.6.19</td>
                     <td>S-16-15</td>
-                    <td>19-1-25</td>
                     <td></td>
                 </tr>
-
                 </tbody>
             </table>
         </div>
     </div>
 </main>
-
-
 </body>
 </html>
