@@ -225,7 +225,6 @@ def get_excellist():
         excelList.append(tmpList)
         tmpList = []
     excelList = excelList[1:]
-    print(type(excelList[0][7]))
     return excelList
 
 def get_location(gid):
