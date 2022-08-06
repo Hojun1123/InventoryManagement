@@ -24,8 +24,8 @@ def convert2(data):
     temp = []
     for i in d:
         # 중복인식처리
-        if i in temp:
+        if (i in temp) or len(i) != 16:
             continue
         else:
-            temp.append(i)
+            temp.append(i[6:12])
     return temp

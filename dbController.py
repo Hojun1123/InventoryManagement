@@ -171,19 +171,27 @@ def delete_row(en, comment, day):
     __ = wb2.active
     ws2 = wb2['en']
 
+    #check for debug
+    c1 = 0
+    c2 = 0
+
     #eid 비교 후 같으면 해당 행 수정. 1부터 시작
     for r in range(1, ws1.max_row+1):
-        print(ws1.max_row)
         if str(ws1.cell(row=r, column=1).value) == en:
-            ws1.cell(r, 1).value = day
+            ws1.cell(r, 6).value = day
             ws1.cell(r, 7).value = comment
+            c1 = 1
             break
 
     #eid비교 후 같으면 해당 행 삭제.
     for r in range(1, ws2.max_row+1):
         if str(ws2.cell(row=r, column=1).value) == en:
             ws2.delete_rows(r)
+            c2 = 1
             break
+
+    if (c1*c2) == 0:
+        print("not exist engine")
 
     wb1.save(get_path("engine"))
     wb1.close()

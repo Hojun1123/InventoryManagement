@@ -10,9 +10,14 @@ app = Flask(__name__)
 
 
 # 데코레이션 테스트
-@app.route('/test')
-def test():
+@app.route('/inventory')
+def inventory():
     return render_template("./main/inventory.html")
+
+
+@app.route('/main')
+def main_page():
+    return render_template("./main/main.html")
 
 
 # 인덱스 페이지
@@ -55,7 +60,9 @@ def release_engine():
         if barcodes != "" and barcodes is not None:
             blist = crl.convert2(barcodes)
             tm = datetime.datetime.now()
+            print(blist)
             for b in blist:
+                print(b)
                 dc.delete_row(b, "comment test", tm.strftime("%Y%m%d"))
         return render_template("./main/releaseEngine.html")
 
