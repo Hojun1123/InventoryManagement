@@ -142,6 +142,7 @@ def select_input_engine_by_mip_with_day(mip, day):
     return result
 
 
+#해당 날짜에 출고된 mip 엔진리스트를 반환
 def select_output_engine_by_mip_with_day(mip, day):
     if (mip is None) or mip == "":
         print("empty MIP")
@@ -155,3 +156,39 @@ def select_output_engine_by_mip_with_day(mip, day):
         if (row[1].value == mip) and (str(row[5].value) == day):
             result.append(row)
     return result
+
+
+#보유 엔진에서 해당엔진삭제, 엔진데이터에서 출고일 수정 + 출고설명추가
+def delete_row(en, comment, day):
+    if (en is None) or (en == ""):
+        print("empty en")
+
+    wb1 = open_file("engine")
+    _ = wb1.active
+    ws1 = wb1['engineDB']
+
+    wb2 = open_file("OwnedEngine")
+    __ = wb2.active
+    ws2 = wb2['en']
+
+    #eid 비교 후 같으면 해당 행 수정. 1부터 시작
+    for r in range(1, ws1.max_row+1):
+        print(ws1.max_row)
+        if str(ws1.cell(row=r, column=1).value) == en:
+            ws1.cell(r, 1).value = day
+            ws1.cell(r, 7).value = comment
+            break
+
+    #eid비교 후 같으면 해당 행 삭제.
+    for r in range(1, ws2.max_row+1):
+        if str(ws2.cell(row=r, column=1).value) == en:
+            ws2.delete_rows(r)
+            break
+
+    wb1.save(get_path("engine"))
+    wb1.close()
+    wb2.save(get_path("OwnedEngine"))
+    wb2.close()
+
+    return 1
+

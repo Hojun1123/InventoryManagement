@@ -16,3 +16,16 @@ def convert(data):
         else:
             temp.append(i)
     return result
+
+
+def convert2(data):
+    d = data.replace("\r", "")
+    d = d.split("\n")
+    temp = []
+    for i in d:
+        # 중복인식처리
+        if i in temp:
+            continue
+        else:
+            temp.append(i)
+    return temp
