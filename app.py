@@ -11,25 +11,25 @@ import dbTest as dt
 # Flask 객체 생성
 app = Flask(__name__)
 
-
+'''
 # 데코레이션 테스트
 @app.route('/inventory')
 def inventory():
     return render_template("./main/inventory.html")
-
+'''
 
 @app.route('/main')
 def main_page():
     return render_template("./main/main.html")
 
-@app.route('/dbTest')
-def dtest():
-    printColumnsNum = 11
-    excellist = dt.readTest()
+@app.route('/inventory')
+def inventory():
+    #printColumnsNum = 11
+    excellist = dc.get_excellist()
     length = len(excellist)
-    length = ceil(length/printColumnsNum)
-    print(length)
-    return render_template("./main/excelTohtml.html", var1 = excellist, length = length)
+    #length = ceil(length/printColumnsNum)
+    #print(length)
+    return render_template("./main/inventory.html", excellist = excellist, length = length)
 
 
 # 인덱스 페이지

@@ -1,6 +1,7 @@
 # db control
 import openpyxl as op
 from collections import defaultdict
+import pandas as pd
 
 def open_sheet(file, sheet):
     rb = op.load_workbook("./DB/" + file + ".xlsx")
@@ -200,3 +201,27 @@ def delete_row(en, comment, day):
 
     return 1
 
+def get_excellist():
+    rs = open_sheet("engine", "engineDB")
+    excelList = []
+    tmpList = []
+    for x in range(1, rs.max_row + 1):
+        for y in range(1, rs.max_column + 1):
+            if(y == 7):
+                continue
+            if rs.cell(row=x, column=y).value is None:
+                tmpList.append('')
+            else:
+                tmpList.append(rs.cell(row=x, column=y).value)
+        tmpList.insert(7, get_location(tmpList[7]))
+        tmpList[0], tmpList[2] = tmpList[2], tmpList[0]
+        excelList.append(tmpList)
+        tmpList = []
+    excelList = excelList[1:]
+    return excelList
+
+def get_location(gid):
+    rs = pd.read_excel("./DB/engine.xlsx", sheet_name="engineGroup")
+    rscolumn = rs[['groupID', 'Location']]
+    rscolumn = rscolumn['Location'].to_dict()
+    return rscolumn[2];

@@ -110,43 +110,7 @@
                 <th scope="col">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            ENG 1
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            ENG 2
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            ENG 3
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            ENG 4
+                            ENGINE
                         </button>
                         <ul class="dropdown-menu">
                             <li><a href="#">HTML</a></li>
@@ -182,6 +146,18 @@
                 <th scope="col">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                            출고일
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">HTML</a></li>
+                            <li><a href="#">CSS</a></li>
+                            <li><a href="#">JavaScript</a></li>
+                        </ul>
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
                             위치
                         </button>
                         <ul class="dropdown-menu">
@@ -194,7 +170,19 @@
                 <th scope="col">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            불출일
+                            출고일
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">HTML</a></li>
+                            <li><a href="#">CSS</a></li>
+                            <li><a href="#">JavaScript</a></li>
+                        </ul>
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                            불량엔진
                         </button>
                         <ul class="dropdown-menu">
                             <li><a href="#">HTML</a></li>
@@ -218,272 +206,30 @@
             </tr>
             </thead>
             <tbody style="font-size: 12px">
+            {% for alpha in range(0, length) %}
             <tr>
-                <th scope="row">1</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>R-20-15</td>
-                <td></td>
-                <td>Test</td>
+                <th scope="row">{{alpha}}</th>
+                <td>{{excellist[alpha][0]}}</td>
+                <td>{{excellist[alpha][1]}}</td>
+                <td>{{excellist[alpha][2]}}</td>
+                <td>{{excellist[alpha][3]}}</td>
+                <td>{{excellist[alpha][4]}}</td>
+                <td>{{excellist[alpha][5]}}</td>
+                <td>{{excellist[alpha][6]}}</td>
+                <td>{{excellist[alpha][7]}}</td>
+                {% if excellist[alpha][8] == 1 %}
+                {% set invalid = '불량' %}
+                <td>{{invalid}}</td>
+                {% elif excellist[alpha][8] == 0 %}
+                {% set invalid = '' %}
+                <td>{{invalid}}</td>
+                {% else %}
+                {% set invalid = 'DB오류' %}
+                <td>{{invalid}}</td>
+                {% endif %}
+                <td>{{excellist[alpha][9]}}</td>
             </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>R-20-15</td>
-                <td></td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>R-20-15</td>
-                <td></td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">4</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>R-20-15</td>
-                <td></td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">5</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400004</td>
-                <td>400005</td>
-                <td>400006</td>
-                <td>400007</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>R-20-15</td>
-                <td></td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">6</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400008</td>
-                <td>400009</td>
-                <td>400010</td>
-                <td>400011</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>R-20-15</td>
-                <td></td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">7</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>R-20-15</td>
-                <td></td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">6</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400008</td>
-                <td>400009</td>
-                <td>400010</td>
-                <td>400011</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>R-20-15</td>
-                <td></td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">7</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>R-20-15</td>
-                <td></td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">6</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400008</td>
-                <td>400009</td>
-                <td>400010</td>
-                <td>400011</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>R-20-15</td>
-                <td></td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">7</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>R-20-15</td>
-                <td></td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">6</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400008</td>
-                <td>400009</td>
-                <td>400010</td>
-                <td>400011</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>R-20-15</td>
-                <td></td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">7</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>R-20-15</td>
-                <td></td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">6</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400008</td>
-                <td>400009</td>
-                <td>400010</td>
-                <td>400011</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>R-20-15</td>
-                <td></td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">7</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>R-20-15</td>
-                <td></td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">6</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400008</td>
-                <td>400009</td>
-                <td>400010</td>
-                <td>400011</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>R-20-15</td>
-                <td></td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">7</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>R-20-15</td>
-                <td></td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">6</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400008</td>
-                <td>400009</td>
-                <td>400010</td>
-                <td>400011</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>R-20-15</td>
-                <td></td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">7</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>R-20-15</td>
-                <td></td>
-                <td>Test</td>
-            </tr>
+            {% endfor %}
 
             </tbody>
         </table>
