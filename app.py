@@ -6,8 +6,6 @@ import main.convertRawDataToList as crl
 import main.makeReportTable as mrt
 import main.getDateList as gdl
 import datetime
-
-import dbTest as dt
 # Flask 객체 생성
 app = Flask(__name__)
 
