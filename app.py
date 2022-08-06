@@ -12,7 +12,7 @@ app = Flask(__name__)
 # 데코레이션 테스트
 @app.route('/test')
 def test():
-    return render_template("./main/main.html")
+    return render_template("./main/inventory.html")
 
 
 # 인덱스 페이지
