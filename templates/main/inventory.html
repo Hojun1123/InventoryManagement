@@ -207,8 +207,9 @@
             </thead>
             <tbody style="font-size: 12px">
             {% for alpha in range(0, length) %}
+            {% set num = alpha + 1 %}
             <tr>
-                <th scope="row">{{alpha}}</th>
+                <th scope="row">{{num}}</th>
                 <td>{{excellist[alpha][0]}}</td>
                 <td>{{excellist[alpha][1]}}</td>
                 <td>{{excellist[alpha][2]}}</td>
