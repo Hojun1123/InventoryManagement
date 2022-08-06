@@ -2,6 +2,8 @@
 import openpyxl as op
 from collections import defaultdict
 import pandas as pd
+import math
+import numpy as np
 
 def open_sheet(file, sheet):
     rb = op.load_workbook("./DB/" + file + ".xlsx")
@@ -207,17 +209,23 @@ def get_excellist():
     tmpList = []
     for x in range(1, rs.max_row + 1):
         for y in range(1, rs.max_column + 1):
+            cell = rs.cell(row=x, column=y).value
             if(y == 7):
                 continue
-            if rs.cell(row=x, column=y).value is None:
+            if cell is None:# or math.isnan(rs.cell(row=x, column=y).value):
                 tmpList.append('')
             else:
-                tmpList.append(rs.cell(row=x, column=y).value)
-        tmpList.insert(7, get_location(tmpList[7]))
+                tmpList.append(cell)
+        cell = get_location(tmpList[7])
+        if np.isnan(cell):
+            tmpList.insert(7, '')
+        else:
+            tmpList.insert(7, get_location(tmpList[7]))
         tmpList[0], tmpList[2] = tmpList[2], tmpList[0]
         excelList.append(tmpList)
         tmpList = []
-    excelList = excelList[1:]
+    #excelList = excelList[1:]
+    print(type(excelList[0][7]))
     return excelList
 
 def get_location(gid):
