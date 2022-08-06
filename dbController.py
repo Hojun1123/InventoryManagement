@@ -224,7 +224,7 @@ def get_excellist():
         tmpList[0], tmpList[2] = tmpList[2], tmpList[0]
         excelList.append(tmpList)
         tmpList = []
-    #excelList = excelList[1:]
+    excelList = excelList[1:]
     print(type(excelList[0][7]))
     return excelList
 
