@@ -10,9 +10,14 @@ app = Flask(__name__)
 
 
 # 데코레이션 테스트
-@app.route('/test')
-def test():
+@app.route('/inventory')
+def inventory():
     return render_template("./main/inventory.html")
+
+
+@app.route('/main')
+def main_page():
+    return render_template("./main/main.html")
 
 
 # 인덱스 페이지
@@ -38,19 +43,33 @@ def read_barcode():
         rawBarcodeData = request.form.get("barcode")
         if rawBarcodeData != "" and rawBarcodeData is not None:
             blist = crl.convert(rawBarcodeData)
-            groupid = dc.set_groupid()
             # time부분 나중에 함수로 빼기
             tm = datetime.datetime.now()
             dc.append_raw_barcodes(blist, tm.strftime("%Y%m%d"), tm.strftime("%X"))
         #최근순으로 모든 raw바코드열 가져오기
-        data = dc.get_all_recent_raw_barcodes()
         return render_template("./main/readBarcodeString.html")
+
+
+# 출고 바코드 찍기
+@app.route('/releaseEngine', methods=['GET', 'POST'])
+def release_engine():
+    if request.method == 'GET':
+        return render_template("./main/releaseEngine.html")
+    else:
+        barcodes = request.form.get("barcode")
+        if barcodes != "" and barcodes is not None:
+            blist = crl.convert2(barcodes)
+            tm = datetime.datetime.now()
+            print(blist)
+            for b in blist:
+                print(b)
+                dc.delete_row(b, "comment test", tm.strftime("%Y%m%d"))
+        return render_template("./main/releaseEngine.html")
 
 
 # 보유 엔진 보고서
 @app.route('/holdingengines')
 def holding_engines_report():
-
     #test dates
     dates = gdl.datelist("20220725", "20220805")
     table = mrt.make(dc.select_all_for_report(dates[0]), dates)
