@@ -210,25 +210,25 @@
             {% set num = alpha + 1 %}
             <tr>
                 <th scope="row">{{num}}</th>
-                <td>{{excellist[alpha][0]}}</td>
-                <td>{{excellist[alpha][1]}}</td>
-                <td>{{excellist[alpha][2]}}</td>
-                <td>{{excellist[alpha][3]}}</td>
-                <td>{{excellist[alpha][4]}}</td>
-                <td>{{excellist[alpha][5]}}</td>
-                <td>{{excellist[alpha][6]}}</td>
-                <td>{{excellist[alpha][7]}}</td>
-                {% if excellist[alpha][8] == 1 %}
+                <td>{{excelList[alpha][0]}}</td>
+                <td>{{excelList[alpha][1]}}</td>
+                <td>{{excelList[alpha][2]}}</td>
+                <td>{{excelList[alpha][3]}}</td>
+                <td>{{excelList[alpha][4]}}</td>
+                <td>{{excelList[alpha][5]}}</td>
+                <td>{{excelList[alpha][6]}}</td>
+                <td>{{excelList[alpha][7]}}</td>
+                {% if excelList[alpha][8] == 1 %}
                 {% set invalid = '불량' %}
                 <td>{{invalid}}</td>
-                {% elif excellist[alpha][8] == 0 %}
+                {% elif excelList[alpha][8] == 0 %}
                 {% set invalid = '' %}
                 <td>{{invalid}}</td>
                 {% else %}
                 {% set invalid = 'DB오류' %}
                 <td>{{invalid}}</td>
                 {% endif %}
-                <td>{{excellist[alpha][9]}}</td>
+                <td>{{excelList[alpha][9]}}</td>
             </tr>
             {% endfor %}
 

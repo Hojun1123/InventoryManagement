@@ -29,3 +29,39 @@ def convert2(data):
         else:
             temp.append(i[6:12])
     return temp
+
+#mip, 기종 길이 체크
+def mipConvertCheck(mipData, typeData):
+    m = mipData.replace("\r", "")
+    m = m.split("\n")
+    t = typeData.replace("\r", "")
+    t = t.split("\n")
+
+    for i in m:
+        if len(i) != 4:
+            return False
+
+    if(len(m) == len(t)):
+        return True
+    return False
+
+
+def mipConvert(mipData, typeData):
+    m = mipData.replace("\r", "")
+    m = m.split("\n")
+    t = typeData.replace("\r", "")
+    t = t.split("\n")
+    mipTemp = []
+    typeTemp = []
+    #mip List생성
+    for i in m:
+        if i in mipTemp:
+            continue
+        mipTemp.append(i)
+
+    for i in t:
+        if i in typeTemp:
+            continue
+        typeTemp.append(i)
+
+    return mipTemp, typeTemp
