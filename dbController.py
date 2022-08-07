@@ -233,17 +233,14 @@ def get_location(gid):
     rscolumn = rscolumn['Location'].to_dict()
     return rscolumn[2];
 
-def add_MIP(mip, type):
+def add_MIP(mip, types):
     wb1 = open_file("engine")
     _ = wb1.active
-    ws1 = wb1['types']
-
-    print(mip)
-    print(type)
-    ws1["A" + str(ws1.max_row + 1)] = mip
-    #ws1.cell(ws1.max_row + 1, 1).value = mip
-
-    ws1["A" + str(ws1.max_row + 2)] = type
-    #ws1.cell(ws1.max_row + 1, 2).value = type
+    ws1 = wb1["types"]
+    ws1.append([mip,types])
+    ws1.cell(ws1.max_row, 1).alignment = op.styles.Alignment(horizontal="center", vertical="center")
+    ws1.cell(ws1.max_row, 2).alignment = op.styles.Alignment(horizontal="center", vertical="center")
+    wb1.save(get_path("engine"))
+    wb1.close()
 
     return
