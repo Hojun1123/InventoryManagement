@@ -9,17 +9,19 @@ import datetime
 # Flask 객체 생성
 app = Flask(__name__)
 
-'''
-# 데코레이션 테스트
-@app.route('/inventory')
-def inventory():
-    return render_template("./main/inventory.html")
-'''
+
+# 인덱스 페이지
+@app.route('/')
+def index():  # put application's code here
+    return render_template("./main/login.html")
+
 
 @app.route('/main')
 def main_page():
     return render_template("./main/main.html")
 
+
+# 데코레이션 테스트
 @app.route('/inventory')
 def inventory():
     #printColumnsNum = 11
@@ -30,12 +32,7 @@ def inventory():
     return render_template("./main/inventory.html", excelList = excelList, length = length)
 
 
-# 인덱스 페이지
-@app.route('/')
-def index():  # put application's code here
-    return render_template("./main/login.html")
-
-# 바코드 읽기
+# 바코드 읽기    #일단 보류
 @app.route('/readBarcode', methods=['GET', 'POST'])
 def read_barcode():
     if request.method == 'GET':
@@ -47,6 +44,10 @@ def read_barcode():
             blist = crl.convert(rawBarcodeData)
             # time부분 나중에 함수로 빼기
             tm = datetime.datetime.now()
+            #lock.acquire()#lock = threading.Lock()
+            #thread = threading.Thread(target=dc.append_raw_barcodes, args=(blist, tm.strftime("%Y%m%d"), tm.strftime("%X")))
+            #thread.start()
+            #lock.release()
             dc.append_raw_barcodes(blist, tm.strftime("%Y%m%d"), tm.strftime("%X"))
         #최근순으로 모든 raw바코드열 가져오기
         return render_template("./main/readBarcodeString.html")
@@ -70,16 +71,23 @@ def release_engine():
 
 
 # 보유 엔진 보고서
-@app.route('/holdingengines')
+@app.route('/report')
 def holding_engines_report():
     #test dates
     dates = gdl.datelist("20220725", "20220805")
     table = mrt.make(dc.select_all_for_report(dates[0]), dates)
-    return render_template("./main/holdingEnginesReport.html", table=table)
+    return render_template("./main/report.html", table=table)
+
+
+# daylist
+@app.route('/dailylist')
+def daily_engine_list():
+    return render_template("./main/dailylist.html")
+
 
 # mip 추가
 @app.route('/addMIP', methods=['GET', 'POST'])
-def add_MIP_type():
+def add_mip_type():
     if request.method == 'GET':
         return render_template("./main/addMIP.html")
     else:
@@ -97,6 +105,7 @@ def add_MIP_type():
         dc.add_MIP(mip, type)
         return render_template("./main/addMIP.html")
 
+
 #에러엔진 설정
 @app.route('/setInvalidEngine', methods=['GET', 'POST'])
 def set_invalid_engine_exp():
@@ -107,6 +116,7 @@ def set_invalid_engine_exp():
         exp = request.form.getlist("EXP[]")
         dc.set_invalid_engine(eng, exp)
         return render_template("./main/setInvalidEngine.html")
+
 
 # flask 구동 (main)
 if __name__ == '__main__':

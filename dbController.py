@@ -1,4 +1,6 @@
 # db control
+import threading
+
 import openpyxl as op
 from collections import defaultdict
 import pandas as pd
@@ -50,16 +52,13 @@ def get_all_recent_raw_barcodes():
 
 def append_raw_barcodes(data, day, time):
     wb1 = open_file("barcode")
-    _ = wb1.active
     w1s1 = wb1["rawBarcode"]
 
     wb2 = open_file("engine")
-    __ = wb2.active
     w2s1 = wb2["engineDB"]
     w2s2 = wb2["engineGroup"]
 
     wb3 = open_file("OwnedEngine")
-    ___ = wb3.active
     w3s1 = wb3["en"]
 
     c = 0
@@ -166,12 +165,10 @@ def delete_row(en, comment, day):
     if (en is None) or (en == ""):
         print("empty en")
 
-    wb1 = open_file("engine")
-    _ = wb1.active
+    wb1 = open_sheet("engine")
     ws1 = wb1['engineDB']
 
     wb2 = open_file("OwnedEngine")
-    __ = wb2.active
     ws2 = wb2['en']
 
     #check for debug
