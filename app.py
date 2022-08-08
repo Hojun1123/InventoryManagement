@@ -97,6 +97,17 @@ def add_MIP_type():
         dc.add_MIP(mip, type)
         return render_template("./main/addMIP.html")
 
+#에러엔진 설정
+@app.route('/setInvalidEngine', methods=['GET', 'POST'])
+def set_invalid_engine_exp():
+    if request.method == 'GET':
+        return render_template("./main/setInvalidEngine.html")
+    else:
+        eng = request.form.getlist("ENG[]")
+        exp = request.form.getlist("EXP[]")
+        dc.set_invalid_engine(eng, exp)
+        return render_template("./main/setInvalidEngine.html")
+
 # flask 구동 (main)
 if __name__ == '__main__':
     # hp 지정

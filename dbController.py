@@ -207,7 +207,7 @@ def get_excellist():
     rs = open_sheet("engine", "engineDB")
     excelList = []
     tmpList = []
-    for x in range(1, rs.max_row + 1):
+    for x in range(2, rs.max_row + 1):
         for y in range(1, rs.max_column + 1):
             cell = rs.cell(row=x, column=y).value
             if(y == 7):
@@ -216,22 +216,27 @@ def get_excellist():
                 tmpList.append('')
             else:
                 tmpList.append(cell)
-        cell = get_location(tmpList[7])
-        if np.isnan(cell):
+        if tmpList[6] == '': #np.isnan
             tmpList.insert(7, '')
         else:
-            tmpList.insert(7, get_location(tmpList[7]))
+            #str = get_location(tmpList[6])
+            if type(tmpList[6]) == type(int):
+                str = get_location(tmpList[6])
+            else:
+                str = get_location(int(tmpList[6]))
+            tmpList.insert(7, str)
         tmpList[0], tmpList[2] = tmpList[2], tmpList[0]
         excelList.append(tmpList)
         tmpList = []
-    excelList = excelList[1:]
+    #excelList = excelList[1:]
     return excelList
 
 def get_location(gid):
     rs = pd.read_excel("./DB/engine.xlsx", sheet_name="engineGroup")
     rscolumn = rs[['groupID', 'Location']]
-    rscolumn = rscolumn['Location'].to_dict()
-    return rscolumn[2];
+    rscolumnLoc = rscolumn['Location'].to_list()
+    idx = rscolumn['groupID'].to_list().index(gid)
+    return rscolumnLoc[idx];
 
 def add_MIP(mip, types):
     wb1 = open_file("engine")
@@ -242,5 +247,31 @@ def add_MIP(mip, types):
     ws1.cell(ws1.max_row, 2).alignment = op.styles.Alignment(horizontal="center", vertical="center")
     wb1.save(get_path("engine"))
     wb1.close()
+    return
 
+def set_invalid_engine(eng, exp):
+    wb1 = open_file("engine")
+    _ = wb1.active
+    ws1 = wb1["engineDB"]
+
+    elist = []
+    for row in ws1:
+        elist.append(row[0].value)
+    elist = elist[1:]
+    for i in range(0, len(eng)):
+        if not eng[i].isdigit():
+            continue
+        int_value = int(eng[i])
+        str_value = eng[i]
+        if int_value in elist:
+            idx = elist.index(int_value)
+            ws1.cell(row=idx + 2, column=9, value=1)
+            ws1.cell(row=idx + 2, column=10, value=exp[i])
+        elif str_value in elist:
+            idx = elist.index(str_value)
+            ws1.cell(row=idx + 2, column=9, value=1)
+            ws1.cell(row=idx + 2, column=10, value=exp[i])
+
+    wb1.save(get_path("engine"))
+    wb1.close()
     return
