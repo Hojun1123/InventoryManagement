@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request, render_template, redirect
+from math import ceil
 import dbController as dc
 import main.convertRawDataToList as crl
 import main.makeReportTable as mrt
@@ -8,30 +9,31 @@ import datetime
 # Flask 객체 생성
 app = Flask(__name__)
 
-
+'''
 # 데코레이션 테스트
 @app.route('/inventory')
 def inventory():
     return render_template("./main/inventory.html")
-
+'''
 
 @app.route('/main')
 def main_page():
     return render_template("./main/main.html")
+
+@app.route('/inventory')
+def inventory():
+    #printColumnsNum = 11
+    excelList = dc.get_excellist()
+    length = len(excelList)
+    #length = ceil(length/printColumnsNum)
+    #print(length)
+    return render_template("./main/inventory.html", excelList = excelList, length = length)
 
 
 # 인덱스 페이지
 @app.route('/')
 def index():  # put application's code here
     return render_template("./main/login.html")
-
-
-# 입고(바코드 입력 페이지)
-@app.route('/inputrawbarcodestring')
-def input_raw_barcode_string():  # put application's code here
-    data = dc.get_all_recent_raw_barcodes()
-    return render_template("./main/readBarcodeString.html", data=data)
-
 
 # 바코드 읽기
 @app.route('/readBarcode', methods=['GET', 'POST'])
@@ -75,6 +77,36 @@ def holding_engines_report():
     table = mrt.make(dc.select_all_for_report(dates[0]), dates)
     return render_template("./main/holdingEnginesReport.html", table=table)
 
+# mip 추가
+@app.route('/addMIP', methods=['GET', 'POST'])
+def add_MIP_type():
+    if request.method == 'GET':
+        return render_template("./main/addMIP.html")
+    else:
+        mip = request.form.get("mip")
+        type = request.form.get("type")
+        if mip == "" and mip is None:
+            return render_template("./main/addMIP.html")
+        if type == "" and type is None:
+            return render_template("./main/addMIP.html")
+        if len(mip) != 4:
+            return render_template("./main/addMIP.html")
+        #if crl.mipConvertCheck(mip, type) == False:
+        #    return render_template("./main/addMIP.html")
+        #mList, tList = crl.mipConvert(mip, type)
+        dc.add_MIP(mip, type)
+        return render_template("./main/addMIP.html")
+
+#에러엔진 설정
+@app.route('/setInvalidEngine', methods=['GET', 'POST'])
+def set_invalid_engine_exp():
+    if request.method == 'GET':
+        return render_template("./main/setInvalidEngine.html")
+    else:
+        eng = request.form.getlist("ENG[]")
+        exp = request.form.getlist("EXP[]")
+        dc.set_invalid_engine(eng, exp)
+        return render_template("./main/setInvalidEngine.html")
 
 # flask 구동 (main)
 if __name__ == '__main__':
