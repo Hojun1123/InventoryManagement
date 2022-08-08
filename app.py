@@ -1,3 +1,5 @@
+import threading
+
 from flask import Flask
 from flask import request, render_template, redirect
 import dbController as dc
@@ -9,15 +11,15 @@ import datetime
 app = Flask(__name__)
 
 
+@app.route('/main')
+def main_page():
+    return render_template("./main/main.html")
+
+
 # 데코레이션 테스트
 @app.route('/inventory')
 def inventory():
     return render_template("./main/inventory.html")
-
-
-@app.route('/main')
-def main_page():
-    return render_template("./main/main.html")
 
 
 # 인덱스 페이지
@@ -26,14 +28,7 @@ def index():  # put application's code here
     return render_template("./main/login.html")
 
 
-# 입고(바코드 입력 페이지)
-@app.route('/inputrawbarcodestring')
-def input_raw_barcode_string():  # put application's code here
-    data = dc.get_all_recent_raw_barcodes()
-    return render_template("./main/readBarcodeString.html", data=data)
-
-
-# 바코드 읽기
+# 바코드 읽기    #일단 보류
 @app.route('/readBarcode', methods=['GET', 'POST'])
 def read_barcode():
     if request.method == 'GET':
@@ -45,6 +40,10 @@ def read_barcode():
             blist = crl.convert(rawBarcodeData)
             # time부분 나중에 함수로 빼기
             tm = datetime.datetime.now()
+            #lock.acquire()#lock = threading.Lock()
+            #thread = threading.Thread(target=dc.append_raw_barcodes, args=(blist, tm.strftime("%Y%m%d"), tm.strftime("%X")))
+            #thread.start()
+            #lock.release()
             dc.append_raw_barcodes(blist, tm.strftime("%Y%m%d"), tm.strftime("%X"))
         #최근순으로 모든 raw바코드열 가져오기
         return render_template("./main/readBarcodeString.html")
@@ -68,12 +67,18 @@ def release_engine():
 
 
 # 보유 엔진 보고서
-@app.route('/holdingengines')
+@app.route('/report')
 def holding_engines_report():
     #test dates
     dates = gdl.datelist("20220725", "20220805")
     table = mrt.make(dc.select_all_for_report(dates[0]), dates)
-    return render_template("./main/holdingEnginesReport.html", table=table)
+    return render_template("./main/report.html", table=table)
+
+
+# daylist
+@app.route('/dailylist')
+def daily_engine_list():
+    return render_template("./main/dailylist.html")
 
 
 # flask 구동 (main)
