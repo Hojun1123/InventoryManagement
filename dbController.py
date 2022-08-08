@@ -7,6 +7,7 @@ import pandas as pd
 import math
 import numpy as np
 
+
 def open_sheet(file, sheet):
     rb = op.load_workbook("./DB/" + file + ".xlsx")
     return rb[sheet]
@@ -20,90 +21,84 @@ def get_path(file):
     return "./DB/" + file + ".xlsx"
 
 
-# userController
-def get_user_pw(id):
-    rs = open_sheet("user", "user")
-
-    # 행단위로 읽어와 해당 id의 pw를 반환.
-    for row in rs.rows:
-        if row[0].value == id:
-            print("get pw:", row[1].value, " of " + id)
-            return row[1].value
-    return "None"
-
-
-# print(getuserpw("admin"))
-
-
-# barcodeController
-def get_all_recent_raw_barcodes():
-    rs = open_sheet("barcode", "rawBarcode")
-    dl = []
-    # 가장 최근 추가한것이 맨위로.
-    rr = rs.rows
-    # dl.append(["번호", "바코드", "time"])
-    for row in reversed(list(rr)):
-        # bid, rawBarcodeString, date, time
-        dl.append([row[0].value, row[1].value, row[2].value, row[3].value])
-    # 역순 후 마지막행 제외
-    dl.pop()
-    return dl
+#마지막 동기화 시간 반환
+def last_sync_time():
+    try:
+        rs = open_sheet("barcode", "rawBarcode")
+    except:
+        print("can't open barcode.xlsx")
+        return -1
+    return [i.value for i in list(rs.rows)[-1][1:3]]
 
 
 def append_raw_barcodes(data, day, time):
-    wb1 = open_file("barcode")
+    try:
+        wb1 = open_file("barcode")
+    except:
+        print("can't open barcode.xlsx")
+        return -1
     w1s1 = wb1["rawBarcode"]
-
-    wb2 = open_file("engine")
-    w2s1 = wb2["engineDB"]
-    w2s2 = wb2["engineGroup"]
-
-    wb3 = open_file("OwnedEngine")
-    w3s1 = wb3["en"]
-
     c = 0
     gi = set_groupid()
     for i in data:
         c += 1
         gi += c
         # gk, location
-        w2s2.append([str(gi), ""])
         for j in i:
             # 엔진시리얼번호, 바코드, 날짜, 시간, 그룹ID
-            w1s1.append([j[6:12], j, day, time, str(gi)])
-            # 엔진시리얼번호, mip, mip_type, 입고일, 포장일, 출고일, 출고설명, 그룹ID, 불량엔진bool타입, 비고
-            w2s1.append([j[6:12], j[12:], get_type(j[12:]), day, day, "", "", str(gi), 0, ""])
-            # 엔진시리얼번호, mip, mip_type, 입고일, 포장일, 그룹ID, 불량엔진, 비고
-            w3s1.append([j[6:12], j[12:], get_type(j[12:]), day, day, str(gi), 0, ""])
+            w1s1.append([j, day, time, str(gi)])
     wb1.save(get_path("barcode"))
     wb1.close()
-    wb2.save(get_path("engine"))
-    wb2.close()
-    wb3.save(get_path("OwnedEngine"))
-    wb3.close()
 
 
+#그룹id생성
 def set_groupid():
-    wb = open_sheet("barcode", "rawBarcode")
-    length = len(list(wb.rows))
-    return 10000 + length
+    try:
+        wb = open_sheet("barcode", "rawBarcode")
+    except:
+        print("can't open barcode.xlsx")
+        return -1
+    return 10000 + len(list(wb.rows))
+
+
+def get_data_to_add(day, time):
+    try:
+        wb = open_sheet("barcode", "rawBarcode")
+    except:
+        print("can't open barcode.xlsx")
+        return -1
+    data = []
+    dlist = list(wb.rows)
+    for i in range(1, len(dlist)):
+        if int(dlist[i][1].value) > int(day):
+            #barcode, date, gid
+            data.append([dlist[i][0], dlist[i][1], dlist[i][3]])
+        elif (int(dlist[i][1].value) == int(day)) and (int(dlist[i][2].value)+100000 > int(time)+100000):
+            data.append([dlist[i][0], dlist[i][1], dlist[i][3]])
+        else:
+            continue
+    if len(data) < 1:
+        print("no exist data to add")
+        return 0
+    return data
 
 
 # engineController
-def select_all_for_report(day):
-    dl = defaultdict(list)
-    rs = open_sheet("engine", "engineDB")
-    for row in list(rs.rows)[1:]:
-        # 아직 출고되지않았거나, 기간(a~b)에서 a날짜 이후의 데이터들에 대해 mip, 입고일, 출고일을 추가
-        if (row[5].value == "") or (row[5].value is None) or (int(row[5].value) >= int(day)):
-            dl[row[2].value].append([row[1].value, row[3].value, row[5].value])
-        #print(row[5].value," ", int(day))
-        # 역순 후 마지막행 제외
-    return dl
+def get_sync_time():
+    try:
+        ws = open_sheet("engine", "syncTime")
+        return [i.value for i in list(ws.rows)[0][0:2]]
+    except:
+        print("can't read syncTime ")
+        return -1
 
 
 def get_type(mip):
-    rs = open_sheet("engine", "types")
+    try:
+        rs = open_sheet("engine", "types")
+    except:
+        print("can't read types")
+        return -1
     for row in rs.rows:
         # empty rows 탐색 제외
         if row[0].value is None:
@@ -114,91 +109,100 @@ def get_type(mip):
     return -1
 
 
-def select_engine_by_mip(mip):
-    # types시트에서 없는 mip가 들어올경우에 대해 처리하는 부분 추가(일단 보류)
-    if (mip is None) or mip == "":
-        print("empty MIP")
+#barcode.xlsx 를 engine.xlsx에 동기화
+def synchronization():
+    st = get_sync_time()
+    if st == -1:
+        print("get sync time error")
         return -1
-    # mip가 일치하는 엔진들을 모두 list로 반환
-    result = []
-    rs = open_sheet("OwnedEngine", "en")
-    for row in rs.rows:
-        if row[1].value == mip:
-            result.append(row)
-    return result
+    #rawbarcode, date, groupid
+    data = get_data_to_add(st[0], st[1])
+    if data == 0 or data == -1:
+        return -1
+    try:
+        w1b1 = open_file("engine")
+        w2b1 = open_file("OwnedEngine")
+    except:
+        print("can't open .xlsx files")
+        return -1
+    try:
+        w1s1 = w1b1["engineDB"]
+        w1s2 = w1b1["engineGroup"]
+        w2s1 = w2b1["en"]
+        glist = []
+        for i in data:
+            id = (i[0].value)[6:12]
+            mip = (i[0].value)[12:]
+            type = get_type(mip)
+            day = i[1].value
+            gid = str(i[2].value)
+            if gid not in glist:
+                glist.append(gid)
+            # 엔진시리얼번호, mip, mip_type, 입고일, 포장일, 출고일, 출고설명, 그룹ID, 불량엔진bool타입, 비고
+            print([id, mip, type, day, day, "", "", gid, 0, ""])
+            w1s1.append([id, mip, type, day, day, "", "", gid, 0, ""])
+            # 엔진시리얼번호, mip, mip_type, 입고일, 포장일, 그룹ID, 불량엔진, 비고
+            w2s1.append([id, mip, type, day, day, gid, 0, ""])
+        for i in list(set(glist)):
+            #gio, location
+            w1s2.append([gid, ""])
+            try:
+                w1b1.save(get_path("engine"))
+                w1b1.close()
+                w2b1.save(get_path("OwnedEngine"))
+                w2b1.close()
+            except:
+                print("save error")
+                return -1
+    except:
+        print("can't write in sheets")
+        return -1
 
 
-#해당 날짜에 입고된 mip 엔진리스트를 반환
-def select_input_engine_by_mip_with_day(mip, day):
-    if (mip is None) or mip == "":
-        print("empty MIP")
-        return -1
-    if (day is None) or day == "":
-        print("empty day")
-        return -1
+def select_all_for_report(day):
+    dl = defaultdict(list)
     rs = open_sheet("engine", "engineDB")
-    result = []
-    for row in rs.rows:
-        if (row[1].value == mip) and (str(row[3].value) == day):
-            result.append(row)
-    return result
+    for row in list(rs.rows)[1:]:
+        # 아직 출고되지않았거나, 기간(a~b)에서 a날짜 이후의 데이터들에 대해 mip, 입고일, 출고일을 리스트에 append
+        if (row[5].value == "") or (row[5].value is None) or (int(row[5].value) >= int(day)):
+            dl[row[2].value].append([row[1].value, row[3].value, row[5].value])
+        # print(row[5].value," ", int(day))
+        # 역순 후 마지막행 제외
+    return dl
 
 
-#해당 날짜에 출고된 mip 엔진리스트를 반환
-def select_output_engine_by_mip_with_day(mip, day):
-    if (mip is None) or mip == "":
-        print("empty MIP")
-        return -1
-    if (day is None) or day == "":
-        print("empty day")
-        return -1
-    rs = open_sheet("engine", "engineDB")
-    result = []
-    for row in rs.rows:
-        if (row[1].value == mip) and (str(row[5].value) == day):
-            result.append(row)
-    return result
-
-
-#보유 엔진에서 해당엔진삭제, 엔진데이터에서 출고일 수정 + 출고설명추가
+# 보유 엔진에서 해당엔진삭제, 엔진데이터에서 출고일 수정 + 출고설명추가
 def delete_row(en, comment, day):
     if (en is None) or (en == ""):
         print("empty en")
-
     wb1 = open_sheet("engine")
     ws1 = wb1['engineDB']
-
     wb2 = open_file("OwnedEngine")
     ws2 = wb2['en']
-
-    #check for debug
+    # check for debug
     c1 = 0
     c2 = 0
-
-    #eid 비교 후 같으면 해당 행 수정. 1부터 시작
-    for r in range(1, ws1.max_row+1):
+    # eid 비교 후 같으면 해당 행 수정. 1부터 시작
+    for r in range(1, ws1.max_row + 1):
         if str(ws1.cell(row=r, column=1).value) == en:
             ws1.cell(r, 6).value = day
             ws1.cell(r, 7).value = comment
             c1 = 1
             break
-
-    #eid비교 후 같으면 해당 행 삭제.
-    for r in range(1, ws2.max_row+1):
+    # eid비교 후 같으면 해당 행 삭제.
+    for r in range(1, ws2.max_row + 1):
         if str(ws2.cell(row=r, column=1).value) == en:
             ws2.delete_rows(r)
             c2 = 1
             break
-
-    if (c1*c2) == 0:
+    if (c1 * c2) == 0:
         print("not exist engine")
-
     wb1.save(get_path("engine"))
     wb1.close()
     wb2.save(get_path("OwnedEngine"))
     wb2.close()
-
     return 1
+
 
 def get_excellist():
     rs = open_sheet("engine", "engineDB")
@@ -207,16 +211,16 @@ def get_excellist():
     for x in range(2, rs.max_row + 1):
         for y in range(1, rs.max_column + 1):
             cell = rs.cell(row=x, column=y).value
-            if(y == 7):
+            if (y == 7):
                 continue
-            if cell is None:# or math.isnan(rs.cell(row=x, column=y).value):
+            if cell is None:  # or math.isnan(rs.cell(row=x, column=y).value):
                 tmpList.append('')
             else:
                 tmpList.append(cell)
-        if tmpList[6] == '': #np.isnan
+        if tmpList[6] == '':  # np.isnan
             tmpList.insert(7, '')
         else:
-            #str = get_location(tmpList[6])
+            # str = get_location(tmpList[6])
             if type(tmpList[6]) == type(int):
                 str = get_location(tmpList[6])
             else:
@@ -225,8 +229,9 @@ def get_excellist():
         tmpList[0], tmpList[2] = tmpList[2], tmpList[0]
         excelList.append(tmpList)
         tmpList = []
-    #excelList = excelList[1:]
+    # excelList = excelList[1:]
     return excelList
+
 
 def get_location(gid):
     rs = pd.read_excel("./DB/engine.xlsx", sheet_name="engineGroup")
@@ -235,16 +240,18 @@ def get_location(gid):
     idx = rscolumn['groupID'].to_list().index(gid)
     return rscolumnLoc[idx];
 
+
 def add_MIP(mip, types):
     wb1 = open_file("engine")
     _ = wb1.active
     ws1 = wb1["types"]
-    ws1.append([mip,types])
+    ws1.append([mip, types])
     ws1.cell(ws1.max_row, 1).alignment = op.styles.Alignment(horizontal="center", vertical="center")
     ws1.cell(ws1.max_row, 2).alignment = op.styles.Alignment(horizontal="center", vertical="center")
     wb1.save(get_path("engine"))
     wb1.close()
     return
+
 
 def set_invalid_engine(eng, exp):
     wb1 = open_file("engine")
