@@ -11899,7 +11899,11 @@ textarea.form-control-lg {
     border: 1px solid black;
     border-radius: 0.25rem;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
 
+.logout-btn:hover {
+    background: #d3d3d3;
+    color: #212529;
 }
 
 /*datepicker css*/
@@ -11962,6 +11966,7 @@ textarea.form-control-lg {
     width: 80vw;
     min-width: 1200px;
     margin: 0 auto;
+    height: 75vh;
 }
 
 .inventory-table {
@@ -11977,5 +11982,9 @@ textarea.form-control-lg {
 .inventory-table tbody {
     display: block;
     overflow: auto;
-    height: 65vh;
+    height: 70vh;
+}
+
+.inventory-table th, .inventory-table td {
+    width: 105px;
 }

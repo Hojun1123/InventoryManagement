@@ -49,7 +49,7 @@
             </ul>
         </div>
         <div>
-            <button class="logout-btn">log out</button>
+            <button class="logout-btn" onclick="">log out</button>
         </div>
     </div>
 </nav>
@@ -69,17 +69,16 @@
                 <i class="glyphicon glyphicon-calendar"></i>
             </span>
         </div>
-        <button type="submit" class="datepicker-btn" onclick="return CheckDate()">예약</button>
+        <button type="submit" class="datepicker-btn" onclick="return CheckDate(arrDate)">예약</button>
     </div>
 </form>
 
-
 <div class="m-4">
     <div class="inventory-table-container">
-        <table id="emp-table" class="table main-table table-bordered table-striped table-hover">
+        <table id="emp-table" class="table inventory-table table-bordered table-striped table-hover">
             <thead>
-            <th col-index=1 class="fixed-header" scope="col">번호</th>
-            <th col-index=2 class="fixed-header" scope="col">
+            <th col-index=1 scope="col">번호</th>
+            <th col-index=2 scope="col">
                 <select class="table-filter" onchange="filter_rows()">
                     <option value="all">기종</option>
                 </select>
@@ -89,12 +88,12 @@
                     <option value="all">MIP</option>
                 </select>
             </th>
-            <th col-index=4 scope="col">ENG1</th>
-            <th col-index=5 scope="col">ENG2</th>
-            <th col-index=6 scope="col">ENG3</th>
-            <th col-index=7 scope="col">ENG4</th>
-            <th col-index=8 scope="col">입고일</th>
-            <th col-index=8 scope="col">포장일</th>
+            <th col-index=4 scope="col">EID</th>
+            <th col-index=5 scope="col">입고일</th>
+            <th col-index=6 scope="col">출고일</th>
+            <th col-index=7 scope="col">출고exp</th>
+            <th col-index=8 scope="col">groupID</th>
+            <th col-index=8 scope="col">상태</th>
             <th col-index=9 scope="col">위치</th>
             <th col-index=10 scope="col">
                 <select class="table-filter" onchange="filter_rows()">
@@ -102,7 +101,7 @@
                 </select>
             </th>
             </thead>
-            <tbody style="font-size: 12px">
+            <tbody>
             {% for alpha in range(0, length) %}
                 {% set num = alpha + 1 %}
                 <tr>
@@ -110,7 +109,7 @@
                     <td>{{ excelList[alpha][0] }}</td>
                     <td>{{ excelList[alpha][1] }}</td>
                     <td>{{ excelList[alpha][2] }}</td>
-                    <td>{{ excelList[alpha][3] }}</td>
+                    <td id="ReceivingDate">{{ excelList[alpha][3] }}</td>
                     <td>{{ excelList[alpha][4] }}</td>
                     <td>{{ excelList[alpha][5] }}</td>
                     <td>{{ excelList[alpha][6] }}</td>
@@ -133,19 +132,18 @@
     </div>
 </div>
 
-
 <script type='text/javascript'>
     $(function () {
-    $('.input-group.date').datepicker({
-        calendarWeeks: false,
-        todayHighlight: true,
-        autoclose: true,
-        format: "yyyy-mm-dd",
-        language: "kr",
-        endDate: '0d',
-        disableTouchKeyboard: false
+        $('.input-group.date').datepicker({
+            calendarWeeks: false,
+            todayHighlight: true,
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            language: "kr",
+            endDate: '0d',
+            disableTouchKeyboard: false
+        });
     });
-});
 </script>
 
 <script>
@@ -153,6 +151,20 @@
         console.log(document.querySelector("#emp-table > tbody > tr:nth-child(1) > td:nth-child(2) ").innerHTML);
     };
     getUniqueValuesFromColumn()
+</script>
+
+<script>
+    var arrDate = new Array();
+
+    {% for a in range(0, length) %}
+        alert({{ excelList[a][3] }});
+    {% endfor %}
+
+    {% for alpha in range(0, length) %}
+        alert("arrDate[alpha]");
+        arrDate[alpha] = {{ excelList[alpha][3] }};
+    {% endfor %}
+
 </script>
 </body>
 </html>
