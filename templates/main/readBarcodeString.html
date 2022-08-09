@@ -26,7 +26,9 @@
                                     <!--<h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Text</h5>-->
 
                                     <div class="form-outline mb-4">
-                                        <textarea style="height: 400px" name="barcode" id="barcode" class="form-control form-control-lg" placeholder="" autofocus></textarea>
+                                        <textarea style="height: 400px" name="barcode" id="barcode"
+                                                  class="form-control form-control-lg" placeholder=""
+                                                  autofocus></textarea>
                                         <label class="form-label" for="barcode">바코드를 스캔해주세요.</label>
                                     </div>
                                     <!--<a class="small text-muted" href="#!">abc</a>-->
@@ -35,9 +37,11 @@
                                     </div>
                                 </form>
 
-                                    <div class="pt-1 mb-4">
-                                        <button class="btn btn-dark btn-lg btn-block" type="button" onclick="location.href='/main'">홈화면</button>
-                                    </div>
+                                <div class="pt-1 mb-4">
+                                    <button class="btn btn-dark btn-lg btn-block" type="button"
+                                            onclick="location.href='/main'">홈화면
+                                    </button>
+                                </div>
 
                             </div>
                         </div>
@@ -46,18 +50,18 @@
                     <div>
                         <table id="barcodetable" style="border: 1px solid #4f5050">
                             <tbody>
-                                {% for i in ib %}
-                                    <tr>
+                            {% for i in ib %}
+                                <tr>
                                     {% for j in i %}
                                         <td style="width:200px; border: 1px solid #4f5050"> {{ j }} </td>
                                     {% endfor %}
-                                    </tr>
-                                {% endfor %}
-                                <tr>
-                                    {% for r in rb %}
-                                    <td style="width:200px; border: 1px solid #4f5050">{{ r }}</td>
-                                    {% endfor %}
                                 </tr>
+                            {% endfor %}
+                            <tr>
+                                {% for r in rb %}
+                                    <td style="width:200px; border: 1px solid #4f5050">{{ r }}</td>
+                                {% endfor %}
+                            </tr>
                             </tbody>
                         </table>
                     </div>
