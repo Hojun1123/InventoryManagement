@@ -1,6 +1,6 @@
 # db control
 import threading
-
+import datetime
 import openpyxl as op
 from collections import defaultdict
 import pandas as pd
@@ -128,6 +128,7 @@ def synchronization():
     try:
         w1s1 = w1b1["engineDB"]
         w1s2 = w1b1["engineGroup"]
+        w1s3 = w1b1["syncTime"]
         w2s1 = w2b1["en"]
         glist = []
         for i in data:
@@ -146,14 +147,18 @@ def synchronization():
         for i in list(set(glist)):
             #gio, location
             w1s2.append([gid, ""])
-            try:
-                w1b1.save(get_path("engine"))
-                w1b1.close()
-                w2b1.save(get_path("OwnedEngine"))
-                w2b1.close()
-            except:
-                print("save error")
-                return -1
+        tm = datetime.datetime.now()
+        print(tm.strftime("%Y%m%d"), (tm.strftime("%X"))[0:2] + (tm.strftime("%X"))[3:5] + (tm.strftime("%X"))[6:8])
+        w1s3.cell(row=1, column=1).value = tm.strftime("%Y%m%d")
+        w1s3.cell(row=1, column=2).value = ((tm.strftime("%X"))[0:2] + (tm.strftime("%X"))[3:5] + (tm.strftime("%X"))[6:8])
+        try:
+            w1b1.save(get_path("engine"))
+            w1b1.close()
+            w2b1.save(get_path("OwnedEngine"))
+            w2b1.close()
+        except:
+            print("save error")
+            return -1
     except:
         print("can't write in sheets")
         return -1
