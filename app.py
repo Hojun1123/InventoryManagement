@@ -125,6 +125,14 @@ def set_invalid_engine_exp():
         return render_template("./main/setInvalidEngine.html")
 
 
+#동기화
+@app.route('/refresh')
+def refresh():
+    dc.synchronization()
+    print("test")
+    return "<script>window.history.back()</script>"
+
+
 # flask 구동 (main)
 if __name__ == '__main__':
     # hp 지정
