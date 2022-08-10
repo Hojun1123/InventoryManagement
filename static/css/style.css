@@ -11953,7 +11953,7 @@ textarea.form-control-lg {
 .main-table tbody {
     display: block;
     overflow: auto;
-    height: 27vh;
+    height: 40vh;
 }
 
 .main-table th, .main-table td {
@@ -11987,4 +11987,8 @@ textarea.form-control-lg {
 
 .inventory-table th, .inventory-table td {
     width: 105px;
+}
+
+.table-filter{
+    border : none;
 }
