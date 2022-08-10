@@ -12005,3 +12005,17 @@ textarea.form-control-lg {
     justify-content: flex-end;
     margin: 0px 20px;
 }
+
+/*report page css*/
+.report-table-wrapper {
+    width: 80vw;
+    margin: 20px auto;
+}
+
+.report-table-wrapper table{
+    border: 2px solid #3d3d3d;
+}
+
+.report-table-wrapper table td{
+    border: 1px solid #7b7b7b;
+}
