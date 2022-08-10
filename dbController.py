@@ -140,15 +140,15 @@ def synchronization():
             if gid not in glist:
                 glist.append(gid)
             # 엔진시리얼번호, mip, mip_type, 입고일, 포장일, 출고일, 출고설명, 그룹ID, 불량엔진bool타입, 비고
-            print([id, mip, type, day, day, "", "", gid, 0, ""])
+            #print([id, mip, type, day, day, "", "", gid, 0, ""])
             w1s1.append([id, mip, type, day, day, "", "", gid, 0, ""])
             # 엔진시리얼번호, mip, mip_type, 입고일, 포장일, 그룹ID, 불량엔진, 비고
             w2s1.append([id, mip, type, day, day, gid, 0, ""])
         for i in list(set(glist)):
             #gio, location
-            w1s2.append([gid, ""])
+            w1s2.append([i, ""])
         tm = datetime.datetime.now()
-        print(tm.strftime("%Y%m%d"), (tm.strftime("%X"))[0:2] + (tm.strftime("%X"))[3:5] + (tm.strftime("%X"))[6:8])
+        #print(tm.strftime("%Y%m%d"), (tm.strftime("%X"))[0:2] + (tm.strftime("%X"))[3:5] + (tm.strftime("%X"))[6:8])
         w1s3.cell(row=1, column=1).value = tm.strftime("%Y%m%d")
         w1s3.cell(row=1, column=2).value = ((tm.strftime("%X"))[0:2] + (tm.strftime("%X"))[3:5] + (tm.strftime("%X"))[6:8])
         try:
