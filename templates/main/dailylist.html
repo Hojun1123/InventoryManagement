@@ -18,18 +18,19 @@
     <script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
     <script src="/static/js/javascript.js"></script>
 
+    <!-- datepicker 설정-->
     <script type='text/javascript'>
         $(function () {
-        $('.input-group.date').datepicker({
-            calendarWeeks: false,
-            todayHighlight: true,
-            autoclose: true,
-            format: "yyyy-mm-dd",
-            language: "kr",
-            endDate: '0d',
-            disableTouchKeyboard: false
+            $('.input-group.date').datepicker({
+                calendarWeeks: false,
+                todayHighlight: true,
+                autoclose: true,
+                format: "yyyy-mm-dd",
+                language: "kr",
+                endDate: '0d',
+                disableTouchKeyboard: false
+            });
         });
-    });
     </script>
 </head>
 
@@ -66,7 +67,15 @@
     </div>
 </nav>
 
+
 <div class="m-4">
+    <div class="current-date-wrapper" style="font-weight: bold; font-size: 20px;">
+        today:
+        <script>
+            date = new Date().toLocaleDateString();
+            document.write(date);
+        </script>
+    </div>
     <div class="main-table-container">
         당일 입고 리스트
         <table class="table main-table table-bordered table-striped table-hover">
@@ -550,7 +559,6 @@
             </tbody>
         </table>
     </div>
-
 </div>
 </body>
 </html>

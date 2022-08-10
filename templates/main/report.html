@@ -3,6 +3,8 @@
 <head>
     <title>재고 관리 프로그램</title>
     <meta charset="UTF-8">
+    <title>재고 관리 프로그램</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="/static/css/style.css">
 
@@ -11,11 +13,6 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <style type="text/css">
-        html {
-            font-family: Calibri, Arial, Helvetica, sans-serif;
-            font-size: 11pt;
-            background-color: white
-        }
 
         table {
             border-collapse: collapse;
@@ -63,16 +60,32 @@
         </div>
     </div>
 </nav>
+
+<!--datepicker-->
+<form class="datepicker-calendar-container">
+    <div class="d-flex flex-wrap m-4">
+        <div class="input-group date datepicker-calendar">
+            <input type="text" class="form-control" value="" id="startDatepicker" autocomplete='off'>
+            <span class="input-group-addon">
+                <i class="glyphicon glyphicon-calendar"></i>
+            </span>
+        </div>
+        <span>~</span>
+        <div class="input-group date datepicker-calendar">
+            <input type="text" class="form-control" value="" id="endDatepicker" autocomplete='off'>
+            <span class="input-group-addon">
+                <i class="glyphicon glyphicon-calendar"></i>
+            </span>
+        </div>
+        <button type="submit" class="datepicker-btn" onclick="return CheckDate(arrDate)">조회</button>
+        <button class="reload-btn" onClick="window.location.reload()">
+            <img src="/static/assets/img/reload.png" alt="새로고침"></button>
+    </div>
+    </div>
+</form>
 <div>
 <style>
     @page {
-        margin-left: 0.7in;
-        margin-right: 0.7in;
-        margin-top: 0.75in;
-        margin-bottom: 0.75in;
-    }
-
-    body {
         margin-left: 0.7in;
         margin-right: 0.7in;
         margin-top: 0.75in;

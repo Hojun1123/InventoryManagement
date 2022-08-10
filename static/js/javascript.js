@@ -55,6 +55,7 @@ function CheckDate(arrDate) {
     return true;
 }
 
+//선택 날짜 출력 기능
 function readDate(arrDate) {
     var startDate = document.getElementById("startDatepicker").value;
     var endDate = document.getElementById("endDatepicker").value;
