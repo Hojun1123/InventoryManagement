@@ -231,8 +231,49 @@ def get_excellist():
     #excelList = excelList[1:]
     return excelList
 
+#기종, MIP, ENGINE, 입고일, 포장일, 출고일, GROUP, 위치, 불량엔진, 비고
+def get_excellist2():
+    rs = open_sheet("engine", "engineDB")
+    tmpList = []
+
+    first = 0
+    for row in rs.rows:
+        if first == 0:
+            first = 1
+            continue
+
+        if row[7].value == '' or row[7].value == None:
+            loc = ''
+        else:
+            if type(row[7]) == type(int):
+                loc = get_location(row[7].value)
+            else:
+                print(row[7].value)
+                loc = get_location(int(row[7].value))
+
+        tmpList.append([
+            row[2].value,
+            row[1].value,
+            row[0].value,
+            row[3].value,
+            row[4].value,
+            row[5].value,
+            row[7].value,
+            loc,
+            row[8].value,
+            row[9].value
+        ])
+
+    for i in range(0, len(tmpList)):
+        for j in range(0, len(tmpList[0])):
+            if tmpList[i][j] is None:
+                tmpList[i][j] = ''
+    print(tmpList)
+    return tmpList
+
 def get_location(gid):
     rs = pd.read_excel("./DB/engine.xlsx", sheet_name="engineGroup")
+    print(type(rs))
     rscolumn = rs[['groupID', 'Location']]
     rscolumnLoc = rscolumn['Location'].to_list()
     idx = rscolumn['groupID'].to_list().index(gid)
