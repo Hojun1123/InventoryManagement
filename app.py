@@ -16,6 +16,11 @@ def index():  # put application's code here
     return render_template("./main/login.html")
 
 
+@app.route('/test')
+def test():
+    dc.get_excellist2()
+    return render_template("./main/main.html")
+
 @app.route('/main')
 def main_page():
     return render_template("./main/main.html")
@@ -25,7 +30,7 @@ def main_page():
 @app.route('/inventory')
 def inventory():
     #printColumnsNum = 11
-    excelList = dc.get_excellist()
+    excelList = dc.get_excellist2()
     length = len(excelList)
     #length = ceil(length/printColumnsNum)
     #print(length)
