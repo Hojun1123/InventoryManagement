@@ -71,18 +71,19 @@ def release_engine():
 
 
 # 보유 엔진 보고서
-@app.route('/report')
+@app.route('/report', methods=['GET', 'POST'])
 def holding_engines_report():
     #test dates
     if request.method == 'GET':
-        return render_template("./main/report.html")
+        return render_template("./main/report.html", table="<p>날짜를 선택해주세요.</p>")
     else:
-        startday = request.form.get("startdate")
-        endday = request.form.get("enddate")
-        startday = ""
-        dates = gdl.datelist("20220725", "20220815")
+        startdate = request.form.get("startdate")
+        enddate = request.form.get("enddate")
+        sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
+        ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
+        dates = gdl.datelist(sd, ed)
         table = mrt.make(dc.select_all_for_report(dates[0]), dates)
-        return render_template("./main/report.html", table=table)
+        return render_template("./main/report.html", table=table, startdate=str(startdate), enddate=str(enddate))
 
 
 # daylist
