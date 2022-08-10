@@ -2,30 +2,22 @@
 <html>
 <head>
     <title>재고 관리 프로그램</title>
-    <meta charset="UTF-8">
-    <title>재고 관리 프로그램</title>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="/static/css/style.css">
 
+    <!--datepicker-->
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <link rel="stylesheet" href="/css/jquery-ui.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
-
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <style type="text/css">
-
-        table {
-            border-collapse: collapse;
-            page-break-after: always;
-            border: 1px solid coral;
-        }
-
-        th, td {
-            text-align: center;
-            padding: 3px;
-            border: 1px solid coral;
-        }
-    </style>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
+    <script type='text/javascript'
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
+    <script src="/static/js/javascript.js"></script>
 </head>
 
 <body>
@@ -65,28 +57,35 @@
 <form class="datepicker-calendar-container">
     <div class="d-flex flex-wrap m-4">
         <div class="input-group date datepicker-calendar">
-            <input type="text" class="form-control" value="" id="startDatepicker" autocomplete='off'>
+            <input type="text" class="form-control" value="" id="startDatepicker-report" autocomplete='off'>
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar"></i>
             </span>
         </div>
         <span>~</span>
         <div class="input-group date datepicker-calendar">
-            <input type="text" class="form-control" value="" id="endDatepicker" autocomplete='off'>
+            <input type="text" class="form-control" value="" id="endDatepicker-report" autocomplete='off'>
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar"></i>
             </span>
         </div>
-        <button type="submit" class="datepicker-btn" onclick="return CheckDate(arrDate)">조회</button>
-        <button class="reload-btn" onClick="window.location.reload()">
-            <img src="/static/assets/img/reload.png" alt="새로고침"></button>
-    </div>
+        <button type="submit" class="datepicker-btn" onclick="return CheckDate()">조회</button>
+        <div id="printDate"></div>
     </div>
 </form>
+
 <div>
     <div class="report-table-wrapper">
         {{ table|safe }}
     </div>
 </div>
+
+<script>
+    var startDate = document.getElementById('startDatepicker-report');
+    var endDate = document.getElementById('endDatepicker-report');
+    var printDate = document.getElementById('printDate');
+
+    printDate.innerHTML = startDate + '~' + endDate;
+</script>
 </body>
 </html>

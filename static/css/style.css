@@ -12014,8 +12014,12 @@ textarea.form-control-lg {
 
 .report-table-wrapper table{
     border: 2px solid #3d3d3d;
+    border-collapse: collapse;
+    page-break-after: always;
 }
 
 .report-table-wrapper table td{
     border: 1px solid #7b7b7b;
+    text-align: center;
+     padding: 3px;
 }
