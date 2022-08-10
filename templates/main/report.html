@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE>
+<html>
 <head>
     <title>재고 관리 프로그램</title>
     <meta charset="UTF-8">
@@ -9,7 +9,28 @@
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style type="text/css">
+        html {
+            font-family: Calibri, Arial, Helvetica, sans-serif;
+            font-size: 11pt;
+            background-color: white
+        }
+
+        table {
+            border-collapse: collapse;
+            page-break-after: always;
+            border: 1px solid coral;
+        }
+
+        th, td {
+            text-align: center;
+            padding: 3px;
+            border: 1px solid coral;
+        }
+    </style>
 </head>
+
 <body>
 <nav class="navbar navbar-expand-md navbar-light border-bottom">
     <div class="container-fluid">
@@ -21,7 +42,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="current-page-text nav-link" href="main">메인</a>
+                    <a class="nav-link" href="main">메인</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="dailylist">당일 조회</a>
@@ -30,7 +51,7 @@
                     <a class="nav-link" href="inventory">전체 조회</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="report">기간별 통계</a>
+                    <a class="current-page-text nav-link" href="report">기간별 통계</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="addMIP">MIP 추가(환경설정)</a>
@@ -42,8 +63,23 @@
         </div>
     </div>
 </nav>
+<div>
+<style>
+    @page {
+        margin-left: 0.7in;
+        margin-right: 0.7in;
+        margin-top: 0.75in;
+        margin-bottom: 0.75in;
+    }
 
-Main page
+    body {
+        margin-left: 0.7in;
+        margin-right: 0.7in;
+        margin-top: 0.75in;
+        margin-bottom: 0.75in;
+    }
+</style>
+{{ table|safe }}
+    </div>
 </body>
-
 </html>
