@@ -1,6 +1,6 @@
 # db control
 import threading
-
+import datetime
 import openpyxl as op
 from collections import defaultdict
 import pandas as pd
@@ -128,6 +128,7 @@ def synchronization():
     try:
         w1s1 = w1b1["engineDB"]
         w1s2 = w1b1["engineGroup"]
+        w1s3 = w1b1["syncTime"]
         w2s1 = w2b1["en"]
         glist = []
         for i in data:
@@ -139,21 +140,25 @@ def synchronization():
             if gid not in glist:
                 glist.append(gid)
             # 엔진시리얼번호, mip, mip_type, 입고일, 포장일, 출고일, 출고설명, 그룹ID, 불량엔진bool타입, 비고
-            print([id, mip, type, day, day, "", "", gid, 0, ""])
+            #print([id, mip, type, day, day, "", "", gid, 0, ""])
             w1s1.append([id, mip, type, day, day, "", "", gid, 0, ""])
             # 엔진시리얼번호, mip, mip_type, 입고일, 포장일, 그룹ID, 불량엔진, 비고
             w2s1.append([id, mip, type, day, day, gid, 0, ""])
         for i in list(set(glist)):
             #gio, location
-            w1s2.append([gid, ""])
-            try:
-                w1b1.save(get_path("engine"))
-                w1b1.close()
-                w2b1.save(get_path("OwnedEngine"))
-                w2b1.close()
-            except:
-                print("save error")
-                return -1
+            w1s2.append([i, ""])
+        tm = datetime.datetime.now()
+        #print(tm.strftime("%Y%m%d"), (tm.strftime("%X"))[0:2] + (tm.strftime("%X"))[3:5] + (tm.strftime("%X"))[6:8])
+        w1s3.cell(row=1, column=1).value = tm.strftime("%Y%m%d")
+        w1s3.cell(row=1, column=2).value = ((tm.strftime("%X"))[0:2] + (tm.strftime("%X"))[3:5] + (tm.strftime("%X"))[6:8])
+        try:
+            w1b1.save(get_path("engine"))
+            w1b1.close()
+            w2b1.save(get_path("OwnedEngine"))
+            w2b1.close()
+        except:
+            print("save error")
+            return -1
     except:
         print("can't write in sheets")
         return -1
@@ -204,6 +209,7 @@ def delete_row(en, comment, day):
     return 1
 
 
+'''
 def get_excellist():
     rs = open_sheet("engine", "engineDB")
     excelList = []
@@ -211,16 +217,16 @@ def get_excellist():
     for x in range(2, rs.max_row + 1):
         for y in range(1, rs.max_column + 1):
             cell = rs.cell(row=x, column=y).value
-            if (y == 7):
+            if(y == 7):
                 continue
-            if cell is None:  # or math.isnan(rs.cell(row=x, column=y).value):
+            if cell is None:# or math.isnan(rs.cell(row=x, column=y).value):
                 tmpList.append('')
             else:
                 tmpList.append(cell)
-        if tmpList[6] == '':  # np.isnan
+        if tmpList[6] == '': #np.isnan
             tmpList.insert(7, '')
         else:
-            # str = get_location(tmpList[6])
+            #str = get_location(tmpList[6])
             if type(tmpList[6]) == type(int):
                 str = get_location(tmpList[6])
             else:
@@ -229,23 +235,69 @@ def get_excellist():
         tmpList[0], tmpList[2] = tmpList[2], tmpList[0]
         excelList.append(tmpList)
         tmpList = []
-    # excelList = excelList[1:]
+    #excelList = excelList[1:]
     return excelList
+'''
 
+#기종, MIP, ENGINE, 입고일, 포장일, 출고일, GROUP, 위치, 불량엔진, 비고
+def get_excellist2():
+    rs = open_sheet("engine", "engineDB")
+    tmpList = []
+    groupData, locData = get_location()
+    #idx = rscolumn['groupID'].to_list().index(gid)
+    #print(groupData)
+    first = 0
+    for row in rs.rows:
+        if first == 0:
+            first = 1
+            continue
 
-def get_location(gid):
+        if row[7].value == '' or row[7].value == None:
+            loc = ''
+        else:
+            if type(row[7]) == type(int):
+                idx = groupData.index(row[7].value)
+                loc = locData[idx]
+            else:
+                idx = groupData.index(int(row[7].value))
+                loc = locData[idx]
+
+        tmpList.append([
+            row[2].value,
+            row[1].value,
+            row[0].value,
+            row[3].value,
+            row[4].value,
+            row[5].value,
+            row[6].value,
+            row[7].value,
+            loc,
+            row[8].value,
+            row[9].value
+        ])
+
+    for i in range(0, len(tmpList)):
+        for j in range(0, len(tmpList[0])):
+            if tmpList[i][j] is None:
+                tmpList[i][j] = ''
+    return tmpList
+
+def get_location():
     rs = pd.read_excel("./DB/engine.xlsx", sheet_name="engineGroup")
+    #print(type(rs))
     rscolumn = rs[['groupID', 'Location']]
-    rscolumnLoc = rscolumn['Location'].to_list()
-    idx = rscolumn['groupID'].to_list().index(gid)
-    return rscolumnLoc[idx];
+    #rscolumnLoc = rscolumn['Location'].to_list()
+    #idx = rscolumn['groupID'].to_list().index(gid)
+    gList = rscolumn['groupID'].to_list()
+    locList = rscolumn['Location'].to_list()
+    return gList, locList;
 
 
 def add_MIP(mip, types):
     wb1 = open_file("engine")
     _ = wb1.active
     ws1 = wb1["types"]
-    ws1.append([mip, types])
+    ws1.append([mip,types])
     ws1.cell(ws1.max_row, 1).alignment = op.styles.Alignment(horizontal="center", vertical="center")
     ws1.cell(ws1.max_row, 2).alignment = op.styles.Alignment(horizontal="center", vertical="center")
     wb1.save(get_path("engine"))

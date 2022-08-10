@@ -16,6 +16,11 @@ def index():  # put application's code here
     return render_template("./main/login.html")
 
 
+@app.route('/test')
+def test():
+    dc.get_excellist2()
+    return render_template("./main/main.html")
+
 @app.route('/main')
 def main_page():
     return render_template("./main/main.html")
@@ -25,7 +30,7 @@ def main_page():
 @app.route('/inventory')
 def inventory():
     #printColumnsNum = 11
-    excelList = dc.get_excellist()
+    excelList = dc.get_excellist2()
     length = len(excelList)
     #length = ceil(length/printColumnsNum)
     #print(length)
@@ -71,17 +76,19 @@ def release_engine():
 
 
 # 보유 엔진 보고서
-@app.route('/report')
+@app.route('/report', methods=['GET', 'POST'])
 def holding_engines_report():
     #test dates
     if request.method == 'GET':
-        return render_template("./main/report.html")
+        return render_template("./main/report.html", table="<p>날짜를 선택해주세요.</p>")
     else:
-        startday = request.form.get("startday")
-        endday = request.form.get("endday")
-        dates = gdl.datelist("20220725", "20220805")
+        startdate = request.form.get("startdate")
+        enddate = request.form.get("enddate")
+        sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
+        ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
+        dates = gdl.datelist(sd, ed)
         table = mrt.make(dc.select_all_for_report(dates[0]), dates)
-        return render_template("./main/report.html", table=table)
+        return render_template("./main/report.html", table=table, startdate=str(startdate), enddate=str(enddate))
 
 
 # daylist
@@ -121,6 +128,14 @@ def set_invalid_engine_exp():
         exp = request.form.getlist("EXP[]")
         dc.set_invalid_engine(eng, exp)
         return render_template("./main/setInvalidEngine.html")
+
+
+#동기화
+@app.route('/refresh')
+def refresh():
+    dc.synchronization()
+    print("test")
+    return "<script>window.history.back()</script>"
 
 
 # flask 구동 (main)

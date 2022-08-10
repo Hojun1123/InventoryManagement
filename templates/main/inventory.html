@@ -35,7 +35,6 @@
 </head>
 
 <body>
-
 <nav class="navbar navbar-expand-md navbar-light border-bottom">
     <div class="container-fluid">
         <a class="navbar-brand" href="main">SJA.inc</a>
@@ -85,7 +84,7 @@
             </span>
         </div>
         <button type="submit" class="datepicker-btn" onclick="return CheckDate(arrDate)">조회</button>
-        <button class="reload-btn" onClick="window.location.reload()">
+        <button type="button" onclick="location.href='/refresh'" class="reload-btn">
             <img src="/static/assets/img/reload.png" alt="새로고침">
         </button>
     </div>
@@ -124,30 +123,32 @@
             </thead>
             <tbody>
             {% for alpha in range(0, length) %}
-                {% set num = alpha + 1 %}
-                <tr>
-                    <th scope="row">{{ num }}</th>
-                    <td>{{ excelList[alpha][0] }}</td>
-                    <td>{{ excelList[alpha][1] }}</td>
-                    <td>{{ excelList[alpha][2] }}</td>
-                    <td id="ReceivingDate">{{ excelList[alpha][3] }}</td>
-                    <td>{{ excelList[alpha][4] }}</td>
-                    <td>{{ excelList[alpha][5] }}</td>
-                    <td>{{ excelList[alpha][6] }}</td>
-                    <td>{{ excelList[alpha][7] }}</td>
-                    {% if excelList[alpha][8] == 1 %}
-                        {% set invalid = '불량' %}
-                        <td>{{ invalid }}</td>
-                    {% elif excelList[alpha][8] == 0 %}
-                        {% set invalid = '' %}
-                        <td>{{ invalid }}</td>
-                    {% else %}
-                        {% set invalid = 'DB오류' %}
-                        <td>{{ invalid }}</td>
-                    {% endif %}
-                    <td>{{ excelList[alpha][9] }}</td>
-                </tr>
+            {% set num = alpha + 1 %}
+            <tr>
+                <th scope="row">{{num}}</th>
+                <td>{{excelList[alpha][0]}}</td>
+                <td>{{excelList[alpha][1]}}</td>
+                <td>{{excelList[alpha][2]}}</td>
+                <td>{{excelList[alpha][3]}}</td>
+                <td>{{excelList[alpha][4]}}</td>
+                <td>{{excelList[alpha][5]}}</td>
+                <td>{{excelList[alpha][6]}}</td>
+                <td>{{excelList[alpha][7]}}</td>
+                <td>{{excelList[alpha][8]}}</td>
+                {% if excelList[alpha][9] == 1 %}
+                {% set invalid = '불량' %}
+                <td>{{invalid}}</td>
+                {% elif excelList[alpha][9] == 0 %}
+                {% set invalid = '' %}
+                <td>{{invalid}}</td>
+                {% else %}
+                {% set invalid = 'DB오류' %}
+                <td>{{invalid}}</td>
+                {% endif %}
+                <td>{{excelList[alpha][10]}}</td>
+            </tr>
             {% endfor %}
+
             </tbody>
         </table>
     </div>
