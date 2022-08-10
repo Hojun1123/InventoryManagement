@@ -79,8 +79,8 @@ def holding_engines_report():
     else:
         startday = request.form.get("startdate")
         endday = request.form.get("enddate")
-        startday = startday
-        dates = gdl.datelist("20220725", "20220805")
+        startday = ""
+        dates = gdl.datelist("20220725", "20220815")
         table = mrt.make(dc.select_all_for_report(dates[0]), dates)
         return render_template("./main/report.html", table=table)
 
