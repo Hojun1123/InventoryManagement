@@ -26,7 +26,36 @@ window.addEventListener('DOMContentLoaded', event => {
     };
 }(jQuery));
 
+
+
 //달력 날짜 유효성 검사
+function CheckReportDate() {
+    var startDate = document.getElementById("startDatepicker-report");
+    var endDate = document.getElementById("endDatepicker-report");
+
+    if (startDate.value === "") {
+        alert("시작 날짜를 정해주세요.");
+        startDate.select();
+        startDate.focus();
+        return false;
+    } else if (endDate.value === "") {
+        alert("마지막 날짜를 선택해주세요.");
+        endDate.select();
+        endDate.focus();
+        return false;
+    }
+    var startDate2 = document.getElementById("startDatepicker-report").value;
+    var endDate2 = document.getElementById("endDatepicker-report").value;
+
+    if (Number(startDate2.replace(/-/gi, "")) > Number(endDate2.replace(/-/gi, ""))) {
+        alert("시작일이 종료일보다 클 수 없습니다.");
+        startDate.select();
+        startDate.focus();
+        return false;
+    }
+    return true;
+}
+
 function CheckDate(arrDate) {
     var startDate = document.getElementById("startDatepicker");
     var endDate = document.getElementById("endDatepicker");
@@ -54,6 +83,8 @@ function CheckDate(arrDate) {
     readDate(arrDate);
     return true;
 }
+
+
 
 //선택 날짜 출력 기능
 function readDate(arrDate) {

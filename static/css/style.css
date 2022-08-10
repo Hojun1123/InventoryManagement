@@ -12003,6 +12003,7 @@ textarea.form-control-lg {
     font-size: 12px;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     justify-content: flex-end;
+    padding: 3px;
     margin: 0px 20px;
 }
 
@@ -12021,5 +12022,5 @@ textarea.form-control-lg {
 .report-table-wrapper table td{
     border: 1px solid #7b7b7b;
     text-align: center;
-     padding: 3px;
+    padding: 5px;
 }

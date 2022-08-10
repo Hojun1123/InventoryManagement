@@ -8,7 +8,6 @@
 
     <!--datepicker-->
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-    <link rel="stylesheet" href="/css/jquery-ui.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
@@ -16,7 +15,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
     <script type='text/javascript'
             src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-    <script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
+
     <script src="/static/js/javascript.js"></script>
 
 </head>
@@ -50,6 +49,11 @@
             </ul>
         </div>
         <div>
+            <button class="reload-btn" onClick="window.location.reload()">
+                <img src="/static/assets/img/reload.png" alt="새로고침">
+            </button>
+        </div>
+        <div>
             <button class="logout-btn" onclick="">log out</button>
         </div>
     </div>
@@ -72,9 +76,6 @@
             </span>
         </div>
         <button type="submit" class="datepicker-btn" onclick="return CheckDate(arrDate)">조회</button>
-        <button class="reload-btn" onClick="window.location.reload()">
-            <img src="/static/assets/img/reload.png" alt="새로고침">
-        </button>
     </div>
 </form>
 
@@ -114,7 +115,7 @@
                     <td>{{ excelList[alpha][0] }}</td>
                     <td>{{ excelList[alpha][1] }}</td>
                     <td>{{ excelList[alpha][2] }}</td>
-                    <td id="ReceivingDate">{{ excelList[alpha][3] }}</td>
+                    <td>{{ excelList[alpha][3] }}</td>
                     <td>{{ excelList[alpha][4] }}</td>
                     <td>{{ excelList[alpha][5] }}</td>
                     <td>{{ excelList[alpha][6] }}</td>
