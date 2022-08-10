@@ -155,6 +155,18 @@
                         </ul>
                     </div>
                 </th>
+                                <th scope="col">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                            출고 exp
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">HTML</a></li>
+                            <li><a href="#">CSS</a></li>
+                            <li><a href="#">JavaScript</a></li>
+                        </ul>
+                    </div>
+                </th>
                 <th scope="col">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
@@ -218,17 +230,18 @@
                 <td>{{excelList[alpha][5]}}</td>
                 <td>{{excelList[alpha][6]}}</td>
                 <td>{{excelList[alpha][7]}}</td>
-                {% if excelList[alpha][8] == 1 %}
+                <td>{{excelList[alpha][8]}}</td>
+                {% if excelList[alpha][9] == 1 %}
                 {% set invalid = '불량' %}
                 <td>{{invalid}}</td>
-                {% elif excelList[alpha][8] == 0 %}
+                {% elif excelList[alpha][9] == 0 %}
                 {% set invalid = '' %}
                 <td>{{invalid}}</td>
                 {% else %}
                 {% set invalid = 'DB오류' %}
                 <td>{{invalid}}</td>
                 {% endif %}
-                <td>{{excelList[alpha][9]}}</td>
+                <td>{{excelList[alpha][10]}}</td>
             </tr>
             {% endfor %}
 

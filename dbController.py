@@ -262,6 +262,7 @@ def get_excellist2():
             row[3].value,
             row[4].value,
             row[5].value,
+            row[6].value,
             row[7].value,
             loc,
             row[8].value,
