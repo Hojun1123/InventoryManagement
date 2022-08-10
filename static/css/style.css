@@ -11932,6 +11932,12 @@ textarea.form-control-lg {
     color: #212529;
 }
 
+/*dailylist date css*/
+.current-date-wrapper {
+    width: 72vw;
+    margin: 0 auto;
+}
+
 /*dailylist table css*/
 .main-table-container {
     padding: 5px;
@@ -11987,4 +11993,33 @@ textarea.form-control-lg {
 
 .inventory-table th, .inventory-table td {
     width: 105px;
+}
+
+.reload-btn {
+    display: inline-block;
+    background: white;
+    border: 1px solid #a3a3a3;
+    border-radius: 0.25rem;
+    font-size: 12px;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    justify-content: flex-end;
+    margin: 0px 20px;
+}
+
+/*report page css*/
+.report-table-wrapper {
+    width: 80vw;
+    margin: 20px auto;
+}
+
+.report-table-wrapper table{
+    border: 2px solid #3d3d3d;
+    border-collapse: collapse;
+    page-break-after: always;
+}
+
+.report-table-wrapper table td{
+    border: 1px solid #7b7b7b;
+    text-align: center;
+     padding: 3px;
 }

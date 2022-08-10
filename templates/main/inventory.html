@@ -22,6 +22,7 @@
 </head>
 
 <body>
+
 <nav class="navbar navbar-expand-md navbar-light border-bottom">
     <div class="container-fluid">
         <a class="navbar-brand" href="main">SJA.inc</a>
@@ -53,6 +54,7 @@
         </div>
     </div>
 </nav>
+
 <!--datepicker-->
 <form class="datepicker-calendar-container">
     <div class="d-flex flex-wrap m-4">
@@ -69,7 +71,10 @@
                 <i class="glyphicon glyphicon-calendar"></i>
             </span>
         </div>
-        <button type="submit" class="datepicker-btn" onclick="return CheckDate(arrDate)">예약</button>
+        <button type="submit" class="datepicker-btn" onclick="return CheckDate(arrDate)">조회</button>
+        <button class="reload-btn" onClick="window.location.reload()">
+            <img src="/static/assets/img/reload.png" alt="새로고침">
+        </button>
     </div>
 </form>
 
@@ -152,19 +157,15 @@
     };
     getUniqueValuesFromColumn()
 </script>
-
+<!--
 <script>
     var arrDate = new Array();
-
-    {% for a in range(0, length) %}
-        alert({{ excelList[a][3] }});
-    {% endfor %}
-
     {% for alpha in range(0, length) %}
+        alert({{ excelList[alpha][3] }});
+
         alert("arrDate[alpha]");
         arrDate[alpha] = {{ excelList[alpha][3] }};
     {% endfor %}
-
-</script>
+</script> -->
 </body>
 </html>
