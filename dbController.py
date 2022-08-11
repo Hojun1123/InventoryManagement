@@ -169,6 +169,35 @@ def select_all_for_report(day):
     return dl
 
 
+def select_by_date(startdate, enddate):
+    try:
+        rs = open_sheet("engine", "engineGroup")
+    except:
+        print("can't open engineGroup")
+        return -1
+    groups = defaultdict()
+    for r in rs.rows:
+        groups[r[0].value] = r[1].value
+    try:
+        rs = open_sheet("engine", "engineDB")
+    except:
+        print("can't open engineDB")
+        return -1
+
+    result = []
+    for row in list(rs.rows)[1:]:
+        if (int(row[3].value) >= int(startdate)) and (int(row[3].value) <= int(enddate)):
+            result.append([
+                row[2].value, row[1].value, row[0].value, row[3].value, row[4].value, row[5].value,
+                row[6].value, row[7].value, groups[row[7].value], row[8].value, row[9].value
+            ])
+    for i in result:
+        for j in result:
+            if j is None:
+                tmpList[i][j] = ''
+    return result
+
+
 # 보유 엔진에서 해당엔진삭제, 엔진데이터에서 출고일 수정 + 출고설명추가
 def delete_row(en, comment, day):
     if (en is None) or (en == ""):

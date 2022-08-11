@@ -22,11 +22,21 @@ def index():  # put application's code here
 def main_page():
     return render_template("./main/main.html")
 
-@app.route('/inventory')
+@app.route('/inventory', methods=['GET', 'POST'])
 def inventory():
-    excelList = dc.get_excellist()
-    length = len(excelList)
-    return render_template("./main/inventory.html", excelList=excelList, length=length)
+    if request.method == "GET":
+        excelList = dc.get_excellist()
+        length = len(excelList)
+        return render_template("./main/inventory.html", excelList=excelList, length=length)
+    else:
+        startdate = request.form.get("startdate")
+        enddate = request.form.get("enddate")
+        sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
+        ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
+        data = dc.select_by_date(sd, ed)
+        length = len(data)
+        return render_template("./main/inventory.html", excelList=data, length=length, startdate=str(startdate), enddate=str(enddate))
+
 
 
 # 바코드 읽기    #일단 보류

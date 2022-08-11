@@ -81,17 +81,17 @@
 </nav>
 
 <!--datepicker-->
-<form class="datepicker-calendar-container">
+<form action="/inventory" class="datepicker-calendar-container" method="post">
     <div class="d-flex flex-wrap m-4">
         <div class="input-group date datepicker-calendar">
-            <input type="text" class="form-control" value="" id="startDatepicker" autocomplete='off'>
+            <input name="startdate" type="text" class="form-control" value="{{ startdate }}" id="startDatepicker" autocomplete='off'>
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar"></i>
             </span>
         </div>
         <span>~</span>
         <div class="input-group date datepicker-calendar">
-            <input type="text" class="form-control" value="" id="endDatepicker" autocomplete='off'>
+            <input name="enddate" type="text" class="form-control" value="{{ enddate }}" id="endDatepicker" autocomplete='off'>
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar"></i>
             </span>
