@@ -40,12 +40,7 @@ def read_barcode():
         if rawBarcodeData != "" and rawBarcodeData is not None:
             blist = crl.convert(rawBarcodeData)
             # time부분 나중에 함수로 빼기
-            tm = datetime.datetime.now()
-            #lock.acquire()#lock = threading.Lock()
-            #thread = threading.Thread(target=dc.append_raw_barcodes, args=(blist, tm.strftime("%Y%m%d"), tm.strftime("%X")))
-            #thread.start()
-            #lock.release()
-            dc.append_raw_barcodes(blist, tm.strftime("%Y%m%d"), (tm.strftime("%X"))[0:2]+(tm.strftime("%X"))[3:5]+(tm.strftime("%X"))[6:8])
+            dc.append_raw_barcodes(blist)
         #최근순으로 모든 raw바코드열 가져오기
         return render_template("./main/readBarcodeString.html")
 
