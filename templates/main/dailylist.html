@@ -5,6 +5,9 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="/static/css/style.css">
 
+    <!--dropdown-->
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+
     <!--datepicker-->
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <link rel="stylesheet" href="/css/jquery-ui.min.css">
@@ -56,12 +59,22 @@
                 <li class="nav-item">
                     <a class="nav-link" href="report">기간별 통계</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="addMIP">MIP 추가(환경설정)</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        데이터 설정
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item nav-dropdown-item" href="addMIP">MIP 추가</a></li>
+                        <li><a class="dropdown-item nav-dropdown-item" href="setInvalidEngine">불량 엔진 추가</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>
         <div>
+            <button type="button" onclick="location.href='/refresh'" class="reload-btn">
+                <img src="/static/assets/img/reload.png" alt="새로고침">
+            </button>
             <button class="logout-btn">log out</button>
         </div>
     </div>

@@ -11906,6 +11906,10 @@ textarea.form-control-lg {
     color: #212529;
 }
 
+.nav-dropdown-item {
+    color: black;
+}
+
 /*datepicker css*/
 .datepicker-calendar-container {
     width: 80vw;
