@@ -2,12 +2,26 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Login-Demo</title>
+    <title>SJA 재고관리시스템</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link href="/static/css/style.css" rel="stylesheet"/>
 
 </head>
 <main>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <script type="text/javascript">
+            alert("{{messages[-1]}}");
+        </script>
+    {% endif %}
+    {% endwith %}
+
+    {% if session["userid"] %}
+        <script>
+            location.href="/main"
+        </script>
+    {% endif %}
+
     <section class="vh-100">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -15,25 +29,24 @@
                     <div class="card" style="border-radius: 1rem;">
                         <div class="d-flex align-items-center">
                             <div class="card-body p-lg-5 text-black">
-                                <form>
+                                <form method="post">
                                     <div class="d-flex align-items-center mb-3 pb-1">
                                         <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
-                                        <span class="h1 fw-bold mb-0">SJA Inc.</span>
+                                        <span class="h1 fw-bold mb-0">SJA 재고관리시스템</span>
                                     </div>
-                                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Login</h5>
+                                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">로그인</h5>
 
                                     <div class="form-outline mb-4">
-                                        <input type="email" id="form2Example17" class="form-control form-control-lg"/>
-                                        <label class="form-label" for="form2Example17">ID</label>
+                                        <input type="text" id="id" name="id" class="form-control form-control-lg"/>
+                                        <label class="form-label" for="form2Example17">아이디</label>
                                     </div>
                                     <div class="form-outline mb-4">
-                                        <input type="password" id="form2Example27"
-                                               class="form-control form-control-lg"/>
-                                        <label class="form-label" for="form2Example27">Password</label>
+                                        <input type="password" id="pwd" name="pwd" class="form-control form-control-lg"/>
+                                        <label class="form-label" for="form2Example27">비밀번호</label>
                                     </div>
 
                                     <div class="pt-1 mb-4">
-                                        <button class="btn btn-dark btn-lg btn-block" type="button">Login</button>
+                                        <button class="btn btn-dark btn-lg btn-block" type="submit">로그인</button>
                                     </div>
                                 </form>
                             </div>

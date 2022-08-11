@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import request, render_template, redirect, flash
+from flask import request, render_template, redirect, flash, session
 from math import ceil
 import dbController as dc
 import main.convertRawDataToList as crl
@@ -13,9 +13,29 @@ app.config["SECRET_KEY"] = "sh291hfwnh8@hwqjh2(*@#*Uh2N2920hF@H0Fh@C293"
 
 
 # 인덱스 페이지
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():  # put application's code here
-    return render_template("./main/login.html")
+    if request.method == 'POST':
+        id = request.form.get("id")
+        pwd = request.form.get("pwd")
+
+        if id == '' or pwd == '':
+            flash("아이디와 비빌번호를 입력해주세요.")
+            return render_template("./main/login.html")
+
+        if id == "manager" and pwd == "manager123!@#":
+            session['userid'] = "manager"
+            flash("관리자님, 안녕하세요!")
+            return render_template("./main/login.html")
+        elif id == "user" and pwd == "user123!@#":
+            session['userid'] = "user"
+            flash("사용자님, 안녕하세요!")
+            return render_template("./main/login.html")
+        else:
+            flash("아이디 혹은 비빌번호가 잘못되었습니다.")
+            return render_template("./main/login.html")
+    else:
+        return render_template("./main/login.html")
 
 
 @app.route('/main')
