@@ -54,17 +54,17 @@
 </nav>
 
 <!--datepicker-->
-<form class="datepicker-calendar-container">
+<form action="/report" class="datepicker-calendar-container" method="post">
     <div class="d-flex flex-wrap m-4">
         <div class="input-group date datepicker-calendar">
-            <input type="text" class="form-control" value="" id="startDatepicker-report" autocomplete='off'>
+            <input type="text" value="{{ startdate }}" class="form-control" name="startdate" value="{{ startdate }}" id="startDatepicker-report" autocomplete='off'>
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar"></i>
             </span>
         </div>
         <span>~</span>
         <div class="input-group date datepicker-calendar">
-            <input type="text" class="form-control" value="" id="endDatepicker-report" autocomplete='off'>
+            <input type="text" value="{{ enddate }}" class="form-control" name="enddate" value="{{ enddate }}" id="endDatepicker-report" autocomplete='off'>
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar"></i>
             </span>
@@ -79,13 +79,18 @@
         {{ table|safe }}
     </div>
 </div>
-
-<script>
-    var startDate = document.getElementById('startDatepicker-report');
-    var endDate = document.getElementById('endDatepicker-report');
-    var printDate = document.getElementById('printDate');
-
-    printDate.innerHTML = startDate + '~' + endDate;
-</script>
 </body>
+<script type='text/javascript'>
+    $(function () {
+        $('.input-group.date').datepicker({
+            calendarWeeks: false,
+            todayHighlight: true,
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            language: "kr",
+            endDate: '0d',
+            disableTouchKeyboard: false
+        });
+    });
+</script>
 </html>
