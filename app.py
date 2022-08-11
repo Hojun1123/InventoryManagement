@@ -8,6 +8,7 @@ import main.getDateList as gdl
 import datetime
 # Flask 객체 생성
 app = Flask(__name__)
+#flash secret_key
 app.config["SECRET_KEY"] = "sh291hfwnh8@hwqjh2(*@#*Uh2N2920hF@H0Fh@C293"
 '''
 # 데코레이션 테스트
