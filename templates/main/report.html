@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE>
 <html>
 <head>
     <title>재고 관리 프로그램</title>
@@ -8,6 +8,7 @@
 
     <!--dropdown-->
     <script src="/static/js/bootstrap.bundle.min.js"></script>
+
     <!--datepicker-->
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <link rel="stylesheet" href="/css/jquery-ui.min.css">
@@ -20,7 +21,6 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
     <script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
     <script src="/static/js/javascript.js"></script>
-
 </head>
 
 <body>
@@ -40,10 +40,10 @@
                     <a class="nav-link" href="dailylist">당일 조회</a>
                 </li>
                 <li class="nav-item">
-                    <a class="current-page-text nav-link" href="inventory">전체 조회</a>
+                    <a class="nav-link" href="inventory">전체 조회</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="report">기간별 통계</a>
+                    <a class="current-page-text nav-link" href="report">기간별 통계</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button"
@@ -61,93 +61,40 @@
             <button type="button" onclick="location.href='/refresh'" class="reload-btn">
                 <img src="/static/assets/img/reload.png" alt="새로고침">
             </button>
-            <button class="logout-btn" onclick="">log out</button>
+            <button class="logout-btn">log out</button>
         </div>
     </div>
 </nav>
 
 <!--datepicker-->
-<form class="datepicker-calendar-container">
+<form action="/report" class="datepicker-calendar-container" method="post">
     <div class="d-flex flex-wrap m-4">
         <div class="input-group date datepicker-calendar">
-            <input type="text" class="form-control" value="" id="startDatepicker" autocomplete='off'>
+            <input type="text" value="{{ startdate }}" class="form-control" name="startdate" value="{{ startdate }}"
+                   id="startDatepicker-report" autocomplete='off'>
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar"></i>
             </span>
         </div>
         <span>~</span>
         <div class="input-group date datepicker-calendar">
-            <input type="text" class="form-control" value="" id="endDatepicker" autocomplete='off'>
+            <input type="text" value="{{ enddate }}" class="form-control" name="enddate" value="{{ enddate }}"
+                   id="endDatepicker-report" autocomplete='off'>
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar"></i>
             </span>
         </div>
-        <button type="submit" class="datepicker-btn" onclick="return CheckDate(arrDate)">조회</button>
-
+        <button type="submit" class="datepicker-btn" onclick="return CheckDate()">조회</button>
+        <div id="printDate"></div>
     </div>
 </form>
 
-<div class="m-4">
-    <div class="inventory-table-container">
-        <table id="emp-table" class="table inventory-table table-bordered table-striped table-hover">
-            <thead>
-            <th col-index=1 scope="col">번호</th>
-            <th col-index=2 scope="col">
-                <select class="table-filter" onchange="filter_rows()">
-                    <option value="all">기종</option>
-                </select>
-            </th>
-            <th col-index=3 scope="col">
-                <select class="table-filter" onchange="filter_rows()">
-                    <option value="all">MIP</option>
-                </select>
-            </th>
-            <th col-index=4 scope="col">EID</th>
-            <th col-index=5 scope="col">입고일</th>
-            <th col-index=6 scope="col">출고일</th>
-            <th col-index=7 scope="col">출고exp</th>
-            <th col-index=8 scope="col">groupID</th>
-            <th col-index=8 scope="col">상태</th>
-            <th col-index=9 scope="col">위치</th>
-            <th col-index=10 scope="col">
-                <select class="table-filter" onchange="filter_rows()">
-                    <option value="all">비고</option>
-                </select>
-            </th>
-            </thead>
-            <tbody>
-            {% for alpha in range(0, length) %}
-                {% set num = alpha + 1 %}
-                <tr>
-                    <th scope="row">{{ num }}</th>
-                    <td>{{ excelList[alpha][0] }}</td>
-                    <td>{{ excelList[alpha][1] }}</td>
-                    <td>{{ excelList[alpha][2] }}</td>
-                    <td>{{ excelList[alpha][3] }}</td>
-                    <td>{{ excelList[alpha][4] }}</td>
-                    <td>{{ excelList[alpha][5] }}</td>
-                    <td>{{ excelList[alpha][6] }}</td>
-                    <td>{{ excelList[alpha][7] }}</td>
-                    <td>{{ excelList[alpha][8] }}</td>
-                    {% if excelList[alpha][9] == 1 %}
-                        {% set invalid = '불량' %}
-                        <td>{{ invalid }}</td>
-                    {% elif excelList[alpha][9] == 0 %}
-                        {% set invalid = '' %}
-                        <td>{{ invalid }}</td>
-                    {% else %}
-                        {% set invalid = 'DB오류' %}
-                        <td>{{ invalid }}</td>
-                    {% endif %}
-                    <td>{{ excelList[alpha][10] }}</td>
-                </tr>
-            {% endfor %}
-
-            </tbody>
-        </table>
+<div>
+    <div class="report-table-wrapper">
+        {{ table|safe }}
     </div>
 </div>
-
+</body>
 <script type='text/javascript'>
     $(function () {
         $('.input-group.date').datepicker({
@@ -161,22 +108,4 @@
         });
     });
 </script>
-
-<script>
-    window.onload = () => {
-        console.log(document.querySelector("#emp-table > tbody > tr:nth-child(1) > td:nth-child(2) ").innerHTML);
-    };
-    getUniqueValuesFromColumn()
-</script>
-<!--
-<script>
-    var arrDate = new Array();
-    {% for alpha in range(0, length) %}
-        alert({{ excelList[alpha][3] }});
-
-        alert("arrDate[alpha]");
-        arrDate[alpha] = {{ excelList[alpha][3] }};
-    {% endfor %}
-</script> -->
-</body>
 </html>

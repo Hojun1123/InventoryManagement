@@ -10,12 +10,12 @@ import datetime
 app = Flask(__name__)
 #flash secret_key
 app.config["SECRET_KEY"] = "sh291hfwnh8@hwqjh2(*@#*Uh2N2920hF@H0Fh@C293"
-'''
-# 데코레이션 테스트
-@app.route('/inventory')
-def inventory():
-    return render_template("./main/inventory.html")
-'''
+
+
+# 인덱스 페이지
+@app.route('/')
+def index():  # put application's code here
+    return render_template("./main/login.html")
 
 
 @app.route('/main')
@@ -26,15 +26,10 @@ def main_page():
 def inventory():
     excelList = dc.get_excellist()
     length = len(excelList)
-    return render_template("./main/inventory.html", excelList = excelList, length = length)
+    return render_template("./main/inventory.html", excelList=excelList, length=length)
 
 
-# 인덱스 페이지
-@app.route('/')
-def index():  # put application's code here
-    return render_template("./main/login.html")
-
-# 바코드 읽기
+# 바코드 읽기    #일단 보류
 @app.route('/readBarcode', methods=['GET', 'POST'])
 def read_barcode():
     if request.method == 'GET':
@@ -46,7 +41,11 @@ def read_barcode():
             blist = crl.convert(rawBarcodeData)
             # time부분 나중에 함수로 빼기
             tm = datetime.datetime.now()
-            dc.append_raw_barcodes(blist, tm.strftime("%Y%m%d"), tm.strftime("%X"))
+            #lock.acquire()#lock = threading.Lock()
+            #thread = threading.Thread(target=dc.append_raw_barcodes, args=(blist, tm.strftime("%Y%m%d"), tm.strftime("%X")))
+            #thread.start()
+            #lock.release()
+            dc.append_raw_barcodes(blist, tm.strftime("%Y%m%d"), (tm.strftime("%X"))[0:2]+(tm.strftime("%X"))[3:5]+(tm.strftime("%X"))[6:8])
         #최근순으로 모든 raw바코드열 가져오기
         return render_template("./main/readBarcodeString.html")
 
@@ -61,7 +60,7 @@ def release_engine():
         if barcodes != "" and barcodes is not None:
             blist = crl.convert2(barcodes)
             tm = datetime.datetime.now()
-            print(blist)
+            #print(blist)
             for b in blist:
                 print(b)
                 dc.delete_row(b, "comment test", tm.strftime("%Y%m%d"))
@@ -69,16 +68,30 @@ def release_engine():
 
 
 # 보유 엔진 보고서
-@app.route('/holdingengines')
+@app.route('/report', methods=['GET', 'POST'])
 def holding_engines_report():
     #test dates
-    dates = gdl.datelist("20220725", "20220805")
-    table = mrt.make(dc.select_all_for_report(dates[0]), dates)
-    return render_template("./main/holdingEnginesReport.html", table=table)
+    if request.method == 'GET':
+        return render_template("./main/report.html", table="<p>날짜를 선택해주세요.</p>")
+    else:
+        startdate = request.form.get("startdate")
+        enddate = request.form.get("enddate")
+        sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
+        ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
+        dates = gdl.datelist(sd, ed)
+        table = mrt.make(dc.select_all_for_report(dates[0]), dates)
+        return render_template("./main/report.html", table=table, startdate=str(startdate), enddate=str(enddate))
+
+
+# daylist
+@app.route('/dailylist')
+def daily_engine_list():
+    return render_template("./main/dailylist.html")
+
 
 # mip 추가
 @app.route('/addMIP', methods=['GET', 'POST'])
-def add_MIP_type():
+def add_mip_type():
     if request.method == 'GET':
         return render_template("./main/addMIP.html")
     else:
@@ -110,6 +123,15 @@ def set_invalid_engine_exp():
                 errorEngine = errorEngine + eng + ' '
             flash(errorEngine)
         return render_template("./main/setInvalidEngine.html", errorList = errorList)
+
+
+#동기화
+@app.route('/refresh')
+def refresh():
+    dc.synchronization()
+    print("test")
+    return "<script>window.history.back()</script>"
+
 
 # flask 구동 (main)
 if __name__ == '__main__':

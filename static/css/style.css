@@ -63,6 +63,7 @@
 *::before,
 *::after {
     box-sizing: border-box;
+    font-size: 16px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -11886,41 +11887,36 @@ textarea.form-control-lg {
 
 /*addition css*/
 
-.main-table-container {
-    padding: 5px;
+/*nav bar css*/
+.current-page-text {
+    font-weight: bold;
+    color: black !important;
+}
+
+.logout-btn {
+    display: inline-block;
+    font-weight: bold;
     border: 1px solid black;
-    width: 72vw;
-    margin: 0 auto;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.main-table {
-    table-layout: fixed;
-    border-collapse: collapse;
-    display: block;
+.logout-btn:hover {
+    background: #d3d3d3;
+    color: #212529;
 }
 
-.main-table thead {
-    display: block;
+.nav-dropdown-item {
+    color: black;
 }
 
-.main-table tbody {
-    display: block;
-    overflow:auto;
-    height: 27vh;
-}
-
-.main-table th, .main-table td {
-    width: 105px;
-}
-
-/* 행 장식 */
-.inventory-table th, .inventory-table td {
-    width: 105px;
-}
+/*datepicker css*/
 .datepicker-calendar-container {
     width: 80vw;
     margin: 0 auto;
+    border: 1px solid #c0c0c0;
 }
+
 .datepicker-calendar {
     width: 200px;
     margin: 0px 20px;
@@ -11940,10 +11936,47 @@ textarea.form-control-lg {
     color: #212529;
 }
 
+/*dailylist date css*/
+.current-date-wrapper {
+    width: 72vw;
+    margin: 0 auto;
+}
+
+/*dailylist table css*/
+.main-table-container {
+    padding: 5px;
+    border: 1px solid black;
+    width: 72vw;
+    margin: 0 auto;
+}
+
+.main-table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    display: block;
+}
+
+.main-table thead {
+    display: block;
+}
+
+.main-table tbody {
+    display: block;
+    overflow: auto;
+    height: 27vh;
+}
+
+.main-table th, .main-table td {
+    width: 105px;
+}
+
+/*inventory.html table css*/
 .inventory-table-container {
     border: 1px solid black;
-    width: 85vw;
+    width: 80vw;
+    min-width: 1200px;
     margin: 0 auto;
+    height: 75vh;
 }
 
 .inventory-table {
@@ -11958,11 +11991,40 @@ textarea.form-control-lg {
 
 .inventory-table tbody {
     display: block;
-    overflow:auto;
-    height: 65vh;
+    overflow: auto;
+    height: 70vh;
 }
 
-/* 행 장식 */
 .inventory-table th, .inventory-table td {
     width: 105px;
+}
+
+.reload-btn {
+    display: inline-block;
+    background: white;
+    border: 1px solid #a3a3a3;
+    border-radius: 0.25rem;
+    font-size: 12px;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    justify-content: flex-end;
+    padding: 3px;
+    margin: 0px 20px;
+}
+
+/*report page css*/
+.report-table-wrapper {
+    width: 80vw;
+    margin: 20px auto;
+}
+
+.report-table-wrapper table{
+    border: 2px solid #3d3d3d;
+    border-collapse: collapse;
+    page-break-after: always;
+}
+
+.report-table-wrapper table td{
+    border: 1px solid #7b7b7b;
+    text-align: center;
+    padding: 5px;
 }
