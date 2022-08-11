@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import request, render_template, redirect
+from flask import request, render_template, redirect, flash
 from math import ceil
 import dbController as dc
 import main.convertRawDataToList as crl
@@ -8,6 +8,8 @@ import main.getDateList as gdl
 import datetime
 # Flask 객체 생성
 app = Flask(__name__)
+#flash secret_key
+app.config["SECRET_KEY"] = "sh291hfwnh8@hwqjh2(*@#*Uh2N2920hF@H0Fh@C293"
 
 
 # 인덱스 페이지
@@ -16,24 +18,14 @@ def index():  # put application's code here
     return render_template("./main/login.html")
 
 
-@app.route('/test')
-def test():
-    dc.get_excellist2()
-    return render_template("./main/main.html")
-
 @app.route('/main')
 def main_page():
     return render_template("./main/main.html")
 
-
-# 데코레이션 테스트
 @app.route('/inventory')
 def inventory():
-    #printColumnsNum = 11
-    excelList = dc.get_excellist2()
+    excelList = dc.get_excellist()
     length = len(excelList)
-    #length = ceil(length/printColumnsNum)
-    #print(length)
     return render_template("./main/inventory.html", excelList=excelList, length=length)
 
 
@@ -111,23 +103,26 @@ def add_mip_type():
             return render_template("./main/addMIP.html")
         if len(mip) != 4:
             return render_template("./main/addMIP.html")
-        #if crl.mipConvertCheck(mip, type) == False:
-        #    return render_template("./main/addMIP.html")
-        #mList, tList = crl.mipConvert(mip, type)
         dc.add_MIP(mip, type)
         return render_template("./main/addMIP.html")
-
 
 #에러엔진 설정
 @app.route('/setInvalidEngine', methods=['GET', 'POST'])
 def set_invalid_engine_exp():
+    errorList = []
     if request.method == 'GET':
         return render_template("./main/setInvalidEngine.html")
     else:
         eng = request.form.getlist("ENG[]")
         exp = request.form.getlist("EXP[]")
-        dc.set_invalid_engine(eng, exp)
-        return render_template("./main/setInvalidEngine.html")
+        errorList = dc.set_invalid_engine(eng, exp)
+        errorEngine = '입력 에러 엔진: '
+
+        if len(errorList) != 0:
+            for eng in errorList:
+                errorEngine = errorEngine + eng + ' '
+            flash(errorEngine)
+        return render_template("./main/setInvalidEngine.html", errorList = errorList)
 
 
 #동기화

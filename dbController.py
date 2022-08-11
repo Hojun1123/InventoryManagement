@@ -239,13 +239,11 @@ def get_excellist():
     return excelList
 '''
 
-#기종, MIP, ENGINE, 입고일, 포장일, 출고일, GROUP, 위치, 불량엔진, 비고
-def get_excellist2():
+#기종, MIP, ENGINE, 입고일, 포장일, 출고일, 출고exp, GROUP, 위치, 불량엔진, 비고
+def get_excellist():
     rs = open_sheet("engine", "engineDB")
     tmpList = []
     groupData, locData = get_location()
-    #idx = rscolumn['groupID'].to_list().index(gid)
-    #print(groupData)
     first = 0
     for row in rs.rows:
         if first == 0:
@@ -284,10 +282,7 @@ def get_excellist2():
 
 def get_location():
     rs = pd.read_excel("./DB/engine.xlsx", sheet_name="engineGroup")
-    #print(type(rs))
     rscolumn = rs[['groupID', 'Location']]
-    #rscolumnLoc = rscolumn['Location'].to_list()
-    #idx = rscolumn['groupID'].to_list().index(gid)
     gList = rscolumn['groupID'].to_list()
     locList = rscolumn['Location'].to_list()
     return gList, locList;
@@ -310,12 +305,16 @@ def set_invalid_engine(eng, exp):
     _ = wb1.active
     ws1 = wb1["engineDB"]
 
+    #elist: 엔진 리스트
+    #errorList: 입력으로 받은 값 중 잘못된 엔진 리스트
     elist = []
+    errorList = []
     for row in ws1:
         elist.append(row[0].value)
     elist = elist[1:]
     for i in range(0, len(eng)):
         if not eng[i].isdigit():
+            errorList.append(eng[i])
             continue
         int_value = int(eng[i])
         str_value = eng[i]
@@ -327,7 +326,8 @@ def set_invalid_engine(eng, exp):
             idx = elist.index(str_value)
             ws1.cell(row=idx + 2, column=9, value=1)
             ws1.cell(row=idx + 2, column=10, value=exp[i])
-
+        else:
+            errorList.append(eng[i])
     wb1.save(get_path("engine"))
     wb1.close()
-    return
+    return errorList
