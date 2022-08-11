@@ -6,8 +6,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="/static/css/style.css">
 
+    <!--dropdown-->
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
     <!--datepicker-->
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <link rel="stylesheet" href="/css/jquery-ui.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
@@ -15,26 +18,12 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
     <script type='text/javascript'
             src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-
+    <script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
     <script src="/static/js/javascript.js"></script>
 
-    <script>
-        $(document).ready(function(){
-            $("#deleteButton").on("click", function()
-            {
-
-                $('td:nth-child(6):empty').parent().hide();
-            });
-
-            $("#restoreButton").on("click", function(){
-                $('td:nth-child(6):empty').parent().show();
-            });
-        });
-    </script>
 </head>
 
 <body>
-
 <nav class="navbar navbar-expand-md navbar-light border-bottom">
     <div class="container-fluid">
         <a class="navbar-brand" href="main">SJA.inc</a>
@@ -56,17 +45,22 @@
                 <li class="nav-item">
                     <a class="nav-link" href="report">기간별 통계</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="addMIP">MIP 추가(환경설정)</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        데이터 설정
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item nav-dropdown-item" href="addMIP">MIP 추가</a></li>
+                        <li><a class="dropdown-item nav-dropdown-item" href="setInvalidEngine">불량 엔진 추가</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>
         <div>
-            <button class="reload-btn" onClick="window.location.reload()">
+            <button type="button" onclick="location.href='/refresh'" class="reload-btn">
                 <img src="/static/assets/img/reload.png" alt="새로고침">
             </button>
-        </div>
-        <div>
             <button class="logout-btn" onclick="">log out</button>
         </div>
     </div>
@@ -89,12 +83,10 @@
             </span>
         </div>
         <button type="submit" class="datepicker-btn" onclick="return CheckDate(arrDate)">조회</button>
+
     </div>
 </form>
-<div>
-    <input id="restoreButton" type="button" value="전체" />
-    <input id="deleteButton" type="button" value="재고" />
-</div>
+
 <div class="m-4">
     <div class="inventory-table-container">
         <table id="emp-table" class="table inventory-table table-bordered table-striped table-hover">
@@ -136,19 +128,21 @@
                     <td>{{ excelList[alpha][5] }}</td>
                     <td>{{ excelList[alpha][6] }}</td>
                     <td>{{ excelList[alpha][7] }}</td>
-                    {% if excelList[alpha][8] == 1 %}
+                    <td>{{ excelList[alpha][8] }}</td>
+                    {% if excelList[alpha][9] == 1 %}
                         {% set invalid = '불량' %}
                         <td>{{ invalid }}</td>
-                    {% elif excelList[alpha][8] == 0 %}
+                    {% elif excelList[alpha][9] == 0 %}
                         {% set invalid = '' %}
                         <td>{{ invalid }}</td>
                     {% else %}
                         {% set invalid = 'DB오류' %}
                         <td>{{ invalid }}</td>
                     {% endif %}
-                    <td>{{ excelList[alpha][9] }}</td>
+                    <td>{{ excelList[alpha][10] }}</td>
                 </tr>
             {% endfor %}
+
             </tbody>
         </table>
     </div>

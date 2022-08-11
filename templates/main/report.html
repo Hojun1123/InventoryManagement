@@ -6,8 +6,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="/static/css/style.css">
 
+    <!--dropdown-->
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+
     <!--datepicker-->
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <link rel="stylesheet" href="/css/jquery-ui.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
@@ -15,6 +19,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
     <script type='text/javascript'
             src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
     <script src="/static/js/javascript.js"></script>
 </head>
 
@@ -40,39 +45,47 @@
                 <li class="nav-item">
                     <a class="current-page-text nav-link" href="report">기간별 통계</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="addMIP">MIP 추가(환경설정)</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        데이터 설정
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item nav-dropdown-item" href="addMIP">MIP 추가</a></li>
+                        <li><a class="dropdown-item nav-dropdown-item" href="setInvalidEngine">불량 엔진 추가</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>
         <div>
-            <button class="reload-btn" onClick="window.location.reload()">
+            <button type="button" onclick="location.href='/refresh'" class="reload-btn">
                 <img src="/static/assets/img/reload.png" alt="새로고침">
             </button>
-        </div>
-        <div>
             <button class="logout-btn">log out</button>
         </div>
     </div>
 </nav>
 
 <!--datepicker-->
-<form class="datepicker-calendar-container">
+<form action="/report" class="datepicker-calendar-container" method="post">
     <div class="d-flex flex-wrap m-4">
         <div class="input-group date datepicker-calendar">
-            <input type="text" class="form-control" value="" id="startDatepicker-report" autocomplete='off'>
+            <input type="text" value="{{ startdate }}" class="form-control" name="startdate" value="{{ startdate }}"
+                   id="startDatepicker-report" autocomplete='off'>
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar"></i>
             </span>
         </div>
         <span>~</span>
         <div class="input-group date datepicker-calendar">
-            <input type="text" class="form-control" value="" id="endDatepicker-report" autocomplete='off'>
+            <input type="text" value="{{ enddate }}" class="form-control" name="enddate" value="{{ enddate }}"
+                   id="endDatepicker-report" autocomplete='off'>
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar"></i>
             </span>
         </div>
-        <button type="submit" class="datepicker-btn" onclick="return CheckReportDate()">조회</button>
+        <button type="submit" class="datepicker-btn" onclick="return CheckDate()">조회</button>
+        <div id="printDate"></div>
     </div>
 </form>
 
@@ -81,7 +94,7 @@
         {{ table|safe }}
     </div>
 </div>
-
+</body>
 <script type='text/javascript'>
     $(function () {
         $('.input-group.date').datepicker({
@@ -95,5 +108,4 @@
         });
     });
 </script>
-</body>
 </html>
