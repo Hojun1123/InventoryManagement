@@ -31,7 +31,7 @@ def last_sync_time():
     return [i.value for i in list(rs.rows)[-1][1:3]]
 
 
-def append_raw_barcodes(data, day, time):
+def append_raw_barcodes(data):
     try:
         wb1 = open_file("barcode")
     except:
@@ -40,13 +40,16 @@ def append_raw_barcodes(data, day, time):
     w1s1 = wb1["rawBarcode"]
     c = 0
     sl = len(list(w1s1.rows))
+    tm = datetime.datetime.now()
+    date = tm.strftime("%Y%m%d")
+    time = (tm.strftime("%X"))[0:2] + (tm.strftime("%X"))[3:5] + (tm.strftime("%X"))[6:8]
     for i in data:
         c += 1
         gi = sl + c
         # gk, location
         for j in i:
             # 엔진시리얼번호, 바코드, 날짜, 시간, 그룹ID
-            w1s1.append([j, day, time, str(gi)])
+            w1s1.append([j, date, time, str(gi)])
     wb1.save(get_path("barcode"))
     wb1.close()
 
@@ -164,6 +167,35 @@ def select_all_for_report(day):
         # print(row[5].value," ", int(day))
         # 역순 후 마지막행 제외
     return dl
+
+
+def select_by_date(startdate, enddate):
+    try:
+        rs = open_sheet("engine", "engineGroup")
+    except:
+        print("can't open engineGroup")
+        return -1
+    groups = defaultdict()
+    for r in rs.rows:
+        groups[r[0].value] = r[1].value
+    try:
+        rs = open_sheet("engine", "engineDB")
+    except:
+        print("can't open engineDB")
+        return -1
+
+    result = []
+    for row in list(rs.rows)[1:]:
+        if (int(row[3].value) >= int(startdate)) and (int(row[3].value) <= int(enddate)):
+            result.append([
+                row[2].value, row[1].value, row[0].value, row[3].value, row[4].value, row[5].value,
+                row[6].value, row[7].value, groups[row[7].value], row[8].value, row[9].value
+            ])
+    for i in result:
+        for j in result:
+            if j is None:
+                tmpList[i][j] = ''
+    return result
 
 
 # 보유 엔진에서 해당엔진삭제, 엔진데이터에서 출고일 수정 + 출고설명추가

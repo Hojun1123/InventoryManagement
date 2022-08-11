@@ -22,11 +22,23 @@ def index():  # put application's code here
 def main_page():
     return render_template("./main/main.html")
 
-@app.route('/inventory')
+@app.route('/inventory', methods=['GET', 'POST'])
 def inventory():
-    excelList = dc.get_excellist()
-    length = len(excelList)
-    return render_template("./main/inventory.html", excelList=excelList, length=length)
+    if request.method == "GET":
+        excelList = dc.get_excellist()
+        length = len(excelList)
+        return render_template("./main/inventory.html", excelList=excelList, length=length)
+    else:
+        startdate = request.form.get("startdate")
+        enddate = request.form.get("enddate")
+        if len(startdate) < 10 or len(enddate) < 10:
+            return "<script>alert(\'날짜를 선택해 주세요.\')\nwindow.history.back()</script>"
+        sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
+        ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
+        data = dc.select_by_date(sd, ed)
+        length = len(data)
+        return render_template("./main/inventory.html", excelList=data, length=length, startdate=str(startdate), enddate=str(enddate))
+
 
 
 # 바코드 읽기    #일단 보류
@@ -40,12 +52,7 @@ def read_barcode():
         if rawBarcodeData != "" and rawBarcodeData is not None:
             blist = crl.convert(rawBarcodeData)
             # time부분 나중에 함수로 빼기
-            tm = datetime.datetime.now()
-            #lock.acquire()#lock = threading.Lock()
-            #thread = threading.Thread(target=dc.append_raw_barcodes, args=(blist, tm.strftime("%Y%m%d"), tm.strftime("%X")))
-            #thread.start()
-            #lock.release()
-            dc.append_raw_barcodes(blist, tm.strftime("%Y%m%d"), (tm.strftime("%X"))[0:2]+(tm.strftime("%X"))[3:5]+(tm.strftime("%X"))[6:8])
+            dc.append_raw_barcodes(blist)
         #최근순으로 모든 raw바코드열 가져오기
         return render_template("./main/readBarcodeString.html")
 
@@ -76,6 +83,8 @@ def holding_engines_report():
     else:
         startdate = request.form.get("startdate")
         enddate = request.form.get("enddate")
+        if len(startdate) < 10 or len(enddate) < 10:
+            return "<script>alert(\'날짜를 선택해 주세요.\')\nwindow.history.back()</script>"
         sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
         ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
         dates = gdl.datelist(sd, ed)

@@ -21,6 +21,20 @@
     <script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
     <script src="/static/js/javascript.js"></script>
 
+    <script>
+        $(document).ready(function(){
+            $("#deleteButton").on("click", function()
+            {
+
+                $('td:nth-child(6):empty').parent().hide();
+            });
+
+            $("#restoreButton").on("click", function(){
+                $('td:nth-child(6):empty').parent().show();
+            });
+        });
+    </script>
+
 </head>
 
 <body>
@@ -67,17 +81,17 @@
 </nav>
 
 <!--datepicker-->
-<form class="datepicker-calendar-container">
+<form action="/inventory" class="datepicker-calendar-container" method="post">
     <div class="d-flex flex-wrap m-4">
         <div class="input-group date datepicker-calendar">
-            <input type="text" class="form-control" value="" id="startDatepicker" autocomplete='off'>
+            <input name="startdate" type="text" class="form-control" value="{{ startdate }}" id="startDatepicker" autocomplete='off'>
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar"></i>
             </span>
         </div>
         <span>~</span>
         <div class="input-group date datepicker-calendar">
-            <input type="text" class="form-control" value="" id="endDatepicker" autocomplete='off'>
+            <input name="enddate" type="text" class="form-control" value="{{ enddate }}" id="endDatepicker" autocomplete='off'>
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar"></i>
             </span>
@@ -86,7 +100,10 @@
 
     </div>
 </form>
-
+<div>
+    <input id="restoreButton" type="button" value="전체" />
+    <input id="deleteButton" type="button" value="재고" />
+</div>
 <div class="m-4">
     <div class="inventory-table-container">
         <table id="emp-table" class="table inventory-table table-bordered table-striped table-hover">
