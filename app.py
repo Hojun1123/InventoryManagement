@@ -129,8 +129,8 @@ def set_invalid_engine_exp():
 @app.route('/refresh')
 def refresh():
     dc.synchronization()
-    print("test")
-    return "<script>window.history.back()</script>"
+    print("동기화 완료")
+    return "<script>alert(\'동기화 완료\')\nwindow.history.back()</script>"
 
 
 # flask 구동 (main)
