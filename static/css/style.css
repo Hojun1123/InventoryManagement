@@ -12028,3 +12028,8 @@ textarea.form-control-lg {
     text-align: center;
     padding: 5px;
 }
+
+.table-filter{
+    border : none;
+}
+
