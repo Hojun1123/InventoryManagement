@@ -31,6 +31,8 @@ def inventory():
     else:
         startdate = request.form.get("startdate")
         enddate = request.form.get("enddate")
+        if len(startdate) < 10 or len(enddate) < 10:
+            return "<script>alert(\'날짜를 선택해 주세요.\')\nwindow.history.back()</script>"
         sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
         ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
         data = dc.select_by_date(sd, ed)
@@ -81,6 +83,8 @@ def holding_engines_report():
     else:
         startdate = request.form.get("startdate")
         enddate = request.form.get("enddate")
+        if len(startdate) < 10 or len(enddate) < 10:
+            return "<script>alert(\'날짜를 선택해 주세요.\')\nwindow.history.back()</script>"
         sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
         ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
         dates = gdl.datelist(sd, ed)
