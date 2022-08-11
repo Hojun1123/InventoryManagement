@@ -21,6 +21,20 @@
     <script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
     <script src="/static/js/javascript.js"></script>
 
+    <script>
+        $(document).ready(function(){
+            $("#deleteButton").on("click", function()
+            {
+
+                $('td:nth-child(6):empty').parent().hide();
+            });
+
+            $("#restoreButton").on("click", function(){
+                $('td:nth-child(6):empty').parent().show();
+            });
+        });
+    </script>
+
 </head>
 
 <body>
@@ -86,7 +100,10 @@
 
     </div>
 </form>
-
+<div>
+    <input id="restoreButton" type="button" value="전체" />
+    <input id="deleteButton" type="button" value="재고" />
+</div>
 <div class="m-4">
     <div class="inventory-table-container">
         <table id="emp-table" class="table inventory-table table-bordered table-striped table-hover">
