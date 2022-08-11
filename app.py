@@ -16,10 +16,6 @@ def inventory():
     return render_template("./main/inventory.html")
 '''
 
-@app.route('/test')
-def test():
-    dc.get_excellist2()
-    return render_template("./main/main.html")
 
 @app.route('/main')
 def main_page():
@@ -27,11 +23,8 @@ def main_page():
 
 @app.route('/inventory')
 def inventory():
-    #printColumnsNum = 11
-    excelList = dc.get_excellist2()
+    excelList = dc.get_excellist()
     length = len(excelList)
-    #length = ceil(length/printColumnsNum)
-    #print(length)
     return render_template("./main/inventory.html", excelList = excelList, length = length)
 
 

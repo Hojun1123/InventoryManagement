@@ -232,13 +232,11 @@ def get_excellist():
     return excelList
 '''
 
-#기종, MIP, ENGINE, 입고일, 포장일, 출고일, GROUP, 위치, 불량엔진, 비고
-def get_excellist2():
+#기종, MIP, ENGINE, 입고일, 포장일, 출고일, 출고exp, GROUP, 위치, 불량엔진, 비고
+def get_excellist():
     rs = open_sheet("engine", "engineDB")
     tmpList = []
     groupData, locData = get_location()
-    #idx = rscolumn['groupID'].to_list().index(gid)
-    #print(groupData)
     first = 0
     for row in rs.rows:
         if first == 0:
@@ -277,10 +275,7 @@ def get_excellist2():
 
 def get_location():
     rs = pd.read_excel("./DB/engine.xlsx", sheet_name="engineGroup")
-    #print(type(rs))
     rscolumn = rs[['groupID', 'Location']]
-    #rscolumnLoc = rscolumn['Location'].to_list()
-    #idx = rscolumn['groupID'].to_list().index(gid)
     gList = rscolumn['groupID'].to_list()
     locList = rscolumn['Location'].to_list()
     return gList, locList;
