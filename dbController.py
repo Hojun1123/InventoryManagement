@@ -39,26 +39,16 @@ def append_raw_barcodes(data, day, time):
         return -1
     w1s1 = wb1["rawBarcode"]
     c = 0
-    gi = set_groupid()
+    sl = len(list(w1s1.rows))
     for i in data:
         c += 1
-        gi += c
+        gi = sl + c
         # gk, location
         for j in i:
             # 엔진시리얼번호, 바코드, 날짜, 시간, 그룹ID
             w1s1.append([j, day, time, str(gi)])
     wb1.save(get_path("barcode"))
     wb1.close()
-
-
-#그룹id생성
-def set_groupid():
-    try:
-        wb = open_sheet("barcode", "rawBarcode")
-    except:
-        print("can't open barcode.xlsx")
-        return -1
-    return 10000 + len(list(wb.rows))
 
 
 def get_data_to_add(day, time):
@@ -144,7 +134,7 @@ def synchronization():
             w1s1.append([id, mip, type, day, day, "", "", gid, 0, ""])
             # 엔진시리얼번호, mip, mip_type, 입고일, 포장일, 그룹ID, 불량엔진, 비고
             w2s1.append([id, mip, type, day, day, gid, 0, ""])
-        for i in list(set(glist)):
+        for i in glist:
             #gio, location
             w1s2.append([i, ""])
         tm = datetime.datetime.now()
