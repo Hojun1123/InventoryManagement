@@ -301,12 +301,16 @@ def set_invalid_engine(eng, exp):
     _ = wb1.active
     ws1 = wb1["engineDB"]
 
+    #elist: 엔진 리스트
+    #errorList: 입력으로 받은 값 중 잘못된 엔진 리스트
     elist = []
+    errorList = []
     for row in ws1:
         elist.append(row[0].value)
     elist = elist[1:]
     for i in range(0, len(eng)):
         if not eng[i].isdigit():
+            errorList.append(eng[i])
             continue
         int_value = int(eng[i])
         str_value = eng[i]
@@ -318,7 +322,8 @@ def set_invalid_engine(eng, exp):
             idx = elist.index(str_value)
             ws1.cell(row=idx + 2, column=9, value=1)
             ws1.cell(row=idx + 2, column=10, value=exp[i])
-
+        else:
+            errorList.append(eng[i])
     wb1.save(get_path("engine"))
     wb1.close()
-    return
+    return errorList
