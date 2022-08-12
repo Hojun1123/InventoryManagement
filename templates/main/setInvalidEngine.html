@@ -10,6 +10,22 @@
     <script src="/static/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+<!--세션유무확인-->
+    {% if not session["userid"] %}
+        <script>
+            alert("로그인이 필요합니다")
+            location.href="/"
+        </script>
+    {% endif %}
+
+<!--관리자세션확인-->
+    {% if session["userid"] != 'manager' %}
+        <script>
+            alert("해당페이는 관리자만 접근가능합니다.")
+            location.href="/main"
+        </script>
+    {% endif %}
+
     {%with messages = get_flashed_messages()%}
     {%if messages %}
     <script type="text/javascript">
@@ -72,7 +88,7 @@
                 <button type="button" onclick="location.href='/refresh'" class="reload-btn">
                     <img src="/static/assets/img/reload.png" alt="새로고침">
                 </button>
-                <button class="logout-btn">log out</button>
+                <button class="logout-btn" onclick="location.href='/logout'">log out</button>
             </div>
         </div>
     </nav>

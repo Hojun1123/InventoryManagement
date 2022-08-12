@@ -37,6 +37,10 @@ def index():  # put application's code here
     else:
         return render_template("./main/login.html")
 
+@app.route('/logout', methods=['GET'])
+def logout():
+    session.pop('userid',None)
+    return redirect('/')
 
 @app.route('/main')
 def main_page():

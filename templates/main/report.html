@@ -24,6 +24,14 @@
 </head>
 
 <body>
+<!--세션유무확인-->
+    {% if not session["userid"] %}
+        <script>
+            alert("로그인이 필요합니다")
+            location.href="/"
+        </script>
+    {% endif %}
+
 <nav class="navbar navbar-expand-md navbar-light border-bottom">
     <div class="container-fluid">
         <a class="navbar-brand" href="main">SJA.inc</a>
@@ -61,7 +69,7 @@
             <button type="button" onclick="location.href='/refresh'" class="reload-btn">
                 <img src="/static/assets/img/reload.png" alt="새로고침">
             </button>
-            <button class="logout-btn">log out</button>
+            <button class="logout-btn" onclick="location.href='/logout'">log out</button>
         </div>
     </div>
 </nav>
