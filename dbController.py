@@ -6,7 +6,10 @@ from collections import defaultdict
 import pandas as pd
 import math
 import numpy as np
+import pandas as pd
 
+def read_sheet(file, sheet):
+    return pd.read_excel("./DB/" + file + ".xlsx", sheet, dtype=str)
 
 def open_sheet(file, sheet):
     rb = op.load_workbook("./DB/" + file + ".xlsx")
@@ -171,30 +174,38 @@ def select_all_for_report(day):
 
 def select_by_date(startdate, enddate):
     try:
-        rs = open_sheet("engine", "engineGroup")
+        df = read_sheet("engine", "engineGroup")
     except:
-        print("can't open engineGroup")
+        print("can't read engineGroup")
         return -1
     groups = defaultdict()
-    for r in rs.rows:
-        groups[r[0].value] = r[1].value
+    for rname, row in df.iterrows():
+        groups[row['groupID']] = row['Location']
     try:
-        rs = open_sheet("engine", "engineDB")
+        df = read_sheet("engine", "engineDB")
     except:
         print("can't open engineDB")
         return -1
-
     result = []
-    for row in list(rs.rows)[1:]:
-        if (int(row[3].value) >= int(startdate)) and (int(row[3].value) <= int(enddate)):
+    for rname, row in df.iterrows():
+        if (int(row['입고일']) >= int(startdate)) and (int(row['입고일']) <= int(enddate)):
             result.append([
-                row[2].value, row[1].value, row[0].value, row[3].value, row[4].value, row[5].value,
-                row[6].value, row[7].value, groups[row[7].value], "불량" if row[8].value else "", row[9].value
+                row['type'],
+                row['mip'],
+                row['eid'],
+                row['입고일'],
+                row['포장일'],
+                row['출고일'],
+                row['출고exp'],
+                row['groupID'],
+                groups[row['groupID']],
+                "불량" if row['invalidEngine'] else "",
+                row['비고']
             ])
-    for i in range(0, len(tmpList)):
-        for j in range(0, len(tmpList[0])):
-            if tmpList[i][j] is None:
-                tmpList[i][j] = ''
+    for i in range(len(result)):
+        for j in range(11):
+            if pd.isna(result[i][j]):
+                result[i][j] = ""
     return result
 
 
@@ -263,34 +274,38 @@ def get_excellist():
 
 #기종, MIP, ENGINE, 입고일, 포장일, 출고일, 출고exp, GROUP, 위치, 불량엔진, 비고
 def get_excellist():
-    rs = open_sheet("engine", "engineGroup")
+    try:
+        df = read_sheet("engine", "engineGroup")
+    except:
+        print("can't read engineGroup")
+        return -1
     groups = defaultdict()
-    for r in rs.rows:
-        groups[r[0].value] = r[1].value
-    rs = open_sheet("engine", "engineDB")
+    for rname, row in df.iterrows():
+        groups[row['groupID']] = row['Location']
+    try:
+        df = read_sheet("engine", "engineDB")
+    except:
+        print("can't read engineDB")
+        return -1
     tmpList = []
-    first = 0
-    for row in rs.rows:
-        if first == 0:
-            first = 1
-            continue
+    for rname, row in df.iterrows():
         tmpList.append([
-            row[2].value,
-            row[1].value,
-            row[0].value,
-            row[3].value,
-            row[4].value,
-            row[5].value,
-            row[6].value,
-            row[7].value,
-            groups[row[7].value],
-            "불량" if row[8].value else "",
-            row[9].value
+            row['type'],
+            row['mip'],
+            row['eid'],
+            row['입고일'],
+            row['포장일'],
+            row['출고일'],
+            row['출고exp'],
+            row['groupID'],
+            groups[row['groupID']],
+            "불량" if row['invalidEngine'] else "",
+            row['비고']
         ])
-    for i in range(0, len(tmpList)):
-        for j in range(0, len(tmpList[0])):
-            if tmpList[i][j] is None:
-                tmpList[i][j] = ''
+    for i in range(len(tmpList)):
+        for j in range(11):
+            if pd.isna(tmpList[i][j]):
+                tmpList[i][j] = ""
     return tmpList
 
 
