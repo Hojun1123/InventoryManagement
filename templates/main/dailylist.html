@@ -122,7 +122,7 @@
                 <th scope="col">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            ENG 1
+                            EID
                         </button>
                         <ul class="dropdown-menu">
                             <li><a href="#">HTML</a></li>
@@ -134,31 +134,7 @@
                 <th scope="col">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            ENG 2
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            ENG 3
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            ENG 4
+                            입고일
                         </button>
                         <ul class="dropdown-menu">
                             <li><a href="#">HTML</a></li>
@@ -182,7 +158,55 @@
                 <th scope="col">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                            출고일
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">HTML</a></li>
+                            <li><a href="#">CSS</a></li>
+                            <li><a href="#">JavaScript</a></li>
+                        </ul>
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                            출고exp
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">HTML</a></li>
+                            <li><a href="#">CSS</a></li>
+                            <li><a href="#">JavaScript</a></li>
+                        </ul>
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                            groupID
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">HTML</a></li>
+                            <li><a href="#">CSS</a></li>
+                            <li><a href="#">JavaScript</a></li>
+                        </ul>
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
                             위치
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">HTML</a></li>
+                            <li><a href="#">CSS</a></li>
+                            <li><a href="#">JavaScript</a></li>
+                        </ul>
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                            상태
                         </button>
                         <ul class="dropdown-menu">
                             <li><a href="#">HTML</a></li>
@@ -206,127 +230,14 @@
             </tr>
             </thead>
             <tbody style="font-size: 12px">
+            {% for idx in range(0, inputlen) %}
             <tr>
-                <th scope="row">1</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
+                <th scope="row">{{idx + 1}}</th>
+                {% for data in inputList[idx] %}
+                <td>{{data}}</td>
+                {% endfor %}
             </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">4</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">5</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400004</td>
-                <td>400005</td>
-                <td>400006</td>
-                <td>400007</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">6</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400008</td>
-                <td>400009</td>
-                <td>400010</td>
-                <td>400011</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">7</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">6</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400008</td>
-                <td>400009</td>
-                <td>400010</td>
-                <td>400011</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">7</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">6</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400008</td>
-                <td>400009</td>
-                <td>400010</td>
-                <td>400011</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
-            </tr>
-
+            {% endfor %}
             </tbody>
         </table>
     </div>
@@ -364,7 +275,7 @@
                 <th scope="col">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            ENG 1
+                            EID
                         </button>
                         <ul class="dropdown-menu">
                             <li><a href="#">HTML</a></li>
@@ -376,31 +287,7 @@
                 <th scope="col">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            ENG 2
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            ENG 3
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            ENG 4
+                            입고일
                         </button>
                         <ul class="dropdown-menu">
                             <li><a href="#">HTML</a></li>
@@ -424,7 +311,55 @@
                 <th scope="col">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                            출고일
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">HTML</a></li>
+                            <li><a href="#">CSS</a></li>
+                            <li><a href="#">JavaScript</a></li>
+                        </ul>
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                            출고exp
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">HTML</a></li>
+                            <li><a href="#">CSS</a></li>
+                            <li><a href="#">JavaScript</a></li>
+                        </ul>
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                            groupID
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">HTML</a></li>
+                            <li><a href="#">CSS</a></li>
+                            <li><a href="#">JavaScript</a></li>
+                        </ul>
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
                             위치
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">HTML</a></li>
+                            <li><a href="#">CSS</a></li>
+                            <li><a href="#">JavaScript</a></li>
+                        </ul>
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                            상태
                         </button>
                         <ul class="dropdown-menu">
                             <li><a href="#">HTML</a></li>
@@ -448,126 +383,14 @@
             </tr>
             </thead>
             <tbody style="font-size: 12px">
+            {% for idx2 in range(0, outputlen) %}
             <tr>
-                <th scope="row">1</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
+                <th scope="row">{{idx2 + 1}}</th>
+                {% for data2 in outputList[idx2] %}
+                <td>{{data2}}</td>
+                {% endfor %}
             </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">4</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">5</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400004</td>
-                <td>400005</td>
-                <td>400006</td>
-                <td>400007</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">6</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400008</td>
-                <td>400009</td>
-                <td>400010</td>
-                <td>400011</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">7</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">6</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400008</td>
-                <td>400009</td>
-                <td>400010</td>
-                <td>400011</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">7</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400000</td>
-                <td>400001</td>
-                <td>400002</td>
-                <td>400003</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">6</th>
-                <td>카파</td>
-                <td>R18K</td>
-                <td>400008</td>
-                <td>400009</td>
-                <td>400010</td>
-                <td>400011</td>
-                <td>22.07.28</td>
-                <td>22.07.28</td>
-                <td>Test</td>
-            </tr>
+            {% endfor %}
 
             </tbody>
         </table>
