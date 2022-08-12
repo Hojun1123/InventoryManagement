@@ -47,7 +47,7 @@ def inventory():
     if request.method == "GET":
         excelList = dc.get_excellist()
         length = len(excelList)
-        return render_template("./main/inventory.html", excelList=excelList, length=length)
+        return render_template("./main/inventory.html", excelList=excelList)
     else:
         startdate = request.form.get("startdate")
         enddate = request.form.get("enddate")
@@ -57,7 +57,7 @@ def inventory():
         ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
         data = dc.select_by_date(sd, ed)
         length = len(data)
-        return render_template("./main/inventory.html", excelList=data, length=length, startdate=str(startdate), enddate=str(enddate))
+        return render_template("./main/inventory.html", excelList=data, startdate=str(startdate), enddate=str(enddate))
 
 
 
@@ -87,7 +87,6 @@ def release_engine():
         if barcodes != "" and barcodes is not None:
             blist = crl.convert2(barcodes)
             tm = datetime.datetime.now()
-            #print(blist)
             for b in blist:
                 print(b)
                 dc.delete_row(b, "comment test", tm.strftime("%Y%m%d"))
