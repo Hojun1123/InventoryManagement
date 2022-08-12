@@ -352,3 +352,10 @@ def set_invalid_engine(eng, exp):
     wb1.save(get_path("engine"))
     wb1.close()
     return errorList
+
+def get_today_date():
+    dt_now = datetime.datetime.now()
+    date = dt_now.date()
+    date = str(date)
+    date = date.replace('-', '')
+    return date

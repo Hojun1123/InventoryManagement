@@ -10,7 +10,7 @@ import datetime
 app = Flask(__name__)
 #flash secret_key
 app.config["SECRET_KEY"] = "sh291hfwnh8@hwqjh2(*@#*Uh2N2920hF@H0Fh@C293"
-
+allList = []
 
 # 인덱스 페이지
 @app.route('/', methods=['GET', 'POST'])
@@ -46,6 +46,7 @@ def main_page():
 def inventory():
     if request.method == "GET":
         excelList = dc.get_excellist()
+        allList = excelList
         length = len(excelList)
         return render_template("./main/inventory.html", excelList=excelList)
     else:
@@ -114,7 +115,17 @@ def holding_engines_report():
 # daylist
 @app.route('/dailylist')
 def daily_engine_list():
-    return render_template("./main/dailylist.html")
+    inputList = []
+    outputList = []
+    today = dc.get_today_date()
+    for i in range(0, len(allList)):
+        if allList[i][3] == today:
+            inputList.append(allList[i])
+        elif allList[i][5] == today:
+            outputList.append(allList[i])
+    inputlen = len(inputList)
+    outputlen = len(outputList)
+    return render_template("./main/dailylist.html", inputList = inputList, inputlen = inputlen, outputList = outputList, outputlen = outputlen)
 
 
 # mip 추가
@@ -167,6 +178,7 @@ if __name__ == '__main__':
     # app.run(host="127.0.0.1", port=5000, debug=True)
     # 49.174.54.239:9375
     #
+    allList = dc.get_excellist()
     app.run(host='0.0.0.0', debug=True, threaded=True)
 
 
