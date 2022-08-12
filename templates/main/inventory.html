@@ -121,42 +121,25 @@
             </th>
             <th col-index=4 scope="col">EID</th>
             <th col-index=5 scope="col">입고일</th>
-            <th col-index=6 scope="col">출고일</th>
-            <th col-index=7 scope="col">출고exp</th>
-            <th col-index=8 scope="col">groupID</th>
-            <th col-index=8 scope="col">상태</th>
-            <th col-index=9 scope="col">위치</th>
-            <th col-index=10 scope="col">
+            <th col-index=6 scope="col">포장일</th>
+            <th col-index=7 scope="col">출고일</th>
+            <th col-index=8 scope="col">출고exp</th>
+            <th col-index=9 scope="col">groupID</th>
+            <th col-index=10 scope="col">위치</th>
+            <th col-index=11 scope="col">상태</th>
+            <th col-index=12 scope="col">
                 <select class="table-filter" onchange="filter_rows()">
                     <option value="all">비고</option>
                 </select>
             </th>
             </thead>
             <tbody>
-            {% for alpha in range(0, length) %}
-                {% set num = alpha + 1 %}
+            {% for a in excelList %}
                 <tr>
-                    <th scope="row">{{ num }}</th>
-                    <td>{{ excelList[alpha][0] }}</td>
-                    <td>{{ excelList[alpha][1] }}</td>
-                    <td>{{ excelList[alpha][2] }}</td>
-                    <td>{{ excelList[alpha][3] }}</td>
-                    <td>{{ excelList[alpha][4] }}</td>
-                    <td>{{ excelList[alpha][5] }}</td>
-                    <td>{{ excelList[alpha][6] }}</td>
-                    <td>{{ excelList[alpha][7] }}</td>
-                    <td>{{ excelList[alpha][8] }}</td>
-                    {% if excelList[alpha][9] == 1 %}
-                        {% set invalid = '불량' %}
-                        <td>{{ invalid }}</td>
-                    {% elif excelList[alpha][9] == 0 %}
-                        {% set invalid = '' %}
-                        <td>{{ invalid }}</td>
-                    {% else %}
-                        {% set invalid = 'DB오류' %}
-                        <td>{{ invalid }}</td>
-                    {% endif %}
-                    <td>{{ excelList[alpha][10] }}</td>
+                    <th scope="row"></th>
+                    {% for b in a %}
+                    <td>{{ b }}</td>
+                    {% endfor %}
                 </tr>
             {% endfor %}
 
@@ -185,15 +168,5 @@
     };
     getUniqueValuesFromColumn()
 </script>
-<!--
-<script>
-    var arrDate = new Array();
-    {% for alpha in range(0, length) %}
-        alert({{ excelList[alpha][3] }});
-
-        alert("arrDate[alpha]");
-        arrDate[alpha] = {{ excelList[alpha][3] }};
-    {% endfor %}
-</script> -->
 </body>
 </html>

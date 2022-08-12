@@ -189,11 +189,11 @@ def select_by_date(startdate, enddate):
         if (int(row[3].value) >= int(startdate)) and (int(row[3].value) <= int(enddate)):
             result.append([
                 row[2].value, row[1].value, row[0].value, row[3].value, row[4].value, row[5].value,
-                row[6].value, row[7].value, groups[row[7].value], row[8].value, row[9].value
+                row[6].value, row[7].value, groups[row[7].value], "불량" if row[8].value else "", row[9].value
             ])
-    for i in result:
-        for j in result:
-            if j is None:
+    for i in range(0, len(tmpList)):
+        for j in range(0, len(tmpList[0])):
+            if tmpList[i][j] is None:
                 tmpList[i][j] = ''
     return result
 
@@ -263,25 +263,17 @@ def get_excellist():
 
 #기종, MIP, ENGINE, 입고일, 포장일, 출고일, 출고exp, GROUP, 위치, 불량엔진, 비고
 def get_excellist():
+    rs = open_sheet("engine", "engineGroup")
+    groups = defaultdict()
+    for r in rs.rows:
+        groups[r[0].value] = r[1].value
     rs = open_sheet("engine", "engineDB")
     tmpList = []
-    groupData, locData = get_location()
     first = 0
     for row in rs.rows:
         if first == 0:
             first = 1
             continue
-
-        if row[7].value == '' or row[7].value == None:
-            loc = ''
-        else:
-            if type(row[7]) == type(int):
-                idx = groupData.index(row[7].value)
-                loc = locData[idx]
-            else:
-                idx = groupData.index(int(row[7].value))
-                loc = locData[idx]
-
         tmpList.append([
             row[2].value,
             row[1].value,
@@ -291,23 +283,15 @@ def get_excellist():
             row[5].value,
             row[6].value,
             row[7].value,
-            loc,
-            row[8].value,
+            groups[row[7].value],
+            "불량" if row[8].value else "",
             row[9].value
         ])
-
     for i in range(0, len(tmpList)):
         for j in range(0, len(tmpList[0])):
             if tmpList[i][j] is None:
                 tmpList[i][j] = ''
     return tmpList
-
-def get_location():
-    rs = pd.read_excel("./DB/engine.xlsx", sheet_name="engineGroup")
-    rscolumn = rs[['groupID', 'Location']]
-    gList = rscolumn['groupID'].to_list()
-    locList = rscolumn['Location'].to_list()
-    return gList, locList;
 
 
 def add_MIP(mip, types):
