@@ -8,8 +8,10 @@ import math
 import numpy as np
 import pandas as pd
 
+
 def read_sheet(file, sheet):
     return pd.read_excel("./DB/" + file + ".xlsx", sheet, dtype=str)
+
 
 def open_sheet(file, sheet):
     rb = op.load_workbook("./DB/" + file + ".xlsx")
@@ -282,7 +284,9 @@ def get_excellist():
     groups = defaultdict()
     for rname, row in df.iterrows():
         groups[row['groupID']] = row['Location']
+
     try:
+        #df = pd.read_csv("./DB/engine.CSV", encoding='CP949')
         df = read_sheet("engine", "engineDB")
     except:
         print("can't read engineDB")
