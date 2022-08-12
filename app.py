@@ -112,7 +112,7 @@ def holding_engines_report():
         return render_template("./main/report.html", table=table, startdate=str(startdate), enddate=str(enddate))
 
 
-# daylist
+# dailylist
 @app.route('/dailylist')
 def daily_engine_list():
     inputList = []
