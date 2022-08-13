@@ -21,7 +21,7 @@
 <!--관리자세션확인-->
 {% if session["userid"] != 'manager' %}
     <script>
-        alert("해당페이는 관리자만 접근가능합니다.")
+        alert("해당페이지는 관리자만 접근가능합니다.")
         location.href = "/main"
     </script>
 {% endif %}
