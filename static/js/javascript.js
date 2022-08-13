@@ -27,7 +27,6 @@ window.addEventListener('DOMContentLoaded', event => {
 }(jQuery));
 
 
-
 //달력 날짜 유효성 검사
 function CheckReportDate() {
     var startDate = document.getElementById("startDatepicker-report");
@@ -56,7 +55,7 @@ function CheckReportDate() {
     return true;
 }
 
-function CheckDate(arrDate) {
+function CheckDate() {
     var startDate = document.getElementById("startDatepicker");
     var endDate = document.getElementById("endDatepicker");
 
@@ -80,21 +79,8 @@ function CheckDate(arrDate) {
         startDate.focus();
         return false;
     }
-    readDate(arrDate);
     return true;
 }
-
-
-
-//선택 날짜 출력 기능
-function readDate(arrDate) {
-    var startDate = document.getElementById("startDatepicker").value;
-    var endDate = document.getElementById("endDatepicker").value;
-    for (var i = 0; i < arrDate.length; i++) {
-        alert(arrDate[i]);
-    }
-}
-
 
 //테이블 dropdown 선택 조회
 // Get unique values for the desired columns

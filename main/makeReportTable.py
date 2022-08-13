@@ -13,7 +13,7 @@ def make(dic, datelist):
 
 
 def header(datelist):
-    s = "<thead><tr><td colspan='2'>엔진사양</td><td>구분</td>"
+    s = "<thead><tr class='testtr'><td colspan='2'>엔진사양</td><td>구분</td>"
     #datalist가 20220728 과같이 들어온다고 가정
     for i in datelist:
         s += "<td>"+i[4:6]+"/"+i[6:]+"</td>"
@@ -21,13 +21,13 @@ def header(datelist):
 
 
 def mtableheader(datelist, model, l):
-    s = "<tr><td colspan='2' rowspan='3'>"+model+"</td><td>입고계</td>"
+    s = "<tr><td colspan='2' rowspan='3'>"+model+"</td><td class='reportTableTd'>입고계</td>"
     for d in datelist:
         s += "<td>"+inputcell(d, l)+"</td>"
-    s += "<td>"+inputsum(datelist[0], datelist[-1], l)+"</td></tr><tr><td>불출계</td>"
+    s += "<td>"+inputsum(datelist[0], datelist[-1], l)+"</td></tr><tr><td class='reportTableTd'>불출계</td>"
     for d in datelist:
         s += "<td>"+outputcell(d, l)+"</td>"
-    s += "<td>"+outputsum(datelist[0], datelist[-1], l)+"</td></tr><tr><td>재고계</td>"
+    s += "<td>"+outputsum(datelist[0], datelist[-1], l)+"</td></tr><tr><td class='reportTableTd'>재고계</td>"
     for d in datelist:
         s += "<td>"+stockcell(d, l)+"</td>"
     return s + "<td>"+stockcell(datelist[-1], l)+"</td></tr>"
