@@ -20,15 +20,42 @@
     <script src="/static/js/javascript.js"></script>
 
     <script>
+        //재고 버튼
         $(document).ready(function () {
             $("#deleteButton").on("click", function () {
-                $('td:nth-child(6):empty').parent().hide();
+                $('td:nth-child(7):empty').parent().hide();
             });
-
+            //전체 버튼
             $("#restoreButton").on("click", function () {
-                $('td:nth-child(6):empty').parent().show();
+                $('td:nth-child(7):empty').parent().show();
+            });
+            //기종 검색 필터
+            $("#typeSearch").keyup(function () {
+                var k = $(this).val();
+                $("#emp-table > tbody > tr ").hide();
+                var temp = $("#emp-table > tbody > tr > td:nth-child(12n+2):contains('" + k + "')");
+
+                $(temp).parent().show();
+            });
+            //MIP 검색 필터
+            $("#MIPSearch").keyup(function () {
+                var k = $(this).val();
+                $("#emp-table > tbody > tr").hide();
+
+                var temp = $("#emp-table > tbody > tr > td:nth-child(12n+3):contains('" + k + "')");
+                $(temp).parent().show();
+            });
+            //EID 검색 필터
+            $("#EIDSearch").keyup(function () {
+                var k = $(this).val();
+                $("#emp-table > tbody > tr").hide();
+                var temp = $("#emp-table > tbody > tr > td:nth-child(12n+4):contains('" + k + "')");
+
+                $(temp).parent().show();
             });
         });
+
+
     </script>
 
 </head>
@@ -108,7 +135,11 @@
         </div>
     </div>
 </form>
-
+<div class="searchFilter">
+    <input class="datepicker-btn mx-2" id="typeSearch" type="text" placeholder="기종" style="width:90px;height:40px;"/>
+    <input class="datepicker-btn mx-2" id="MIPSearch" type="text" placeholder="MIP" style="width:90px;height:40px; "/>
+    <input class="datepicker-btn mx-2" id="EIDSearch" type="text" placeholder="EID" style="width:90px;height:40px; "/>
+</div>
 <div class="m-4">
     <div class="inventory-table-container">
         <table id="emp-table" class="table inventory-table table-bordered table-striped table-hover">

@@ -12054,3 +12054,9 @@ textarea.form-control-lg {
 .reportTableTd {
     min-width: 60px;
 }
+
+.searchFilter{
+
+    padding-left : 300px;
+    display : inline;
+}
