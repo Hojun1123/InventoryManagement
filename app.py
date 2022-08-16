@@ -11,7 +11,6 @@ app = Flask(__name__)
 #flash secret_key
 app.config["SECRET_KEY"] = "sh291hfwnh8@hwqjh2(*@#*Uh2N2920hF@H0Fh@C293"
 allList = []
-testList = []
 
 # 인덱스 페이지
 @app.route('/', methods=['GET', 'POST'])
@@ -179,13 +178,13 @@ def refresh():
 
 @app.route('/inventoryPayment', methods=['GET', 'POST'])
 def test():
-    global testList, allList
+    global allList
     if request.method == "GET":
         startdate, enddate = datetime.now(), datetime.now()
         startdate, enddate = str(startdate), str(enddate)
         sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
         ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
-        check, paymentList = dc.inventory_payment(testList, allList, sd, ed)
+        check, paymentList = dc.inventory_payment(allList, allList, sd, ed)
         return render_template("./main/inventoryPayment.html", paymentList=paymentList)
     else:
         startdate = request.form.get("startdate")
@@ -211,8 +210,7 @@ if __name__ == '__main__':
     # hp 지정
     # app.run(host="127.0.0.1", port=5000, debug=True)
     # 49.174.54.239:9375
-    #
-    testList = dc.get_excellist()
+
     allList = dc.get_excellist()
     app.run(host='0.0.0.0', debug=True, threaded=True)
 
