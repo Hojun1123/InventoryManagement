@@ -177,7 +177,7 @@ def refresh():
     return "<script>alert(\'동기화 완료\')\nwindow.history.back()</script>"
 
 @app.route('/inventoryPayment', methods=['GET', 'POST'])
-def test():
+def inventory_payment():
     global allList
     if request.method == "GET":
         startdate, enddate = datetime.now(), datetime.now()
@@ -205,6 +205,7 @@ def test():
         #dc.inventory_payment(data)
         #dc.base_inventory_list(data, startdate, enddate)
         return render_template("./main/inventoryPayment.html", paymentList=paymentList)
+
 # flask 구동 (main)
 if __name__ == '__main__':
     # hp 지정
