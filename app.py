@@ -61,6 +61,8 @@ def inventory():
             return "<script>alert(\'날짜를 선택해 주세요.\')\nwindow.history.back()</script>"
         sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
         ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
+        if int(sd) > int(ed):
+            return "<script>alert(\'시작일이 종료일보다 클 수 없습니다.\')\nwindow.history.back()</script>"
         data = dc.select_by_date(sd, ed)
         length = len(data)
         return render_template("./main/inventory.html", excelList=data, startdate=str(startdate), enddate=str(enddate))
@@ -112,6 +114,8 @@ def holding_engines_report():
             return "<script>alert(\'날짜를 선택해 주세요.\')\nwindow.history.back()</script>"
         sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
         ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
+        if int(sd) > int(ed):
+            return "<script>alert(\'시작일이 종료일보다 클 수 없습니다.\')\nwindow.history.back()</script>"
         dates = gdl.datelist(sd, ed)
         table = mrt.make(dc.select_all_for_report(dates[0]), dates)
         return render_template("./main/report.html", table=table, startdate=str(startdate), enddate=str(enddate))
