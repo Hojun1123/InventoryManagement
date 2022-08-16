@@ -201,7 +201,7 @@ def select_by_date(startdate, enddate):
                 row['출고exp'],
                 row['groupID'],
                 groups[row['groupID']],
-                "불량" if row['invalidEngine'] else "",
+                "" if int(row['invalidEngine']) else "불량",
                 row['비고']
             ])
     for i in range(len(result)):
@@ -303,7 +303,7 @@ def get_excellist():
             row['출고exp'],
             row['groupID'],
             groups[row['groupID']],
-            "불량" if row['invalidEngine'] else "",
+            "" if int(row['invalidEngine']) else "불량",
             row['비고']
         ])
     for i in range(len(tmpList)):
