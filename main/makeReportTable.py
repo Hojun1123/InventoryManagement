@@ -17,7 +17,7 @@ def make(dic, datelist):
 
 
 def header(datelist):
-    s = "<thead><tr class='testtr'><td colspan='2'>엔진사양</td><td>구분</td><td>이월재고</td>"
+    s = "<thead><tr><td colspan='2'>엔진사양</td><td>구분</td><td>이월재고</td>"
     #datalist가 20220728 과같이 들어온다고 가정
     for i in datelist:
         s += "<td>"+i[4:6]+"/"+i[6:]+"</td>"
