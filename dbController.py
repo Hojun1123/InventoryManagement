@@ -1,6 +1,6 @@
 # db control
 import threading
-import datetime
+from datetime import datetime
 import openpyxl as op
 from collections import defaultdict
 import pandas as pd
@@ -354,8 +354,216 @@ def set_invalid_engine(eng, exp):
     return errorList
 
 def get_today_date():
-    dt_now = datetime.datetime.now()
-    date = dt_now.date()
+    dtNow = datetime.now()
+    date = dtNow.date()
     date = str(date)
     date = date.replace('-', '')
+
+    #test시 날짜 조작
+    date = int(date)
+    date -= 1
+    date = str(date)
     return date
+
+
+
+
+
+
+#타입, mip로 딕셔너리 생성
+def get_mip_dict():
+    try:
+        df = pd.read_excel("./DB/engine.xlsx", "types", header=None)
+        #df = read_sheet("engine", "types")
+        mipList = df[0].to_list()
+        typeList = df[1].to_list()
+        if len(mipList) != len(typeList):
+            print("mip/type matching error")
+    except:
+        print("can't read engineGroup")
+        return -1
+
+    mipDict = {}
+    count = len(mipList)
+    for i in range(0, count):
+        type = typeList[i]
+        mip = mipList[i]
+        if type in mipDict:
+            if mip in mipDict[type]:
+                #기종과 mip가 타입에 존재하는 경우
+                continue
+            else:
+                mipDict[type][mip] = 0
+        else:
+            mipDict[type] = dict()
+            mipDict[type][mip] = 0
+
+    return mipDict
+
+def base_inventory_list(excelList, startdate, enddate):
+    #기초재고리스트는 기간 리스트 - 금일 입고 리스트 - 이전 출고 리스트
+    #excelList: 기간 리스트
+    datetime_format = "%Y%m%d"
+    sd = datetime.strptime(startdate, datetime_format)
+    ed = datetime.strptime(enddate, datetime_format)
+    tmpList = []
+    for row in excelList:
+        recv = datetime.strptime(row[3], datetime_format)
+        if row[5] == '' or row[5] is None:
+            release = ''
+        else:
+            release = datetime.strptime(row[5], datetime_format)
+
+        # Ex) sd: 2022-01-10  // ed: 2022-03-31  /현 날짜 2022-04-05
+
+        if recv < sd:
+            # 설정 기간보다 이전 입고일이 출력된 경우
+            # case 1) recv: 2022-01-01
+            print("기간 별 리스트 출력오류")
+            return -1
+#        if recv == sd and release < sd:
+#            # 시작일에 입고되고, 시작일 보다 전에 불출: 존재 X
+#            # case3) recv: 2022-01-10 // release: 2022-01-01
+#            print("리스트 오류 ")
+#            return -1
+
+
+        # 시작일에 입고된 경우
+        if recv == sd:
+            # 시작일에 입고되고 불출되지 않은 경우: 기초재고
+            # case2) recv: 2022-01-10 // release: None
+            if release == '' or release is None:
+                tmpList.append(row)
+                continue
+            else:
+                if release < sd:
+                    print("리스트 오류")
+                if release == sd:
+                    # 시작일에 입고되고 당일 불출: 기초재고 X
+                    # case4) recv: 2022-01-10 // release: 2022-01-10
+                    continue
+                if release >= ed:
+                    # 시작일에 입고되고 불출된 경우 되었는데 설정 기간이나 기간보다 후에 불출된 경우: 기초재고
+                    # case5) recv: 2022-01-10 // release: 2022-03-31
+                    # case6) recv: 2022-01-10 // release: 2022-04-02
+                    tmpList.append(row)
+                    continue
+                elif release < ed:
+                    # 시작일에 입고되고, sd, ed 사이에 불출: 기초재고 X
+                    # case7) recv: 2022-01-10 // release: 2022-02-03
+                    continue
+            #있을 수 없는 케이스
+            print("케이스 확인 요망")
+            continue
+
+        # 시작일 이전에 입고된 경우: 그런 리스트를 받아오지는 않긴 함.
+        # 근데 이전에 입고되고 불출되지 않은 경우 다 가져와야 하잖아...
+        # 그냥 전체 리스트 받아와야겠다.
+        if recv < sd:
+            if release == '' or release is None:
+                # 시작일이전에 입고되고 불출되지 않은 경우: 기초재고
+                # case8) recv: 2022-01-03 // release: None
+                tmpList.append(row)
+                continue
+            else:
+                if release <= ed:
+                    # 예전에 입고되어서 종료일 이전에 불출된 경우: 기초재고 X
+                    # case9) recv: 2022-01-04 // release: 2022-01-22
+                    continue
+                if release > ed:
+                    # 시작일 이전 입고 -> 마지막날 이후 출고: 기초재고
+                    # case10) recv: 2022-01-01 // release: 2022-05-05
+                    tmpList.append(row)
+            continue
+
+        # 시작일 이후 입고
+        if recv > sd:
+            if recv > ed:
+                # 종료일 이후 입고 -> 기초재고 X
+                # case11) recv: 2022-06-01 // release: any
+                continue
+            else:
+                # 시작일과 종료일 사이 입고
+                if release == '' or release is None:
+                    # ed, sd 사이에 입고되고 아직 출고되지 않음: 기초재고
+                    tmpList.append(row)
+                    continue
+                else:
+                    if sd < release < ed:
+                        # 입,출고일이 sd, ed 사이, 출고일은 ed와 같을 수 있음: 기초재고 X
+                        continue
+                    elif release >= ed:
+                        # 입,출고일이 sd, ed사이, ed나 그 이후에 출고: 기초재고
+                        tmpList.append(row)
+                        continue
+            continue
+
+    return tmpList
+
+def inventory_payment(baseList, allList, sd, ed):
+    receiveDict = get_mip_dict()
+    releaseDict = get_mip_dict()
+    baseInv = get_mip_dict()
+
+    #keyList
+    first = []
+    second = []
+    first = list(baseInv.keys())
+    for tmp in first:
+        second.append(list(baseInv[tmp].keys()))
+    payment = []
+
+    #기초재고 딕셔너리
+    #invPayment: 기초재고 딕셔너리 {타입, {mip, 수량}}
+    for row in baseList:
+        tmpType = row[0]
+        tmpMIP = row[1]
+        if tmpType in baseInv:
+            if tmpMIP in baseInv[tmpType]:
+                baseInv[tmpType][tmpMIP] += 1
+            else:
+                print("해당 Type, MIP가 DB에 존재하지 않습니다.")
+                return False, row[2]
+        else:
+            print("Type, MIP가 DB에 존재하지 않습니다.")
+            return False + row[2]
+
+    #mip별 딕셔너리 입출고 현황
+    for row in allList:
+        tmpType = row[0]
+        tmpMIP = row[1]
+        if row[3] == ed:
+            if tmpType in receiveDict:
+                if tmpMIP in receiveDict[tmpType]:
+                    receiveDict[tmpType][tmpMIP] += 1
+                else:
+                    print("해당 Type, MIP가 DB에 존재하지 않습니다.")
+                    return False, row[2]
+            else:
+                print("해당 Type, MIP가 DB에 존재하지 않습니다.")
+                return False, row[2]
+
+        if row[5] == ed:
+            if tmpType in releaseDict:
+                if tmpMIP in releaseDict[tmpType]:
+                    releaseDict[tmpType][tmpMIP] += 1
+                else:
+                    print("해당 Type, MIP가 DB에 존재하지 않습니다.")
+                    return False, row[2]
+            else:
+                print("해당 Type, MIP가 DB에 존재하지 않습니다.")
+                return False, row[2]
+
+    # 재고수불 리스트
+    # 타입, mip, 기초재고, 당기입고, 당기출고, 재고
+    for i in range(0, len(first)):
+        for tmp in second[i]:
+            tmpList = []
+            sum = baseInv[first[i]][tmp] + receiveDict[first[i]][tmp] - releaseDict[first[i]][tmp]
+            tmpList += [first[i], tmp, baseInv[first[i]][tmp], receiveDict[first[i]][tmp], releaseDict[first[i]][tmp], sum]
+            payment.append(tmpList)
+
+
+    #print(test)
+    #print(invPayment)
+    return True, payment
