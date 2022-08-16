@@ -13,6 +13,22 @@
     <script src="/static/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+<!--세션유무확인-->
+    {% if not session["userid"] %}
+        <script>
+            alert("로그인이 필요합니다")
+            location.href="/"
+        </script>
+    {% endif %}
+
+<!--관리자세션확인-->
+    {% if session["userid"] != 'manager' %}
+        <script>
+            alert("해당페이지는 관리자만 접근가능합니다.")
+            location.href="/main"
+        </script>
+    {% endif %}
+
 <!--login.html 에서 nav bar 제거 및 login section 높이 수정-->
 <main>
     <nav class="navbar navbar-expand-md navbar-light border-bottom">
@@ -52,7 +68,7 @@
                 <button type="button" onclick="location.href='/refresh'" class="reload-btn">
                     <img src="/static/assets/img/reload.png" alt="새로고침">
                 </button>
-                <button class="logout-btn">log out</button>
+                <button class="logout-btn" onclick="location.href='/logout'">log out</button>
             </div>
         </div>
     </nav>
@@ -71,12 +87,12 @@
                                     </div>
                                     <!--<h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Text</h5>-->
 
-                                    <div class="form-outline mb-4">
+                                    <div class="mb-4">
                                         <input type="text" name="mip" id="mip" class="form-control form-control-lg"
                                                placeholder="" autofocus>
                                         <label class="form-label" for="mip">mip를 입력해주세요</label>
                                     </div>
-                                    <div class="form-outline mb-4">
+                                    <div class="mb-4">
                                         <input type="text" name="type" id="type" class="form-control form-control-lg"
                                                placeholder="" autofocus>
                                         <label class="form-label" for="type">기종을 입력해주세요</label>

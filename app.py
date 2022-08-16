@@ -5,12 +5,12 @@ import dbController as dc
 import main.convertRawDataToList as crl
 import main.makeReportTable as mrt
 import main.getDateList as gdl
-import datetime
+from datetime import datetime
 # Flask 객체 생성
 app = Flask(__name__)
 #flash secret_key
 app.config["SECRET_KEY"] = "sh291hfwnh8@hwqjh2(*@#*Uh2N2920hF@H0Fh@C293"
-
+allList = []
 
 # 인덱스 페이지
 @app.route('/', methods=['GET', 'POST'])
@@ -37,6 +37,10 @@ def index():  # put application's code here
     else:
         return render_template("./main/login.html")
 
+@app.route('/logout', methods=['GET'])
+def logout():
+    session.pop('userid',None)
+    return redirect('/')
 
 @app.route('/main')
 def main_page():
@@ -46,6 +50,9 @@ def main_page():
 def inventory():
     if request.method == "GET":
         excelList = dc.get_excellist()
+        global allList
+        allList = excelList
+        length = len(excelList)
         return render_template("./main/inventory.html", excelList=excelList)
     else:
         startdate = request.form.get("startdate")
@@ -55,6 +62,7 @@ def inventory():
         sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
         ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
         data = dc.select_by_date(sd, ed)
+        length = len(data)
         return render_template("./main/inventory.html", excelList=data, startdate=str(startdate), enddate=str(enddate))
 
 
@@ -109,10 +117,20 @@ def holding_engines_report():
         return render_template("./main/report.html", table=table, startdate=str(startdate), enddate=str(enddate))
 
 
-# daylist
+# dailylist
 @app.route('/dailylist')
 def daily_engine_list():
-    return render_template("./main/dailylist.html")
+    inputList = []
+    outputList = []
+    today = dc.get_today_date()
+    for i in range(0, len(allList)):
+        if allList[i][3] == today:
+            inputList.append(allList[i])
+        elif allList[i][5] == today:
+            outputList.append(allList[i])
+    inputlen = len(inputList)
+    outputlen = len(outputList)
+    return render_template("./main/dailylist.html", inputList = inputList, inputlen = inputlen, outputList = outputList, outputlen = outputlen)
 
 
 # mip 추가
@@ -158,13 +176,43 @@ def refresh():
     print("동기화 완료")
     return "<script>alert(\'동기화 완료\')\nwindow.history.back()</script>"
 
+@app.route('/inventoryPayment', methods=['GET', 'POST'])
+def inventory_payment():
+    global allList
+    if request.method == "GET":
+        startdate, enddate = datetime.now(), datetime.now()
+        startdate, enddate = str(startdate), str(enddate)
+        sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
+        ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
+        check, paymentList = dc.inventory_payment(allList, allList, sd, ed)
+        return render_template("./main/inventoryPayment.html", paymentList=paymentList)
+    else:
+        startdate = request.form.get("startdate")
+        enddate = request.form.get("enddate")
+        if len(startdate) < 10 or len(enddate) < 10:
+            return "<script>alert(\'날짜를 선택해주세요\')\nwindow.history.back()</script>"
+        sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
+        ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
+        #data = dc.select_by_date(sd, ed)
+        data = dc.base_inventory_list(allList, sd, ed)
+        check, paymentList = dc.inventory_payment(data, allList, sd, ed)
+        print(paymentList)
+
+        if check == False:
+            return "<script>alert(\'" + paymentList + "엔진의 Type, MIP 가 DB에 추가되어있지 않습니다." + "\')\nwindow.history.back()</script>"
+        elif check == True:
+            return render_template("./main/inventoryPayment.html", paymentList=paymentList )
+        #dc.inventory_payment(data)
+        #dc.base_inventory_list(data, startdate, enddate)
+        return render_template("./main/inventoryPayment.html", paymentList=paymentList)
 
 # flask 구동 (main)
 if __name__ == '__main__':
     # hp 지정
     # app.run(host="127.0.0.1", port=5000, debug=True)
     # 49.174.54.239:9375
-    #
+
+    allList = dc.get_excellist()
     app.run(host='0.0.0.0', debug=True, threaded=True)
 
 

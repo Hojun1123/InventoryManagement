@@ -11886,7 +11886,19 @@ textarea.form-control-lg {
 /*# sourceMappingURL=bootstrap.css.map */
 
 /*addition css*/
+/*login page css*/
+.login-container {
+    width: 80%;
+    padding-right: var(--bs-gutter-x, 0.75rem);
+    padding-left: var(--bs-gutter-x, 0.75rem);
+    margin-right: auto;
+    margin-left: auto;
+}
 
+.login-card-wrapper {
+    flex: 0 0 auto;
+    width: 640px;
+}
 /*nav bar css*/
 .current-page-text {
     font-weight: bold;
@@ -11913,7 +11925,7 @@ textarea.form-control-lg {
 /*datepicker css*/
 .datepicker-calendar-container {
     width: 80vw;
-    margin: 0 auto;
+    margin: 4px auto;
     border: 1px solid #c0c0c0;
 }
 
@@ -11995,7 +12007,8 @@ textarea.form-control-lg {
     height: 70vh;
 }
 
-.inventory-table th, .inventory-table td {
+.inventory-table th,
+.inventory-table td {
     width: 105px;
 }
 
@@ -12014,26 +12027,30 @@ textarea.form-control-lg {
 /*report page css*/
 .report-table-wrapper {
     width: 80vw;
+    height: 80vh;
     margin: 20px auto;
+    overflow: auto;
+    border: 2px solid #9a9a9a;
+    padding: 2px;
 }
 
-.report-table-wrapper table{
+.report-table-wrapper table {
     border: 2px solid #3d3d3d;
     border-collapse: collapse;
     page-break-after: always;
 }
 
-.report-table-wrapper table td{
+.report-table-wrapper table td {
     border: 1px solid #7b7b7b;
     text-align: center;
     padding: 5px;
 }
 
-.table-filter{
-    border : none;
+.table-filter {
+    border: none;
 }
 
-.engine-input{
-    padding-bottom : 5px;
-}
 
+.reportTableTd {
+    min-width: 60px;
+}

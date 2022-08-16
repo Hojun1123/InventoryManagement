@@ -10,7 +10,6 @@
     <script src="/static/js/bootstrap.bundle.min.js"></script>
     <!--datepicker-->
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-    <link rel="stylesheet" href="/css/jquery-ui.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
@@ -18,26 +17,30 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
     <script type='text/javascript'
             src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-    <script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
     <script src="/static/js/javascript.js"></script>
 
     <script>
-        $(document).ready(function(){
-            $("#deleteButton").on("click", function()
-            {
-
+        $(document).ready(function () {
+            $("#deleteButton").on("click", function () {
                 $('td:nth-child(6):empty').parent().hide();
             });
 
-            $("#restoreButton").on("click", function(){
+            $("#restoreButton").on("click", function () {
                 $('td:nth-child(6):empty').parent().show();
             });
         });
     </script>
 
 </head>
-
 <body>
+<!--세션유무확인-->
+{% if not session["userid"] %}
+    <script>
+        alert("로그인이 필요합니다")
+        location.href = "/"
+    </script>
+{% endif %}
+
 <nav class="navbar navbar-expand-md navbar-light border-bottom">
     <div class="container-fluid">
         <a class="navbar-brand" href="main">SJA.inc</a>
@@ -75,35 +78,37 @@
             <button type="button" onclick="location.href='/refresh'" class="reload-btn">
                 <img src="/static/assets/img/reload.png" alt="새로고침">
             </button>
-            <button class="logout-btn" onclick="">log out</button>
+            <button class="logout-btn" onclick="location.href='/logout'">log out</button>
         </div>
     </div>
 </nav>
 
 <!--datepicker-->
-<form action="/inventory" class="datepicker-calendar-container" method="post">
+<form action="/inventory" class="datepicker-calendar-container" method="post" style="min-width: 1200px;">
     <div class="d-flex flex-wrap m-4">
         <div class="input-group date datepicker-calendar">
-            <input name="startdate" type="text" class="form-control" value="{{ startdate }}" id="startDatepicker" autocomplete='off'>
+            <input name="startdate" type="text" class="form-control" value="{{ startdate }}" id="startDatepicker"
+                   autocomplete='off'>
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar"></i>
             </span>
         </div>
         <span>~</span>
         <div class="input-group date datepicker-calendar">
-            <input name="enddate" type="text" class="form-control" value="{{ enddate }}" id="endDatepicker" autocomplete='off'>
+            <input name="enddate" type="text" class="form-control" value="{{ enddate }}" id="endDatepicker"
+                   autocomplete='off'>
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar"></i>
             </span>
         </div>
-        <button type="submit" class="datepicker-btn" onclick="return CheckDate(arrDate)">조회</button>
-
+        <button type="submit" class="datepicker-btn" onclick="return CheckDate()">조회</button>
+        <div class="d-flex" style="margin-left : auto; margin-right: 10px;">
+            <input class="datepicker-btn mx-2" id="restoreButton" type="button" value="전체"/>
+            <input class="datepicker-btn mx-2" id="deleteButton" type="button" value="재고"/>
+        </div>
     </div>
 </form>
-<div>
-    <input id="restoreButton" type="button" value="전체" />
-    <input id="deleteButton" type="button" value="재고" />
-</div>
+
 <div class="m-4">
     <div class="inventory-table-container">
         <table id="emp-table" class="table inventory-table table-bordered table-striped table-hover">
@@ -138,7 +143,7 @@
                 <tr>
                     <th scope="row"></th>
                     {% for b in a %}
-                    <td>{{ b }}</td>
+                        <td>{{ b }}</td>
                     {% endfor %}
                 </tr>
             {% endfor %}
