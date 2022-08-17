@@ -2,57 +2,57 @@ from collections import defaultdict
 
 
 def make(dic, datelist):
-    #data가 들어오면 model(감마, 베타, 세타 등)별로 list를 만든다 가정. dic() , {"감마" : [k1, k2, k3, k4 ....]}
-    #이때 key값은 modellist
+    # data가 들어오면 model(감마, 베타, 세타 등)별로 list를 만든다 가정. dic() , {"감마" : [k1, k2, k3, k4 ....]}
+    # 이때 key값은 modellist
     colors = ["#eeb7b4", "#f2cfa5", "#fcffb0", "#aee4ff", "#b5c7ed", "#c4f4fe", "#bee9b4"
         , "#fdfa87", "#fcc6f7", "#caa6fe", "#ffafd8", "#afffba", "#e2ffaf", "#fcffb0", "#f2cfa5", "#ffe4af"]
     result = "<table>"
     result += header(datelist)
-    #시작날짜이후의 데이터만 받아옴
+    # 시작날짜이후의 데이터만 받아옴
     colorcnt = 0
     for k, v in dic.items():
-        result += mtable(datelist, k, v, colors[colorcnt%16])
+        result += mtable(datelist, k, v, colors[colorcnt % 16])
         colorcnt += 1
     return result + "</table>"
 
 
 def header(datelist):
-    s = "<thead><tr><td colspan='2'>엔진사양</td><td>구분</td><td style='min-width: 55px;'>이월재고</td>"
-    #datalist가 20220728 과같이 들어온다고 가정
+    s = "<thead><tr><td colspan='2'>엔진사양</td><td style='border-right: 2px solid black;'>구분</td><td style='min-width: 55px;'>이월재고</td>"
+    # datalist가 20220728 과같이 들어온다고 가정
     for i in datelist:
-        s += "<td>"+i[4:6]+"/"+i[6:]+"</td>"
-    return s + "<td style='min-width: 45px;'>합계</td></tr></thead>"
+        s += "<td>" + i[4:6] + "/" + i[6:] + "</td>"
+    return s + "<td style='min-width: 45px; border-left: 2px solid black;'>합계</td></tr></thead>"
 
 
 def mtableheader(datelist, model, l, color):
-    s = "<tr><td colspan='2' rowspan='3' style='background-color:"+color+"'>"+model+"</td><td class='reportTableTd'>입고계</td><td></td>"
+    s = "<tr><td colspan='2' rowspan='3' style='border-top: 2px solid black; background-color:" + color + "'>" + model + "</td><td class='reportTableTd' style='border-top: 2px solid black; border-right: 2px solid black;'>입고계</td><td style='border-top: 2px solid black;'></td>"
     for d in datelist:
-        s += "<td>"+inputcell(d, l)+"</td>"
-    s += "<td>"+inputsum(datelist[0], datelist[-1], l)+"</td></tr><tr><td class='reportTableTd'>불출계</td><td></td>"
+        s += "<td style='border-top: 2px solid black;'>" + inputcell(d, l) + "</td>"
+    s += "<td style='border-top: 2px solid black; border-left: 2px solid black;'>" + inputsum(datelist[0], datelist[-1], l) + "</td></tr><tr><td class='reportTableTd' style='border-right: 2px solid black;'>불출계</td><td></td>"
     for d in datelist:
-        s += "<td>"+outputcell(d, l)+"</td>"
-    s += "<td>"+outputsum(datelist[0], datelist[-1], l)+"</td></tr><tr><td class='reportTableTd'>재고계</td>"
-    s += "<td style='background-color:#FDFD96'>"+basiccell(datelist[0], l)+"</td>"
+        s += "<td>" + outputcell(d, l) + "</td>"
+    s += "<td style='border-left: 2px solid black;'>" + outputsum(datelist[0], datelist[-1], l) + "</td></tr><tr><td class='reportTableTd' style='border-right: 2px solid black;'>재고계</td>"
+    s += "<td style='background-color:#FDFD96'>" + basiccell(datelist[0], l) + "</td>"
     for d in datelist:
-        s += "<td>"+stockcell(d, l)+"</td>"
-    return s + "<td>"+stockcell(datelist[-1], l)+"</td></tr>"
+        s += "<td>" + stockcell(d, l) + "</td>"
+    return s + "<td style='border-left: 2px solid black;'>" + stockcell(datelist[-1], l) + "</td></tr>"
 
 
 def mtablebody(datelist, dic):
     row_l = len(dic)
-    s = "<tr><td rowspan='"+str(row_l*3)+"'>&nbsp;&nbsp;&nbsp;&nbsp;</td>"
+    s = "<tr><td rowspan='" + str(row_l * 3) + "'>&nbsp;&nbsp;&nbsp;&nbsp;</td>"
     for k, v in dic.items():
-        s += "<td rowspan='3'>"+str(k)+"</td><td>입고</td><td></td>"
+        s += "<td rowspan='3'>" + str(k) + "</td><td style='border-right: 2px solid black;'>입고</td><td></td>"
         for d in datelist:
-            s += "<td>"+inputcell(d, v)+"</td>"
-        s += "<td>"+inputsum(datelist[0], datelist[-1], v)+"</td></tr><tr><td>출고</td><td></td>"
+            s += "<td>" + inputcell(d, v) + "</td>"
+        s += "<td style='border-left: 2px solid black;'>" + inputsum(datelist[0], datelist[-1], v) + "</td></tr><tr><td style='border-right: 2px solid black;'>출고</td><td></td>"
         for d in datelist:
-            s += "<td>"+outputcell(d, v)+"</td>"
-        s += "<td>"+outputsum(datelist[0], datelist[-1], v)+"</td></tr><tr><td>재고</td>"
+            s += "<td>" + outputcell(d, v) + "</td>"
+        s += "<td style='border-left: 2px solid black;'>" + outputsum(datelist[0], datelist[-1], v) + "</td></tr><tr><td style='border-right: 2px solid black;'>재고</td>"
         s += "<td style='background-color:#FFFFDD'>" + basiccell(datelist[0], v) + "</td>"
         for d in datelist:
-            s += "<td>"+stockcell(d, v)+"</td>"
-        s += "<td>"+stockcell(datelist[-1], v)+"</td></tr>"
+            s += "<td>" + stockcell(d, v) + "</td>"
+        s += "<td style='border-left: 2px solid black;'>" + stockcell(datelist[-1], v) + "</td></tr>"
     return s
 
 
