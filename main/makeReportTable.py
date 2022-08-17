@@ -17,11 +17,11 @@ def make(dic, datelist):
 
 
 def header(datelist):
-    s = "<thead><tr><td colspan='2'>엔진사양</td><td>구분</td><td>이월재고</td>"
+    s = "<thead><tr><td colspan='2'>엔진사양</td><td>구분</td><td style='min-width: 55px;'>이월재고</td>"
     #datalist가 20220728 과같이 들어온다고 가정
     for i in datelist:
         s += "<td>"+i[4:6]+"/"+i[6:]+"</td>"
-    return s + "<td>합계</td></tr></thead>"
+    return s + "<td style='min-width: 45px;'>합계</td></tr></thead>"
 
 
 def mtableheader(datelist, model, l, color):

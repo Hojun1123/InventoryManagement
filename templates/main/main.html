@@ -7,21 +7,20 @@
     <link rel="stylesheet" href="/static/css/style.css">
 
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
 
     <!--dropdown-->
     <script src="/static/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 <!--세션유무확인-->
-    {% if not session["userid"] %}
-        <script>
-            alert("로그인이 필요합니다")
-            location.href="/"
-        </script>
-    {% endif %}
+{% if not session["userid"] %}
+    <script>
+        alert("로그인이 필요합니다")
+        location.href = "/"
+    </script>
+{% endif %}
 
-<nav class="navbar navbar-expand-md navbar-light border-bottom">
+<nav class="navbar navbar-expand-sm navbar-light border-bottom navbar-custom">
     <div class="container-fluid">
         <a class="navbar-brand" href="main">SJA.inc</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -38,6 +37,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="inventory">전체 조회</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="inventoryPayment">재고수불부</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="report">기간별 통계</a>
