@@ -59,6 +59,12 @@
     --bs-body-bg: #fff;
 }
 
+html {
+    font-family: sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
 *,
 *::before,
 *::after {
@@ -11899,7 +11905,12 @@ textarea.form-control-lg {
     flex: 0 0 auto;
     width: 640px;
 }
+
 /*nav bar css*/
+.navbar-custom {
+    padding: 10px;
+}
+
 .current-page-text {
     font-weight: bold;
     color: black !important;
@@ -11955,30 +11966,31 @@ textarea.form-control-lg {
 }
 
 /*dailylist table css*/
-.main-table-container {
+.daily-table-container {
     padding: 5px;
     border: 1px solid black;
     width: 72vw;
+    min-width: 1200px;
     margin: 0 auto;
 }
 
-.main-table {
+.daily-table {
     table-layout: fixed;
     border-collapse: collapse;
     display: block;
 }
 
-.main-table thead {
+.daily-table thead {
     display: block;
 }
 
-.main-table tbody {
+.daily-table tbody {
     display: block;
     overflow: auto;
     height: 27vh;
 }
 
-.main-table th, .main-table td {
+.daily-table th, .daily-table td {
     width: 105px;
 }
 
@@ -12034,6 +12046,18 @@ textarea.form-control-lg {
     padding: 2px;
 }
 
+.report-table-wrapper .rt-bl {
+    border-left: 2px solid black;
+}
+
+.report-table-wrapper .rt-br {
+    border-right: 2px solid black;
+}
+
+.report-table-wrapper .rt-bt {
+    border-top: 2px solid black;
+}
+
 .report-table-wrapper table {
     border: 2px solid #3d3d3d;
     border-collapse: collapse;
@@ -12050,13 +12074,24 @@ textarea.form-control-lg {
     border: none;
 }
 
-
-.reportTableTd {
+.rt-td-60 {
     min-width: 60px;
 }
 
-.searchFilter{
+.rt-td-55 {
+    min-width: 55px;
+}
 
-    padding-left : 300px;
-    display : inline;
+.rt-td-45 {
+    min-width: 55px;
+}
+
+/*data setting page*/
+.data-setting-comment {
+    font-weight: bold;
+}
+
+.data-setting-btn-block {
+    display: block;
+    width: 100%;
 }

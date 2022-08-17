@@ -6,7 +6,6 @@
 
     <link href="/static/css/style.css" rel="stylesheet"/>
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
     <script src="/static/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
@@ -21,7 +20,7 @@
 <!--관리자세션확인-->
 {% if session["userid"] != 'manager' %}
     <script>
-        alert("해당페이는 관리자만 접근가능합니다.")
+        alert("해당페이지는 관리자만 접근가능합니다.")
         location.href = "/main"
     </script>
 {% endif %}
@@ -51,7 +50,7 @@
 </script>
 <!--login.html 에서 nav bar 제거 및 login section 높이 수정-->
 <main>
-    <nav class="navbar navbar-expand-md navbar-light border-bottom">
+    <nav class="navbar navbar-expand-md navbar-light border-bottom navbar-custom">
         <div class="container-fluid">
             <a class="navbar-brand" href="main">SJA.inc</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -68,6 +67,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="inventory">전체 조회</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="inventoryPayment">재고수불부</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="report">기간별 통계</a>
@@ -94,12 +96,12 @@
         </div>
     </nav>
     <section class="m-5">
-        <div class="container py-5 h-100">
+        <div class="container py-5">
             <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col col-xl-5">
+                <div class="col col-md-5">
                     <div class="card" style="border-radius: 1rem;">
                         <div class="d-flex align-items-center">
-                            <div class="card-body p-lg-5 text-black">
+                            <div class="card-body p-sm-4 text-black m-3">
 
                                 <form action="/setInvalidEngine" method="post">
                                     <div class="d-flex align-items-center mb-3 pb-1">
@@ -112,27 +114,29 @@
                                         </div>
                                     -->
                                     <div id="inputData">
-                                        <div class="mb-4">
-                                            <input type="text" name="ENG[]" id="ENG[0]" class="form-control form-control-lg"
+                                        <div class="mb-3">
+                                            <input type="text" name="ENG[]" id="ENG[0]"
+                                                   class="form-control form-control-sm"
                                                    placeholder="ex) 259717" size=45 maxlength=6 autofocus>
-                                            <label class="form-label" for="mip">엔진을 입력해주세요</label>
+                                            <label class="form-label data-setting-comment" for="mip">엔진을 입력해주세요</label>
                                         </div>
-                                        <div class="mb-4">
-                                            <input type="text" name="EXP[]" id="EXP[0]" class="form-control form-control-lg"
+                                        <div class="mb-2">
+                                            <input type="text" name="EXP[]" id="EXP[0]"
+                                                   class="form-control form-control-sm"
                                                    placeholder="ex) 엔진 파손" size=45 autofocus>
-                                            <label class="form-label" for="mip">사유를 입력해주세요</label>
+                                            <label class="form-label data-setting-comment" for="mip">사유를 입력해주세요</label>
                                         </div>
                                     </div>
                                     <!--<a class="small text-muted" href="#!">abc</a>-->
-                                    <div class="pt-1 mb-4">
-                                        <button class="btn btn-dark btn-lg btn-block" type="submit"
+                                    <div class="mb-3">
+                                        <button class="btn btn-dark btn-lg btn-block data-setting-btn-block" type="submit"
                                                 onclick="errorAlert()">저장
                                         </button>
                                     </div>
                                 </form>
                                 </form>
-                                <div class="pt-1 mb-4">
-                                    <button class="btn btn-dark btn-lg btn-block" type="button"
+                                <div class="mb-2">
+                                    <button class="btn btn-dark btn-lg btn-block data-setting-btn-block" type="button"
                                             onclick="location.href='/main'">홈화면
                                     </button>
 

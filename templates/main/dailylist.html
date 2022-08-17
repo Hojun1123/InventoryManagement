@@ -7,10 +7,8 @@
 
     <!--dropdown-->
     <script src="/static/js/bootstrap.bundle.min.js"></script>
-
     <!--datepicker-->
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
     <link rel="stylesheet"
@@ -18,33 +16,17 @@
     <script type='text/javascript'
             src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
     <script src="/static/js/javascript.js"></script>
-
-    <!-- datepicker 설정-->
-    <script type='text/javascript'>
-        $(function () {
-            $('.input-group.date').datepicker({
-                calendarWeeks: false,
-                todayHighlight: true,
-                autoclose: true,
-                format: "yyyy-mm-dd",
-                language: "kr",
-                endDate: '0d',
-                disableTouchKeyboard: false
-            });
-        });
-    </script>
 </head>
-
 <body>
 <!--세션유무확인-->
-    {% if not session["userid"] %}
-        <script>
-            alert("로그인이 필요합니다")
-            location.href="/"
-        </script>
-    {% endif %}
+{% if not session["userid"] %}
+    <script>
+        alert("로그인이 필요합니다")
+        location.href = "/"
+    </script>
+{% endif %}
 
-<nav class="navbar navbar-expand-md navbar-light border-bottom">
+<nav class="navbar navbar-expand-md navbar-light border-bottom navbar-custom">
     <div class="container-fluid">
         <a class="navbar-brand" href="main">SJA.inc</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -61,6 +43,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="inventory">전체 조회</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="inventoryPayment">재고수불부</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="report">기간별 통계</a>
@@ -95,312 +80,99 @@
             document.write(date);
         </script>
     </div>
-    <div class="main-table-container">
+    <div class="daily-table-container">
         당일 입고 리스트
-        <table class="table main-table table-bordered table-striped table-hover">
+        <table class="table daily-table table-bordered table-striped table-hover">
             <thead>
-            <tr>
-                <th class="fixed-header" scope="col">#</th>
-                <th class="fixed-header" scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            기종
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            MIP
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            EID
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            입고일
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            포장일
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            출고일
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            출고exp
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            groupID
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            위치
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            상태
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            비고
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-            </tr>
+            <th col-index=1 scope="col">번호</th>
+            <th col-index=2 scope="col">
+                <select class="table-filter" onchange="filter_rows()">
+                    <option value="all">기종</option>
+                </select>
+            </th>
+            <th col-index=3 scope="col">
+                <select class="table-filter" onchange="filter_rows()">
+                    <option value="all">MIP</option>
+                </select>
+            </th>
+            <th col-index=4 scope="col">EID</th>
+            <th col-index=5 scope="col">입고일</th>
+            <th col-index=6 scope="col">포장일</th>
+            <th col-index=7 scope="col">출고일</th>
+            <th col-index=8 scope="col">출고exp</th>
+            <th col-index=9 scope="col">groupID</th>
+            <th col-index=10 scope="col">위치</th>
+            <th col-index=11 scope="col">상태</th>
+            <th col-index=12 scope="col">
+                <select class="table-filter" onchange="filter_rows()">
+                    <option value="all">비고</option>
+                </select>
+            </th>
             </thead>
             <tbody style="font-size: 12px">
             {% for idx in range(0, inputlen) %}
-            <tr>
-                <th scope="row">{{idx + 1}}</th>
-                {% for data in inputList[idx] %}
-                <td>{{data}}</td>
-                {% endfor %}
-            </tr>
+                <tr>
+                    <th scope="row">{{ idx + 1 }}</th>
+                    {% for data in inputList[idx] %}
+                        <td>{{ data }}</td>
+                    {% endfor %}
+                </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
+
     <div style="height: 20px;"></div>
-    <div class="main-table-container">
+
+    <div class="daily-table-container">
         당일 출고 리스트
-        <table class="table main-table table-bordered table-striped table-hover">
+        <table class="table daily-table table-bordered table-striped table-hover">
             <thead>
-            <tr>
-                <th class="fixed-header" scope="col">#</th>
-                <th class="fixed-header" scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            기종
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            MIP
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            EID
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            입고일
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            포장일
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            출고일
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            출고exp
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            groupID
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            위치
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            상태
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            비고
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </th>
-            </tr>
+            <th col-index=1 scope="col">번호</th>
+            <th col-index=2 scope="col">
+                <select class="table-filter" onchange="filter_rows()">
+                    <option value="all">기종</option>
+                </select>
+            </th>
+            <th col-index=3 scope="col">
+                <select class="table-filter" onchange="filter_rows()">
+                    <option value="all">MIP</option>
+                </select>
+            </th>
+            <th col-index=4 scope="col">EID</th>
+            <th col-index=5 scope="col">입고일</th>
+            <th col-index=6 scope="col">포장일</th>
+            <th col-index=7 scope="col">출고일</th>
+            <th col-index=8 scope="col">출고exp</th>
+            <th col-index=9 scope="col">groupID</th>
+            <th col-index=10 scope="col">위치</th>
+            <th col-index=11 scope="col">상태</th>
+            <th col-index=12 scope="col">
+                <select class="table-filter" onchange="filter_rows()">
+                    <option value="all">비고</option>
+                </select>
+            </th>
             </thead>
             <tbody style="font-size: 12px">
             {% for idx2 in range(0, outputlen) %}
-            <tr>
-                <th scope="row">{{idx2 + 1}}</th>
-                {% for data2 in outputList[idx2] %}
-                <td>{{data2}}</td>
-                {% endfor %}
-            </tr>
+                <tr>
+                    <th scope="row">{{ idx2 + 1 }}</th>
+                    {% for data2 in outputList[idx2] %}
+                        <td>{{ data2 }}</td>
+                    {% endfor %}
+                </tr>
             {% endfor %}
 
             </tbody>
         </table>
     </div>
 </div>
+
+<script>
+    window.onload = () => {
+        console.log(document.querySelector("#emp-table > tbody > tr:nth-child(1) > td:nth-child(2) ").innerHTML);
+    };
+    getUniqueValuesFromColumn()
+</script>
 </body>
 </html>

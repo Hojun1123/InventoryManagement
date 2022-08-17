@@ -5,7 +5,7 @@ import dbController as dc
 import main.convertRawDataToList as crl
 import main.makeReportTable as mrt
 import main.getDateList as gdl
-import datetime
+from datetime import datetime
 # Flask 객체 생성
 app = Flask(__name__)
 #flash secret_key
@@ -50,6 +50,7 @@ def main_page():
 def inventory():
     if request.method == "GET":
         excelList = dc.get_excellist()
+        global allList
         allList = excelList
         length = len(excelList)
         return render_template("./main/inventory.html", excelList=excelList)
@@ -60,6 +61,8 @@ def inventory():
             return "<script>alert(\'날짜를 선택해 주세요.\')\nwindow.history.back()</script>"
         sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
         ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
+        if int(sd) > int(ed):
+            return "<script>alert(\'시작일이 종료일보다 클 수 없습니다.\')\nwindow.history.back()</script>"
         data = dc.select_by_date(sd, ed)
         length = len(data)
         return render_template("./main/inventory.html", excelList=data, startdate=str(startdate), enddate=str(enddate))
@@ -111,6 +114,8 @@ def holding_engines_report():
             return "<script>alert(\'날짜를 선택해 주세요.\')\nwindow.history.back()</script>"
         sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
         ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
+        if int(sd) > int(ed):
+            return "<script>alert(\'시작일이 종료일보다 클 수 없습니다.\')\nwindow.history.back()</script>"
         dates = gdl.datelist(sd, ed)
         table = mrt.make(dc.select_all_for_report(dates[0]), dates)
         return render_template("./main/report.html", table=table, startdate=str(startdate), enddate=str(enddate))
@@ -175,13 +180,38 @@ def refresh():
     print("동기화 완료")
     return "<script>alert(\'동기화 완료\')\nwindow.history.back()</script>"
 
+@app.route('/inventoryPayment', methods=['GET', 'POST'])
+def inventory_payment():
+    global allList
+    if request.method == "GET":
+        startdate, enddate = datetime.now(), datetime.now()
+        startdate, enddate = str(startdate), str(enddate)
+        sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
+        ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
+        check, paymentList = dc.inventory_payment(allList, sd, ed)
+        return render_template("./main/inventoryPayment.html", paymentList=paymentList)
+    else:
+        startdate = request.form.get("startdate")
+        enddate = request.form.get("enddate")
+        if len(startdate) < 10 or len(enddate) < 10:
+            return "<script>alert(\'날짜를 선택해주세요\')\nwindow.history.back()</script>"
+        sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
+        ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
+        check, paymentList = dc.inventory_payment(allList, sd, ed)
+
+        if check == False:
+            return "<script>alert(\'" + paymentList + "엔진의 Type, MIP 가 DB에 추가되어있지 않습니다." + "\')\nwindow.history.back()</script>"
+        elif check == True:
+            return render_template("./main/inventoryPayment.html", paymentList=paymentList )
+
+        return render_template("./main/inventoryPayment.html", paymentList=paymentList)
 
 # flask 구동 (main)
 if __name__ == '__main__':
     # hp 지정
     # app.run(host="127.0.0.1", port=5000, debug=True)
     # 49.174.54.239:9375
-    #
+
     allList = dc.get_excellist()
     app.run(host='0.0.0.0', debug=True, threaded=True)
 
