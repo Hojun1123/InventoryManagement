@@ -188,7 +188,7 @@ def inventory_payment():
         startdate, enddate = str(startdate), str(enddate)
         sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
         ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
-        check, paymentList = dc.inventory_payment(allList, allList, sd, ed)
+        check, paymentList = dc.inventory_payment(allList, sd, ed)
         return render_template("./main/inventoryPayment.html", paymentList=paymentList)
     else:
         startdate = request.form.get("startdate")
@@ -197,17 +197,13 @@ def inventory_payment():
             return "<script>alert(\'날짜를 선택해주세요\')\nwindow.history.back()</script>"
         sd = str(startdate[0:4] + startdate[5:7] + startdate[8:10])
         ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
-        #data = dc.select_by_date(sd, ed)
-        data = dc.base_inventory_list(allList, sd, ed)
-        check, paymentList = dc.inventory_payment(data, allList, sd, ed)
-        print(paymentList)
+        check, paymentList = dc.inventory_payment(allList, sd, ed)
 
         if check == False:
             return "<script>alert(\'" + paymentList + "엔진의 Type, MIP 가 DB에 추가되어있지 않습니다." + "\')\nwindow.history.back()</script>"
         elif check == True:
             return render_template("./main/inventoryPayment.html", paymentList=paymentList )
-        #dc.inventory_payment(data)
-        #dc.base_inventory_list(data, startdate, enddate)
+
         return render_template("./main/inventoryPayment.html", paymentList=paymentList)
 
 # flask 구동 (main)
