@@ -17,42 +17,42 @@ def make(dic, datelist):
 
 
 def header(datelist):
-    s = "<thead><tr><td colspan='2'>엔진사양</td><td style='border-right: 2px solid black;'>구분</td><td style='min-width: 55px;'>이월재고</td>"
+    s = "<thead><tr><td colspan='2'>엔진사양</td><td class='rt-br'>구분</td><td class='rt-td-55'>이월재고</td>"
     # datalist가 20220728 과같이 들어온다고 가정
     for i in datelist:
         s += "<td>" + i[4:6] + "/" + i[6:] + "</td>"
-    return s + "<td style='min-width: 45px; border-left: 2px solid black;'>합계</td></tr></thead>"
+    return s + "<td class='rt-bl rt-td-45'>합계</td></tr></thead>"
 
 
 def mtableheader(datelist, model, l, color):
-    s = "<tr><td colspan='2' rowspan='3' style='border-top: 2px solid black; background-color:" + color + "'>" + model + "</td><td class='reportTableTd' style='border-top: 2px solid black; border-right: 2px solid black;'>입고계</td><td style='border-top: 2px solid black;'></td>"
+    s = "<tr><td colspan='2' rowspan='3' class='rt-bt' style='background-color:" + color + "'>" + model + "</td><td class='rt-td-60 rt-bt rt-br'>입고계</td><td class='rt-bt'></td>"
     for d in datelist:
-        s += "<td style='border-top: 2px solid black;'>" + inputcell(d, l) + "</td>"
-    s += "<td style='border-top: 2px solid black; border-left: 2px solid black;'>" + inputsum(datelist[0], datelist[-1], l) + "</td></tr><tr><td class='reportTableTd' style='border-right: 2px solid black;'>불출계</td><td></td>"
+        s += "<td class='rt-bt'>" + inputcell(d, l) + "</td>"
+    s += "<td class='rt-bt rt-bl'>" + inputsum(datelist[0], datelist[-1], l) + "</td></tr><tr><td class='rt-td-60 rt-br'>불출계</td><td></td>"
     for d in datelist:
         s += "<td>" + outputcell(d, l) + "</td>"
-    s += "<td style='border-left: 2px solid black;'>" + outputsum(datelist[0], datelist[-1], l) + "</td></tr><tr><td class='reportTableTd' style='border-right: 2px solid black;'>재고계</td>"
+    s += "<td class='rt-bl'>" + outputsum(datelist[0], datelist[-1], l) + "</td></tr><tr><td class='rt-td-60 rt-br'>재고계</td>"
     s += "<td style='background-color:#FDFD96'>" + basiccell(datelist[0], l) + "</td>"
     for d in datelist:
         s += "<td>" + stockcell(d, l) + "</td>"
-    return s + "<td style='border-left: 2px solid black;'>" + stockcell(datelist[-1], l) + "</td></tr>"
+    return s + "<td class='rt-bl'>" + stockcell(datelist[-1], l) + "</td></tr>"
 
 
 def mtablebody(datelist, dic):
     row_l = len(dic)
     s = "<tr><td rowspan='" + str(row_l * 3) + "'>&nbsp;&nbsp;&nbsp;&nbsp;</td>"
     for k, v in dic.items():
-        s += "<td rowspan='3'>" + str(k) + "</td><td style='border-right: 2px solid black;'>입고</td><td></td>"
+        s += "<td rowspan='3'>" + str(k) + "</td><td class='rt-br'>입고</td><td></td>"
         for d in datelist:
             s += "<td>" + inputcell(d, v) + "</td>"
-        s += "<td style='border-left: 2px solid black;'>" + inputsum(datelist[0], datelist[-1], v) + "</td></tr><tr><td style='border-right: 2px solid black;'>출고</td><td></td>"
+        s += "<td class='rt-bl'>" + inputsum(datelist[0], datelist[-1], v) + "</td></tr><tr><td class='rt-br'>출고</td><td></td>"
         for d in datelist:
             s += "<td>" + outputcell(d, v) + "</td>"
-        s += "<td style='border-left: 2px solid black;'>" + outputsum(datelist[0], datelist[-1], v) + "</td></tr><tr><td style='border-right: 2px solid black;'>재고</td>"
+        s += "<td class='rt-bl'>" + outputsum(datelist[0], datelist[-1], v) + "</td></tr><tr><td class='rt-br'>재고</td>"
         s += "<td style='background-color:#FFFFDD'>" + basiccell(datelist[0], v) + "</td>"
         for d in datelist:
             s += "<td>" + stockcell(d, v) + "</td>"
-        s += "<td style='border-left: 2px solid black;'>" + stockcell(datelist[-1], v) + "</td></tr>"
+        s += "<td class='rt-bl'>" + stockcell(datelist[-1], v) + "</td></tr>"
     return s
 
 
