@@ -10,7 +10,6 @@
     <script src="/static/js/bootstrap.bundle.min.js"></script>
     <!--datepicker-->
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
     <link rel="stylesheet"
@@ -41,7 +40,7 @@
     </script>
 {% endif %}
 
-<nav class="navbar navbar-expand-md navbar-light border-bottom">
+<nav class="navbar navbar-expand-md navbar-light border-bottom navbar-custom">
     <div class="container-fluid">
         <a class="navbar-brand" href="main">SJA.inc</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -58,6 +57,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="current-page-text nav-link" href="inventory">전체 조회</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="inventoryPayment">재고수불부</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="report">기간별 통계</a>
@@ -84,8 +86,8 @@
 </nav>
 
 <!--datepicker-->
-<form action="/inventory" class="datepicker-calendar-container" method="post" style="min-width: 1200px;">
-    <div class="d-flex flex-wrap m-4">
+<form action="/inventory" class="datepicker-calendar-container my-3" method="post" style="min-width: 1200px;">
+    <div class="d-flex flex-wrap my-2">
         <div class="input-group date datepicker-calendar">
             <input name="startdate" type="text" class="form-control" value="{{ startdate }}" id="startDatepicker"
                    autocomplete='off'>

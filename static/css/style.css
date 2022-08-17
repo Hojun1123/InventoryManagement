@@ -59,6 +59,12 @@
     --bs-body-bg: #fff;
 }
 
+html {
+    font-family: sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
 *,
 *::before,
 *::after {
@@ -11899,7 +11905,12 @@ textarea.form-control-lg {
     flex: 0 0 auto;
     width: 640px;
 }
+
 /*nav bar css*/
+.navbar-custom {
+    padding: 10px;
+}
+
 .current-page-text {
     font-weight: bold;
     color: black !important;
@@ -11959,6 +11970,7 @@ textarea.form-control-lg {
     padding: 5px;
     border: 1px solid black;
     width: 72vw;
+    min-width: 1200px;
     margin: 0 auto;
 }
 
@@ -12050,7 +12062,16 @@ textarea.form-control-lg {
     border: none;
 }
 
-
 .reportTableTd {
     min-width: 60px;
+}
+
+/*data setting page*/
+.data-setting-comment {
+    font-weight: bold;
+}
+
+.data-setting-btn-block {
+    display: block;
+    width: 100%;
 }
