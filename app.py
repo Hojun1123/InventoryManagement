@@ -195,6 +195,7 @@ def inventory_payment():
         ed = str(enddate[0:4] + enddate[5:7] + enddate[8:10])
         #data = dc.select_by_date(sd, ed)
         data = dc.base_inventory_list(allList, sd, ed)
+        print(type(data))
         check, paymentList = dc.inventory_payment(data, allList, sd, ed)
         print(paymentList)
 

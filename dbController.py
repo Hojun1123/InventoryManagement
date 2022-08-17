@@ -360,15 +360,10 @@ def get_today_date():
     date = date.replace('-', '')
 
     #test시 날짜 조작
-    date = int(date)
-    date -= 1
-    date = str(date)
+    #date = int(date)
+    #date -= 1
+    #date = str(date)
     return date
-
-
-
-
-
 
 #타입, mip로 딕셔너리 생성
 def get_mip_dict():
@@ -416,11 +411,11 @@ def base_inventory_list(excelList, startdate, enddate):
 
         # Ex) sd: 2022-01-10  // ed: 2022-03-31  /현 날짜 2022-04-05
 
-        if recv < sd:
+        '''if recv < sd:
             # 설정 기간보다 이전 입고일이 출력된 경우
             # case 1) recv: 2022-01-01
             print("기간 별 리스트 출력오류")
-            return -1
+            return -1'''
 #        if recv == sd and release < sd:
 #            # 시작일에 입고되고, 시작일 보다 전에 불출: 존재 X
 #            # case3) recv: 2022-01-10 // release: 2022-01-01
