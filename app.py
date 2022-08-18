@@ -72,17 +72,23 @@ def inventory():
 # 바코드 읽기    #일단 보류
 @app.route('/readBarcode', methods=['GET', 'POST'])
 def read_barcode():
-    if request.method == 'GET':
-        return render_template("./main/readBarcodeString.html")
-    else:
-        # GET이 아닌 request (확인submit)
+    if request.method == 'POST': #POST로 넘겼다면(확인버튼눌렀다면)
         rawBarcodeData = request.form.get("barcode")
-        if rawBarcodeData != "" and rawBarcodeData is not None:
-            blist = crl.convert(rawBarcodeData)
-            # time부분 나중에 함수로 빼기
-            dc.append_raw_barcodes(blist)
-        #최근순으로 모든 raw바코드열 가져오기
+        if rawBarcodeData != "" and rawBarcodeData is not None: #공백이 아니라면
+            if rawBarcodeData == "print": #입력된값이 print라면 한팔레트로 묶는다.
+                flash("한묶음완료")
+                return render_template("./main/readBarcodeString.html")
+            else: #입력된값이 print가 아니라면 임시파일저장
+                return render_template("./main/readBarcodeString.html")
+        else: #공백이 입력되면
+              #알림 후 페이지 랜더링
+            return render_template("./main/readBarcodeString.html")
+
+    #POST외의 방법으로 값이 넘어왔다면
+    else:
+        #아무것도 하지않고 페이지 랜더링
         return render_template("./main/readBarcodeString.html")
+
 
 
 # 출고 바코드 찍기
