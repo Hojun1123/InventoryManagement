@@ -18,18 +18,6 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
     <script src="/static/js/javascript.js"></script>
 
-    <script>
-        $(document).ready(function () {
-            $("#deleteButton").on("click", function () {
-                $('td:nth-child(6):empty').parent().hide();
-            });
-
-            $("#restoreButton").on("click", function () {
-                $('td:nth-child(6):empty').parent().show();
-            });
-        });
-    </script>
-
 </head>
 <body>
 <!--세션유무확인-->
@@ -104,10 +92,6 @@
             </span>
         </div>
         <button type="submit" class="datepicker-btn" onclick="return CheckDate()">조회</button>
-        <div class="d-flex" style="margin-left : auto; margin-right: 10px;">
-            <input class="datepicker-btn mx-2" id="restoreButton" type="button" value="전체"/>
-            <input class="datepicker-btn mx-2" id="deleteButton" type="button" value="재고"/>
-        </div>
     </div>
 </form>
 
@@ -115,7 +99,7 @@
     <div class="inventory-table-container">
         <table id="emp-table" class="table inventory-table table-bordered table-striped table-hover">
             <thead>
-            <!--<th col-index=1 scope="col">번호</th>-->
+            <th col-index=1 scope="col">번호</th>
             <th col-index=2 scope="col">
                 <select class="table-filter" onchange="filter_rows()">
                     <option value="all">기종</option>
@@ -134,7 +118,7 @@
             <tbody>
             {% for a in paymentList %}
                 <tr>
-                    <!--<th scope="row"></th>-->
+                    <th scope="row"></th>
                     {% for b in a %}
                         <td>{{ b }}</td>
                     {% endfor %}

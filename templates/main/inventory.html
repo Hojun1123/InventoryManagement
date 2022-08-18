@@ -19,14 +19,22 @@
     <script src="/static/js/javascript.js"></script>
 
     <script>
-        //재고 버튼
+
         $(document).ready(function () {
-            $("#deleteButton").on("click", function () {
-                $('td:nth-child(7):empty').parent().hide();
-            });
             //전체 버튼
-            $("#restoreButton").on("click", function () {
+            $("#entireButton").on("click", function () {
                 $('td:nth-child(7):empty').parent().show();
+                $('td:nth-child(7):parent').parent().show();
+            });
+            //재고 버튼
+            $("#currentButton").on("click", function () {
+                $('td:nth-child(7):parent').parent().hide();
+                $('td:nth-child(7):empty').parent().show();
+            });
+            //출고 버튼
+            $("#releasedButton").on("click", function () {
+                $('td:nth-child(7):empty').parent().hide();
+                $('td:nth-child(7):parent').parent().show();
             });
             //기종 검색 필터
             $("#typeSearch").keyup(function () {
@@ -132,8 +140,9 @@
         </div>
         <button type="submit" class="datepicker-btn" onclick="return CheckDate()">조회</button>
         <div class="d-flex" style="margin-left : auto; margin-right: 10px;">
-            <input class="datepicker-btn mx-2" id="restoreButton" type="button" value="전체"/>
-            <input class="datepicker-btn mx-2" id="deleteButton" type="button" value="재고"/>
+            <input class="datepicker-btn mx-2" id="entireButton" type="button" value="전체"/>
+            <input class="datepicker-btn mx-2" id="currentButton" type="button" value="재고"/>
+            <input class="datepicker-btn mx-2" id="releasedButton" type="button" value="출고"/>
         </div>
     </div>
 </form>
