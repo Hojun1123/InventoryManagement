@@ -519,7 +519,7 @@ def inventory_payment(allList, sd, ed):
             if tmpMIP in baseInv[tmpType]:
                 baseInv[tmpType][tmpMIP] += 1
             else:
-                print("해당 Type, MIP가 DB에 존재하지 않습니다.")
+                print("Type, MIP가 DB에 존재하지 않습니다.")
                 return False, row[2]
         else:
             print("Type, MIP가 DB에 존재하지 않습니다.")
@@ -535,10 +535,10 @@ def inventory_payment(allList, sd, ed):
                 if tmpMIP in receiveDict[tmpType]:
                     receiveDict[tmpType][tmpMIP] += 1
                 else:
-                    print("해당 Type, MIP가 DB에 존재하지 않습니다.")
+                    print("Type, MIP가 DB에 존재하지 않습니다.")
                     return False, row[2]
             else:
-                print("해당 Type, MIP가 DB에 존재하지 않습니다.")
+                print("Type, MIP가 DB에 존재하지 않습니다.")
                 return False, row[2]
 
         if row[5] == ed:
