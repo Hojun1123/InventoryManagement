@@ -93,7 +93,7 @@ function getUniqueValuesFromColumn() {
     allFilters.forEach((filter_i) => {
         col_index = filter_i.parentElement.getAttribute("col-index");
         // alert(col_index)
-        const rows = document.querySelectorAll("#emp-table > tbody > tr")
+        const rows = document.querySelectorAll("#filter > tbody > tr")
 
         rows.forEach((row) => {
             cell_value = row.querySelector("td:nth-child(" + col_index + ")").innerHTML;
@@ -154,7 +154,7 @@ function filter_rows() {
 
     var col_cell_value_dict = {};
 
-    const rows = document.querySelectorAll("#emp-table tbody tr");
+    const rows = document.querySelectorAll("#filter tbody tr");
     rows.forEach((row) => {
         var display_row = true;
 
@@ -180,3 +180,4 @@ function filter_rows() {
         }
     })
 }
+

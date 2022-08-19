@@ -208,7 +208,7 @@ def inventory_payment():
         if check == False:
             return "<script>alert(\'" + paymentList + "엔진의 Type, MIP 가 DB에 추가되어있지 않습니다." + "\')\nwindow.history.back()</script>"
         elif check == True:
-            return render_template("./main/inventoryPayment.html", paymentList=paymentList )
+            return render_template("./main/inventoryPayment.html", paymentList=paymentList)
 
         return render_template("./main/inventoryPayment.html", paymentList=paymentList)
 

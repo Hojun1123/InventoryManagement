@@ -97,7 +97,7 @@
 
 <div class="m-4">
     <div class="inventory-table-container">
-        <table id="emp-table" class="table inventory-table table-bordered table-striped table-hover">
+        <table id="filter" class="table inventory-table table-bordered table-striped table-hover">
             <thead>
             <th col-index=1 scope="col">번호</th>
             <th col-index=2 scope="col">
@@ -146,7 +146,7 @@
 
 <script>
     window.onload = () => {
-        console.log(document.querySelector("#emp-table > tbody > tr:nth-child(1) > td:nth-child(2) ").innerHTML);
+        console.log(document.querySelector("#filter > tbody > tr:nth-child(1) > td:nth-child(2) ").innerHTML);
     };
     getUniqueValuesFromColumn()
 </script>
