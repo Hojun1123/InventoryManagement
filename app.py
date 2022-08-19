@@ -72,18 +72,29 @@ def inventory():
 # 바코드 읽기    #일단 보류
 @app.route('/readBarcode', methods=['GET', 'POST'])
 def read_barcode():
-    if request.method == 'POST': #POST로 넘겼다면(확인버튼눌렀다면)
+    # POST로 넘겼다면(확인버튼눌렀다면)
+    if request.method == 'POST':
         rawBarcodeData = request.form.get("barcode")
-        if rawBarcodeData != "" and rawBarcodeData is not None: #공백이 아니라면
-            if rawBarcodeData == "print": #입력된값이 print라면 한팔레트로 묶는다.
-                flash("한묶음완료")
-                return render_template("./main/readBarcodeString.html")
-            else: #입력된값이 print가 아니라면 임시파일저장
-                return render_template("./main/readBarcodeString.html")
-        else: #공백이 입력되면
-              #알림 후 페이지 랜더링
+
+        # rawBarcodeData가 공백이라면
+        if rawBarcodeData == "" :
+            flash("공백이입력되었습니다. 다시 시도해주세요.")
             return render_template("./main/readBarcodeString.html")
 
+        # rawBarcodeData가 정상적으로 입력되었다면
+        else:
+            # 입력된값이 print라면 오류표시
+            if rawBarcodeData == "print":
+                flash("한묶음완료")
+                return render_template("./main/readBarcodeString.html")
+
+            # 입력된값이 바코드값이라면
+            else:
+               # 임시파일저장
+                file = open("barcodeTemp.txt","w")
+                file.write(rawBarcodeData)
+                file.close()
+                return render_template("./main/readBarcodeString.html")
     #POST외의 방법으로 값이 넘어왔다면
     else:
         #아무것도 하지않고 페이지 랜더링
