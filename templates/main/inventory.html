@@ -162,7 +162,15 @@
                 <tr>
                     <th scope="row"></th>
                     {% for b in a %}
+
+                        {% if session["userid"] == "manager" %}
                             <td contenteditable="true">{{ b }}</td>
+                        {% endif %}
+
+                        {% if session["userid"] == "user" %}
+                            <td contenteditable="false">{{ b }}</td>
+                        {% endif %}
+
                     {% endfor %}
                 </tr>
             {% endfor %}
@@ -198,6 +206,6 @@
         $("#filter").tablesorter();
     });
 </script>
-    <script src="/static/js/TableFilter.min.js" defer></script>
+<script src="/static/js/TableFilter.min.js" defer></script>
 </body>
 </html>
