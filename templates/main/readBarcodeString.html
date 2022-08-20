@@ -2,20 +2,13 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>바코드스캔</title>
+    <title>Login-Demo</title>
 
     <link href="/static/css/style.css" rel="stylesheet"/>
 
 </head>
 <body>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <script type="text/javascript">
-            alert("{{messages[-1]}}");
-        </script>
-    {% endif %}
-    {% endwith %}
-
+<!--login.html 에서 nav bar 제거 및 login section 높이 수정-->
 <main>
     <section class="vh-100">
         <div class="container py-5 h-100">
@@ -25,7 +18,7 @@
                         <div class="d-flex align-items-center">
                             <div class="card-body p-lg-5 text-black">
 
-                                <form method="post">
+                                <form action="/readBarcode" method="post">
                                     <div class="d-flex align-items-center mb-3 pb-1">
                                         <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
                                         <span class="h1 fw-bold mb-0">바코드 입력</span>
@@ -33,17 +26,44 @@
                                     <!--<h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Text</h5>-->
 
                                     <div class="form-outline mb-4">
-                                        <textarea id="barcode" name="barcode" rows="30" cols="85"> </textarea>
+                                        <textarea style="height: 400px" name="barcode" id="barcode"
+                                                  class="form-control form-control-lg" placeholder=""
+                                                  autofocus></textarea>
+                                        <label class="form-label" for="barcode">바코드를 스캔해주세요.</label>
                                     </div>
-                                    <div class="pt-1 mb-4">
-                                        <label class="form-label" for="barcode">커서를 올리고 바코드스캔을 시작해주세요.</label>
-                                    </div>
+                                    <!--<a class="small text-muted" href="#!">abc</a>-->
                                     <div class="pt-1 mb-4">
                                         <button class="btn btn-dark btn-lg btn-block" type="submit">저장</button>
                                     </div>
                                 </form>
+
+                                <div class="pt-1 mb-4">
+                                    <button class="btn btn-dark btn-lg btn-block" type="button"
+                                            onclick="location.href='/main'">홈화면
+                                    </button>
+                                </div>
+
                             </div>
                         </div>
+                    </div>
+                    <!--input queue list-->
+                    <div>
+                        <table id="barcodetable" style="border: 1px solid #4f5050">
+                            <tbody>
+                            {% for i in ib %}
+                                <tr>
+                                    {% for j in i %}
+                                        <td style="width:200px; border: 1px solid #4f5050"> {{ j }} </td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                {% for r in rb %}
+                                    <td style="width:200px; border: 1px solid #4f5050">{{ r }}</td>
+                                {% endfor %}
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
