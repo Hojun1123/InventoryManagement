@@ -17,17 +17,29 @@
     <script type='text/javascript'
             src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
     <script src="/static/js/javascript.js"></script>
-
+    <!--tablesorter-->
+    <script src="/static/js/jquery.tablesorter.min.js"></script>
     <script>
         $(document).ready(function () {
-            $("#deleteButton").on("click", function () {
-                $('td:nth-child(6):empty').parent().hide();
+            //전체 버튼
+            $("#entireButton").on("click", function () {
+                $('td:nth-child(7):empty').parent().show();
+                $('td:nth-child(7):parent').parent().show();
+            });
+            //재고 버튼
+            $("#currentButton").on("click", function () {
+                $('td:nth-child(7):parent').parent().hide();
+                $('td:nth-child(7):empty').parent().show();
+            });
+            //출고 버튼
+            $("#releasedButton").on("click", function () {
+                $('td:nth-child(7):empty').parent().hide();
+                $('td:nth-child(7):parent').parent().show();
             });
 
-            $("#restoreButton").on("click", function () {
-                $('td:nth-child(6):empty').parent().show();
-            });
         });
+
+
     </script>
 
 </head>
@@ -105,15 +117,20 @@
         </div>
         <button type="submit" class="datepicker-btn" onclick="return CheckDate()">조회</button>
         <div class="d-flex" style="margin-left : auto; margin-right: 10px;">
-            <input class="datepicker-btn mx-2" id="restoreButton" type="button" value="전체"/>
-            <input class="datepicker-btn mx-2" id="deleteButton" type="button" value="재고"/>
+            <input class="datepicker-btn mx-2" id="entireButton" type="button" value="전체"/>
+            <input class="datepicker-btn mx-2" id="currentButton" type="button" value="재고"/>
+            <input class="datepicker-btn mx-2" id="releasedButton" type="button" value="출고"/>
         </div>
     </div>
 </form>
-
+<div class="searchFilter">
+    <input class="datepicker-btn mx-2" id="filter0" type="text" placeholder="기종" style="width:90px;height:40px;"/>
+    <input class="datepicker-btn mx-2" id="filter1" type="text" placeholder="MIP" style="width:90px;height:40px; "/>
+    <input class="datepicker-btn mx-2" id="filter2" type="text" placeholder="EID" style="width:90px;height:40px; "/>
+</div>
 <div class="m-4">
     <div class="inventory-table-container">
-        <table id="emp-table" class="table inventory-table table-bordered table-striped table-hover">
+        <table id="filter" class="table inventory-table table-bordered table-striped table-hover">
             <thead>
             <th col-index=1 scope="col">번호</th>
             <th col-index=2 scope="col">
@@ -145,7 +162,15 @@
                 <tr>
                     <th scope="row"></th>
                     {% for b in a %}
-                        <td>{{ b }}</td>
+
+                        {% if session["userid"] == "manager" %}
+                            <td contenteditable="true">{{ b }}</td>
+                        {% endif %}
+
+                        {% if session["userid"] == "user" %}
+                            <td contenteditable="false">{{ b }}</td>
+                        {% endif %}
+
                     {% endfor %}
                 </tr>
             {% endfor %}
@@ -171,9 +196,16 @@
 
 <script>
     window.onload = () => {
-        console.log(document.querySelector("#emp-table > tbody > tr:nth-child(1) > td:nth-child(2) ").innerHTML);
+        console.log(document.querySelector("#filter > tbody > tr:nth-child(1) > td:nth-child(2) ").innerHTML);
     };
     getUniqueValuesFromColumn()
 </script>
+
+<script>
+    $(document).ready(function () {
+        $("#filter").tablesorter();
+    });
+</script>
+<script src="/static/js/TableFilter.min.js" defer></script>
 </body>
 </html>

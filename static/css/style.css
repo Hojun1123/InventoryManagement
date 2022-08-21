@@ -12095,3 +12095,13 @@ textarea.form-control-lg {
     display: block;
     width: 100%;
 }
+
+/* 테이블 번호 매기기 */
+table > tbody > tr{
+    counter-increment: aa;
+}
+
+table > tbody > tr > th:first-child:before{
+    content: counter(aa);
+}
+
