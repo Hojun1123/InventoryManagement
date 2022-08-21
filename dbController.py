@@ -106,6 +106,35 @@ def get_type(mip):
     print("Invalid MIP")
     return -1
 
+def get_type_list():
+    try:
+        rs = open_sheet("engine", "types")
+    except:
+        print("can't read types")
+        return -1
+    tmpList = []
+    for row in rs:
+        tmpList.append([
+            row[0].value,
+            row[1].value
+        ])
+    return tmpList
+
+def get_error_engine_list():
+    try:
+        rs = open_sheet("engine", "engineDB")
+    except:
+        print("can't read types")
+        return -1
+    allList = get_excellist()
+    errorList = []
+    for i in allList:
+        if i[9] == '' or i[9] is None:
+            continue
+        else:
+            errorList.append(i)
+
+    return errorList
 
 #barcode.xlsx 를 engine.xlsx에 동기화
 def synchronization():
@@ -201,7 +230,7 @@ def select_by_date(startdate, enddate):
                 row['출고exp'],
                 row['groupID'],
                 groups[row['groupID']],
-                "" if int(row['invalidEngine']) else "불량",
+                "불량" if int(row['invalidEngine']) else "",
                 row['비고']
             ])
     for i in range(len(result)):
@@ -244,36 +273,6 @@ def delete_row(en, comment, day):
     return 1
 
 
-'''
-def get_excellist():
-    rs = open_sheet("engine", "engineDB")
-    excelList = []
-    tmpList = []
-    for x in range(2, rs.max_row + 1):
-        for y in range(1, rs.max_column + 1):
-            cell = rs.cell(row=x, column=y).value
-            if(y == 7):
-                continue
-            if cell is None:# or math.isnan(rs.cell(row=x, column=y).value):
-                tmpList.append('')
-            else:
-                tmpList.append(cell)
-        if tmpList[6] == '': #np.isnan
-            tmpList.insert(7, '')
-        else:
-            #str = get_location(tmpList[6])
-            if type(tmpList[6]) == type(int):
-                str = get_location(tmpList[6])
-            else:
-                str = get_location(int(tmpList[6]))
-            tmpList.insert(7, str)
-        tmpList[0], tmpList[2] = tmpList[2], tmpList[0]
-        excelList.append(tmpList)
-        tmpList = []
-    #excelList = excelList[1:]
-    return excelList
-'''
-
 #기종, MIP, ENGINE, 입고일, 포장일, 출고일, 출고exp, GROUP, 위치, 불량엔진, 비고
 def get_excellist():
     try:
@@ -303,7 +302,7 @@ def get_excellist():
             row['출고exp'],
             row['groupID'],
             groups[row['groupID']],
-            "" if int(row['invalidEngine']) else "불량",
+            "불량" if int(row['invalidEngine']) else "",
             row['비고']
         ])
     for i in range(len(tmpList)):

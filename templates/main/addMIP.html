@@ -118,6 +118,17 @@
             </div>
         </div>
     </section>
+    <tbody>
+    {% for a in mipList %}
+    <tr>
+        <th scope="row"></th>
+        {% for b in a %}
+        <td>{{ b }}</td>
+        {% endfor %}
+        <br />
+    </tr>
+    {% endfor %}
+    </tbody>
 </main>
 </body>
 </html>

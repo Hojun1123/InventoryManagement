@@ -147,7 +147,17 @@
                 </div>
             </div>
     </section>
-
+    <tbody>
+    {% for a in curErrorList %}
+    <tr>
+        <th scope="row"></th>
+        {% for b in a %}
+        <td>{{ b }}</td>
+        {% endfor %}
+        <br />
+    </tr>
+    {% endfor %}
+    </tbody>
 </main>
 </body>
 </html>
