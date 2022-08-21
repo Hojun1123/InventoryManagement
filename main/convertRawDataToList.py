@@ -16,16 +16,3 @@ def convert(data):
         else:
             temp.append(i)
     return result
-
-
-def convert2(data):
-    d = data.replace("\r", "")
-    d = d.split("\n")
-    temp = []
-    for i in d:
-        # 중복인식처리
-        if (i in temp) or len(i) != 16:
-            continue
-        else:
-            temp.append(i[6:12])
-    return temp

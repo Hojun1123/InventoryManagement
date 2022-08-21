@@ -11,7 +11,7 @@ app = Flask(__name__)
 #flash secret_key
 app.config["SECRET_KEY"] = "sh291hfwnh8@hwqjh2(*@#*Uh2N2920hF@H0Fh@C293"
 allList = []
-
+errorList = ["100001","100002","100003"]
 # 인덱스 페이지
 @app.route('/', methods=['GET', 'POST'])
 def index():  # put application's code here
@@ -91,13 +91,19 @@ def release_engine():
     if request.method == 'GET':
         return render_template("./main/releaseEngine.html")
     else:
-        barcodes = request.form.get("barcode")
-        if barcodes != "" and barcodes is not None:
-            blist = crl.convert2(barcodes)
-            tm = datetime.datetime.now()
-            for b in blist:
-                print(b)
-                dc.delete_row(b, "comment test", tm.strftime("%Y%m%d"))
+        barcode = request.form.get("barcode")
+        if barcode != "" and len(barcode) == 16:
+            eid = barcode[6:12]
+            #에러 엔진 리스트에 포함된 엔진이면
+            if eid in errorList:
+                print("error : ", eid)
+            else:
+                print("delete : ", eid)
+                dt = datetime.now()
+                deleteList.append([eid, str(dt[0:4] + dt[5:7] + dt[8:10])])
+                #에러검사
+                #삭제할 엔진들을 리스트에 하나씩 저장
+                #모든 입력이 끝나면, db에 한번에 반영.
         return render_template("./main/releaseEngine.html")
 
 
