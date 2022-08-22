@@ -129,7 +129,8 @@
                                     </div>
                                     <!--<a class="small text-muted" href="#!">abc</a>-->
                                     <div class="mb-3">
-                                        <button class="btn btn-dark btn-lg btn-block data-setting-btn-block" type="submit"
+                                        <button class="btn btn-dark btn-lg btn-block data-setting-btn-block"
+                                                type="submit"
                                                 onclick="errorAlert()">저장
                                         </button>
                                     </div>
@@ -147,17 +148,34 @@
                 </div>
             </div>
     </section>
-    <tbody>
-    {% for a in curErrorList %}
-    <tr>
-        <th scope="row"></th>
-        {% for b in a %}
-        <td>{{ b }}</td>
-        {% endfor %}
-        <br />
-    </tr>
-    {% endfor %}
-    </tbody>
+    <div>
+        <table class="table invalid-table table-bordered table-striped table-hover">
+        <thead>
+        <th>번호</th>
+        <th>기종</th>
+        <th>MIP</th>
+        <th>ENG</th>
+        <th>입고일</th>
+        <th>포장일</th>
+        <th>출고일</th>
+        <th>출고exp</th>
+        <th>Group</th>
+        <th>위치</th>
+        <th>상태</th>
+        <th>비고</th>
+        </thead>
+            <tbody>
+            {% for a in curErrorList %}
+                <tr>
+                    <th scope="row"></th>
+                    {% for b in a %}
+                        <td>{{ b }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </main>
 </body>
 </html>
