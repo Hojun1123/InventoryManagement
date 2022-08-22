@@ -7,6 +7,20 @@
     <link href="/static/css/style.css" rel="stylesheet"/>
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <script src="/static/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            //전체 버튼
+            $("#hidden_col").ready(function (){
+                $('td:nth-child(7), th:nth-child(7)').hide();
+                $('td:nth-child(8), th:nth-child(8)').hide();
+                $('td:nth-child(9), th:nth-child(9)').hide();
+                $('td:nth-child(10), th:nth-child(10)').hide();
+                $('td:nth-child(11), th:nth-child(11)').hide();
+            })
+
+        });
+    </script>
 </head>
 <body>
 <!--세션유무확인-->
@@ -154,14 +168,14 @@
         <th>번호</th>
         <th>기종</th>
         <th>MIP</th>
-        <th>ENG</th>
+        <th>EID</th>
         <th>입고일</th>
         <th>포장일</th>
-        <th>출고일</th>
-        <th>출고exp</th>
-        <th>Group</th>
-        <th>위치</th>
-        <th>상태</th>
+        <th id="hidden_col">출고일</th>
+        <th id="hidden_col">출고exp</th>
+        <th id="hidden_col">Group</th>
+        <th id="hidden_col">위치</th>
+        <th id="hidden_col">상태</th>
         <th>비고</th>
         </thead>
             <tbody>
