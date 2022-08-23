@@ -45,7 +45,7 @@ def append_raw_barcodes(data):
     w1s1 = wb1["rawBarcode"]
     c = 0
     sl = len(list(w1s1.rows))
-    tm = datetime.datetime.now()
+    tm = datetime.now()
     date = tm.strftime("%Y%m%d")
     time = (tm.strftime("%X"))[0:2] + (tm.strftime("%X"))[3:5] + (tm.strftime("%X"))[6:8]
     for i in data:
@@ -148,7 +148,6 @@ def synchronization():
         return -1
     try:
         w1b1 = open_file("engine")
-        w2b1 = open_file("OwnedEngine")
     except:
         print("can't open .xlsx files")
         return -1
@@ -156,7 +155,6 @@ def synchronization():
         w1s1 = w1b1["engineDB"]
         w1s2 = w1b1["engineGroup"]
         w1s3 = w1b1["syncTime"]
-        w2s1 = w2b1["en"]
         glist = []
         for i in data:
             id = (i[0].value)[6:12]
@@ -169,20 +167,16 @@ def synchronization():
             # 엔진시리얼번호, mip, mip_type, 입고일, 포장일, 출고일, 출고설명, 그룹ID, 불량엔진bool타입, 비고
             #print([id, mip, type, day, day, "", "", gid, 0, ""])
             w1s1.append([id, mip, type, day, day, "", "", gid, 0, ""])
-            # 엔진시리얼번호, mip, mip_type, 입고일, 포장일, 그룹ID, 불량엔진, 비고
-            w2s1.append([id, mip, type, day, day, gid, 0, ""])
         for i in glist:
             #gio, location
             w1s2.append([i, ""])
-        tm = datetime.datetime.now()
+        tm = datetime.now()
         #print(tm.strftime("%Y%m%d"), (tm.strftime("%X"))[0:2] + (tm.strftime("%X"))[3:5] + (tm.strftime("%X"))[6:8])
         w1s3.cell(row=1, column=1).value = tm.strftime("%Y%m%d")
         w1s3.cell(row=1, column=2).value = ((tm.strftime("%X"))[0:2] + (tm.strftime("%X"))[3:5] + (tm.strftime("%X"))[6:8])
         try:
             w1b1.save(get_path("engine"))
             w1b1.close()
-            w2b1.save(get_path("OwnedEngine"))
-            w2b1.close()
         except:
             print("save error")
             return -1
@@ -241,36 +235,40 @@ def select_by_date(startdate, enddate):
 
 
 # 보유 엔진에서 해당엔진삭제, 엔진데이터에서 출고일 수정 + 출고설명추가
-def delete_row(en, comment, day):
-    if (en is None) or (en == ""):
+# 출고exp 는 일단 미반영.
+def delete_rows(engines):
+    if len(engines) < 1:
         print("empty en")
-    wb1 = open_sheet("engine")
-    ws1 = wb1['engineDB']
-    wb2 = open_file("OwnedEngine")
-    ws2 = wb2['en']
-    # check for debug
-    c1 = 0
-    c2 = 0
-    # eid 비교 후 같으면 해당 행 수정. 1부터 시작
-    for r in range(1, ws1.max_row + 1):
-        if str(ws1.cell(row=r, column=1).value) == en:
-            ws1.cell(r, 6).value = day
-            ws1.cell(r, 7).value = comment
-            c1 = 1
-            break
-    # eid비교 후 같으면 해당 행 삭제.
-    for r in range(1, ws2.max_row + 1):
-        if str(ws2.cell(row=r, column=1).value) == en:
-            ws2.delete_rows(r)
-            c2 = 1
-            break
-    if (c1 * c2) == 0:
-        print("not exist engine")
-    wb1.save(get_path("engine"))
-    wb1.close()
-    wb2.save(get_path("OwnedEngine"))
-    wb2.close()
-    return 1
+        return 0
+    try:
+        wb1 = open_file("engine")
+        ws1 = wb1['engineDB']
+    except:
+        print("can't open engineDB")
+        return -1
+    tm = datetime.now().strftime("%Y%m%d")
+    for en in engines:
+        eid = en[6:12]
+        check = 0
+        # eid 비교 후 같으면 해당 행 수정. 1부터 시작
+        for r in range(1, ws1.max_row + 1):
+            if str(ws1.cell(row=r, column=1).value) == eid:
+                if len(ws1.cell(r, 6).value) > 4:
+                    print("이미 불출된 엔진입니다.")
+                    return -3
+                ws1.cell(r, 6).value = tm
+                check = 1
+                break
+        if check == 0:
+            print("not exist engine")
+            return -2
+    try:
+        wb1.save(get_path("engine"))
+        wb1.close()
+    except:
+        print("can't save engine.xlsx")
+        return -1
+    return len(engines)
 
 
 #기종, MIP, ENGINE, 입고일, 포장일, 출고일, 출고exp, GROUP, 위치, 불량엔진, 비고
