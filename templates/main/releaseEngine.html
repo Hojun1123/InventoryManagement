@@ -10,13 +10,14 @@
 <body>
 <!--login.html 에서 nav bar 제거 및 login section 높이 수정-->
 <main>
-    <section class="vh-100">
-        <div class="container py-5 h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col col-xl-5">
+<section class="d-flex flex-wrap mt-5 mx-5 addmip-section justify-content-around">
+    <div class="mt-4 mip-card">
+        <div class="container py-5">
+            <div class="row d-flex justify-content-center align-items-center ">
+                <div class="col col-md-10">
                     <div class="card" style="border-radius: 1rem;">
                         <div class="d-flex align-items-center">
-                            <div class="card-body p-lg-5 text-black">
+                            <div class="card-body p-sm-4 text-black m-3">
 
                                 <form action="/releaseEngine" method="post">
                                     <div class="d-flex align-items-center mb-3 pb-1">
@@ -45,18 +46,25 @@
                             </div>
                         </div>
                     </div>
-                    <!--input queue list-->
-                    <div>
-                        <p>총 {{ length }}개의 엔진이 출고됩니다.</p>
-                        <ul>
-                            {% for i in el %}
-                            <li>{{ i }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
+        <!--input queue list-->
+                    <div class="mip-table-container mt-4 mx-5">
+                        <table class="mip-table table table-bordered table-striped table-hover">
+                            <thead>
+                                <th>총 {{ length }}개의 엔진이 출고됩니다.</th>
+                            </thead>
+                            <tbody>
+                            {% for a in el %}
+                                <tr>
+                                    <td>{{ a }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
     </section>
 </main>
 </body>

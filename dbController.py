@@ -253,7 +253,7 @@ def delete_rows(engines):
         # eid 비교 후 같으면 해당 행 수정. 1부터 시작
         for r in range(1, ws1.max_row + 1):
             if str(ws1.cell(row=r, column=1).value) == eid:
-                if len(ws1.cell(r, 6).value) > 4:
+                if len(str(ws1.cell(r, 6).value)) > 4:
                     print("이미 불출된 엔진입니다.")
                     return -3
                 ws1.cell(r, 6).value = tm

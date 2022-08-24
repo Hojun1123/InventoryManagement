@@ -110,7 +110,8 @@ def release_engine():
                     return render_template("./main/releaseEngine.html", el=releaseList, length=len(releaseList))
             #정상 엔진
             print("불출 : ", eid)
-            releaseList.append(barcode)
+            if barcode not in releaseList:
+                releaseList.append(barcode)
         return render_template("./main/releaseEngine.html", el=releaseList, length=len(releaseList))
 
 
@@ -207,7 +208,7 @@ def release():
     a = dc.delete_rows(releaseList)
     releaseList = []
     if a >= 0:
-        return "<script>alert(\'출고 완료, "+a+"개 엔진이 출고되었습니다.\')\nwindow.location.href='/main'</script>"
+        return "<script>alert(\'출고 완료, "+str(a)+"개 엔진이 출고되었습니다.\')\nwindow.location.href='/main'</script>"
     elif a == -2:
         return "<script>alert(\'출고 에러, 존재하지 않는 엔진이 있습니다.\')\nwindow.location.href='/main'</script>"
     elif a == -3:
@@ -268,4 +269,11 @@ G4FDEH408157G20Y
 G4FMNU259757BE02
 G4FMNU259758BE02
 G4FDEH408157G20Y
+'''
+
+
+'''
+1. 전역변수에 데이터를 몽땅 로드
+2. 그외 모든 데이터는 전역변수로 부터 조작해서 가져옴
+3.
 '''
