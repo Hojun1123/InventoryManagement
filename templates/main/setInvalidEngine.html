@@ -10,16 +10,34 @@
 
     <script>
         $(document).ready(function () {
-            //전체 버튼
-            $("#hidden_col").ready(function (){
-                $('td:nth-child(7), th:nth-child(7)').hide();
+            /**
+             * 출고exp,groupID,위치,상태 hide()
+             */
+            $("#hidden_col").ready(function () {
+                //  $('td:nth-child(7), th:nth-child(7)').hide();
+                $('td:nth-child(7):parent').parent().hide();
                 $('td:nth-child(8), th:nth-child(8)').hide();
                 $('td:nth-child(9), th:nth-child(9)').hide();
                 $('td:nth-child(10), th:nth-child(10)').hide();
                 $('td:nth-child(11), th:nth-child(11)').hide();
             })
+            /**
+             * 입고, 출고 관계없이 전체 조회
+             */
+            $("#entireButton").on("click", function () {
+                $('td:nth-child(7):empty').parent().show();
+                $('td:nth-child(7):parent').parent().show();
+            });
+            /**
+             * 현재 재고 중에서 조회
+             */
+            $("#currentButton").on("click", function () {
+                $('td:nth-child(7):parent').parent().hide();
+                $('td:nth-child(7):empty').parent().show();
+            });
 
         });
+
     </script>
 </head>
 <body>
@@ -162,25 +180,29 @@
                 </div>
             </div>
     </section>
+    <div class="d-flex" style="margin-left : auto; margin-right: 10px;">
+        <input class="datepicker-btn mx-2" id="entireButton" type="button" value="전체"/>
+        <input class="datepicker-btn mx-2" id="currentButton" type="button" value="재고"/>
+    </div>
     <div>
         <span>mount: {{errorMount}}</span>
     </div>
     <div>
         <table class="table invalid-table table-bordered table-striped table-hover">
-        <thead>
-        <th>번호</th>
-        <th>기종</th>
-        <th>MIP</th>
-        <th>EID</th>
-        <th>입고일</th>
-        <th>포장일</th>
-        <th id="hidden_col">출고일</th>
-        <th id="hidden_col">출고exp</th>
-        <th id="hidden_col">Group</th>
-        <th id="hidden_col">위치</th>
-        <th id="hidden_col">상태</th>
-        <th>비고</th>
-        </thead>
+            <thead>
+            <th>번호</th>
+            <th>기종</th>
+            <th>MIP</th>
+            <th>EID</th>
+            <th>입고일</th>
+            <th>포장일</th>
+            <th id="hidden_col">출고일</th>
+            <th id="hidden_col">출고exp</th>
+            <th id="hidden_col">Group</th>
+            <th id="hidden_col">위치</th>
+            <th id="hidden_col">상태</th>
+            <th>비고</th>
+            </thead>
             <tbody>
             {% for a in curErrorList %}
                 <tr>
