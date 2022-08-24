@@ -2006,6 +2006,7 @@ progress {
     border-color: #dee2e6;
 }
 
+
 .table > :not(caption) > * > * {
     padding: 0.5rem 0.5rem;
     background-color: var(--bs-table-bg);
@@ -12136,3 +12137,4 @@ table > tbody > tr > th:first-child:before {
     min-width: 1100px;
     margin: 0 auto;
 }
+
