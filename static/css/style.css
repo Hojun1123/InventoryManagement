@@ -12009,6 +12009,9 @@ textarea.form-control-lg {
     display: block;
 }
 
+.inventory-table tbody tr:nth-child(odd) {
+    background-color: rgba(0,0,0,.05);
+}
 .inventory-table thead {
     display: block;
 }
@@ -12120,8 +12123,6 @@ table > tbody > tr > th:first-child:before {
     overflow: auto;
 }
 
-.mip-table {
-}
 
 .mip-card {
     height: 72vh;
