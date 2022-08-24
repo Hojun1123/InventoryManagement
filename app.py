@@ -11,6 +11,8 @@ app = Flask(__name__)
 #flash secret_key
 app.config["SECRET_KEY"] = "sh291hfwnh8@hwqjh2(*@#*Uh2N2920hF@H0Fh@C293"
 allList = []
+errorList = []
+releaseList = []
 
 # 인덱스 페이지
 @app.route('/', methods=['GET', 'POST'])
@@ -52,7 +54,6 @@ def inventory():
         excelList = dc.get_excellist()
         global allList
         allList = excelList
-        length = len(excelList)
         return render_template("./main/inventory.html", excelList=excelList)
     else:
         startdate = request.form.get("startdate")
@@ -64,7 +65,6 @@ def inventory():
         if int(sd) > int(ed):
             return "<script>alert(\'시작일이 종료일보다 클 수 없습니다.\')\nwindow.history.back()</script>"
         data = dc.select_by_date(sd, ed)
-        length = len(data)
         return render_template("./main/inventory.html", excelList=data, startdate=str(startdate), enddate=str(enddate))
 
 
@@ -93,16 +93,26 @@ def print_barcode():
 @app.route('/releaseEngine', methods=['GET', 'POST'])
 def release_engine():
     if request.method == 'GET':
-        return render_template("./main/releaseEngine.html")
+        ## 미리 전역 변수에 로드
+        global errorList
+        errorList = dc.get_error_engine_list()
+        return render_template("./main/releaseEngine.html", el=releaseList, length=len(releaseList))
     else:
-        barcodes = request.form.get("barcode")
-        if barcodes != "" and barcodes is not None:
-            blist = crl.convert2(barcodes)
-            tm = datetime.datetime.now()
-            for b in blist:
-                print(b)
-                dc.delete_row(b, "comment test", tm.strftime("%Y%m%d"))
-        return render_template("./main/releaseEngine.html")
+        barcode = request.form.get("barcode")
+        ## 바코드 유효성 체크
+        if barcode != "" and len(barcode) == 16:
+            #에러 엔진 리스트에 포함된 엔진이면
+            eid = barcode[6:12]
+            for i in errorList:
+                #eid가 같으면, 불출x
+                if eid == i[2]:
+                    print("error : ", eid)
+                    return render_template("./main/releaseEngine.html", el=releaseList, length=len(releaseList))
+            #정상 엔진
+            print("불출 : ", eid)
+            if barcode not in releaseList:
+                releaseList.append(barcode)
+        return render_template("./main/releaseEngine.html", el=releaseList, length=len(releaseList))
 
 
 # 보유 엔진 보고서
@@ -190,6 +200,24 @@ def refresh():
     print("동기화 완료")
     return "<script>alert(\'동기화 완료\')\nwindow.history.back()</script>"
 
+
+#출고, 출고리스트의 엔진들을 출고시키고, 출고리스트를 초기화
+@app.route('/release')
+def release():
+    global releaseList
+    a = dc.delete_rows(releaseList)
+    releaseList = []
+    if a >= 0:
+        return "<script>alert(\'출고 완료, "+str(a)+"개 엔진이 출고되었습니다.\')\nwindow.location.href='/main'</script>"
+    elif a == -2:
+        return "<script>alert(\'출고 에러, 존재하지 않는 엔진이 있습니다.\')\nwindow.location.href='/main'</script>"
+    elif a == -3:
+        return "<script>alert(\'출고 에러, 이미 불출된 엔진이 있습니다.\')\nwindow.location.href='/main'</script>"
+    else:
+        return "<script>alert(\'출고 에러, File Error\')\nwindow.location.href='/main'</script>"
+
+
+
 @app.route('/inventoryPayment', methods=['GET', 'POST'])
 def inventory_payment():
     global allList
@@ -241,4 +269,11 @@ G4FDEH408157G20Y
 G4FMNU259757BE02
 G4FMNU259758BE02
 G4FDEH408157G20Y
+'''
+
+
+'''
+1. 전역변수에 데이터를 몽땅 로드
+2. 그외 모든 데이터는 전역변수로 부터 조작해서 가져옴
+3.
 '''
