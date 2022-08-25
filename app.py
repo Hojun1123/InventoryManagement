@@ -155,9 +155,15 @@ def daily_engine_list():
 @app.route('/addMIP', methods=['GET', 'POST'])
 def add_mip_type():
     if request.method == 'GET':
-        mipList = dc.get_type_list()
+        tmpList = dc.get_type_list()
+        mipList = []
+        for i in tmpList[::-1]:
+            mipList.append(i)
+
         return render_template("./main/addMIP.html", mipList = mipList)
     else:
+        tmpList = []
+        mipList = []
         mip = request.form.get("mip")
         type = request.form.get("type")
         if mip == "" and mip is None:
@@ -167,7 +173,9 @@ def add_mip_type():
         if len(mip) != 4:
             return render_template("./main/addMIP.html")
         dc.add_MIP(mip, type)
-        mipList = dc.get_type_list()
+        tmpList = dc.get_type_list()
+        for i in tmpList[::-1]:
+            mipList.append(i)
         return render_template("./main/addMIP.html", mipList = mipList)
 
 #에러엔진 설정
@@ -176,7 +184,8 @@ def set_invalid_engine_exp():
     errorList = []
     if request.method == 'GET':
         curErrorList = dc.get_error_engine_list()
-        return render_template("./main/setInvalidEngine.html", curErrorList=curErrorList)
+        mount = len(curErrorList)
+        return render_template("./main/setInvalidEngine.html", curErrorList=curErrorList, errorMount=mount)
     else:
         eng = request.form.getlist("ENG[]")
         exp = request.form.getlist("EXP[]")
@@ -190,7 +199,8 @@ def set_invalid_engine_exp():
             flash(errorEngine)
 
         curErrorList = dc.get_error_engine_list()
-        return render_template("./main/setInvalidEngine.html", errorList = errorList, curErrorList=curErrorList)
+        mount = len(curErrorList)
+        return render_template("./main/setInvalidEngine.html", errorList = errorList, curErrorList=curErrorList, errorMount=mount)
 
 
 #동기화
