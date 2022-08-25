@@ -12138,4 +12138,10 @@ table > tbody > tr > th:first-child:before {
     min-width: 1100px;
     margin: 0 auto;
 }
-
+/* 테이블 수정 시 input박스 크기 */
+.input-data{
+    width: 100%;
+    box-sizing : border-box;
+     -webkit-box-sizing:border-box;
+     -moz-box-sizing: border-box;
+}
