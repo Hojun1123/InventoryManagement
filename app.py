@@ -10,7 +10,7 @@ from datetime import datetime
 app = Flask(__name__)
 #flash secret_key
 app.config["SECRET_KEY"] = "sh291hfwnh8@hwqjh2(*@#*Uh2N2920hF@H0Fh@C293"
-allList = []
+allList = dc.get_excellist()
 errorList = []
 releaseList = []
 
@@ -51,10 +51,7 @@ def main_page():
 @app.route('/inventory', methods=['GET', 'POST'])
 def inventory():
     if request.method == "GET":
-        excelList = dc.get_excellist()
-        global allList
-        allList = excelList
-        return render_template("./main/inventory.html", excelList=excelList)
+        return render_template("./main/inventory.html", excelList=allList)
     else:
         startdate = request.form.get("startdate")
         enddate = request.form.get("enddate")
@@ -131,7 +128,7 @@ def holding_engines_report():
         if int(sd) > int(ed):
             return "<script>alert(\'시작일이 종료일보다 클 수 없습니다.\')\nwindow.history.back()</script>"
         dates = gdl.datelist(sd, ed)
-        table = mrt.make(dc.select_all_for_report(dates[0]), dates)
+        table = mrt.make(dc.select_all_for_report(allList, dates[0]), dates)
         return render_template("./main/report.html", table=table, startdate=str(startdate), enddate=str(enddate))
 
 
@@ -254,15 +251,13 @@ def inventory_payment():
 
         return render_template("./main/inventoryPayment.html", paymentList=paymentList)
 
+
 # flask 구동 (main)
 if __name__ == '__main__':
     # hp 지정
     # app.run(host="127.0.0.1", port=5000, debug=True)
     # 49.174.54.239:9375
-
-    allList = dc.get_excellist()
-    app.run(host='0.0.0.0', debug=True, threaded=True)
-
+    app.run(host='0.0.0.0', port=5000)
 
 '''
 TEST

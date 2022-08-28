@@ -118,7 +118,7 @@ def outputcell(day, l):
 def stockcell(day, l):
     cnt = 0
     for i in l:
-        if (i[1] is None) and (int(i[0]) <= int(day)):
+        if (i[1] == "") and (int(i[0]) <= int(day)):
             cnt += 1
         elif (int(i[0]) <= int(day)) and (int(i[1]) > int(day)):
             cnt += 1
