@@ -185,13 +185,12 @@ def synchronization():
         return -1
 
 
-def select_all_for_report(day):
+def select_all_for_report(excellist, day):
     dl = defaultdict(list)
-    rs = open_sheet("engine", "engineDB")
-    for row in list(rs.rows)[1:]:
+    for row in excellist:
         # 아직 출고되지않았거나, 기간(a~b)에서 a날짜 이후의 데이터들에 대해 mip, 입고일, 출고일을 리스트에 append
-        if (row[5].value == "") or (row[5].value is None) or (int(row[5].value) >= int(day)):
-            dl[row[2].value].append([row[1].value, row[3].value, row[5].value])
+        if (row[5] == "") or (int(row[5]) >= int(day)): # or (row[5].value is None)
+            dl[row[0]].append([row[1], row[3], row[5]])
         # print(row[5].value," ", int(day))
         # 역순 후 마지막행 제외
     return dl
