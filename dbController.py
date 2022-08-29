@@ -6,7 +6,8 @@ from collections import defaultdict
 import pandas as pd
 import math
 import numpy as np
-import pandas as pd
+import qrcode
+from PIL import Image, ImageDraw, ImageFont
 
 
 def read_sheet(file, sheet):
@@ -558,3 +559,94 @@ def inventory_payment(allList, sd, ed):
             payment.append(tmpList)
 
     return True, payment
+
+
+
+# 라벨을 프린트하는 함수
+def printingLabel(barcodeList):
+
+    #라벨을 프린트 하는데 사용할 서브함수들 선언
+
+    # MIP추출 / 뒷부분 4글자를 잘라온다.
+    def separateMIP(rawBarcodeGroup):
+        separateString = rawBarcodeGroup[0]
+        MIP = separateString[-4:]
+        return MIP
+
+    #기종찾기 / MIP를 기준으로 기종을 찾는다.
+    def findModelName(MIP):
+        try:
+            rs = open_sheet("engine", "types")
+        except:
+            print("can't read types")
+            return -1
+
+        for row in rs.rows:
+            # empty rows 탐색 제외
+            if row[0].value is None:
+                break
+            if row[0].value == MIP:
+                return row[1].value
+        print("Invalid MIP")
+        return -1
+
+    # 시리얼번호 추출 / 앞 두글자와 뒤 4글자를 빼고 저장한다.
+    def separateSerials(rawBarcodeGroup):
+        serialList = [] #시리얼넘버들을 담을 리스트 호출
+        for i in range(0,len(rawBarcodeGroup)):
+            separateString = rawBarcodeGroup[i]
+            serialList.append(separateString[6:-4])
+
+        # 리스트로 저장되어있는 시리얼을 한줄의 문자열로 변환
+        stringSerialList = "" #문자열 시리얼넘버를 저장할 공간 호출
+        for i in range(0,len(serialList)):
+            stringSerialList = stringSerialList + serialList[i] + " "
+        return stringSerialList
+
+    # barcodeList를 받아서 라벨기초 이미지 생성
+    def makeLabel(MIP, modelName, serials):
+        image = Image.open("./Source/orginal.png")
+        draw = ImageDraw.Draw(image)
+        #기종작성
+        draw.text((100, 15), str(modelName), font=ImageFont.truetype('./Source/LeferiBaseRegular.otf',20), fill="black")
+        #입고일자
+        #draw.text((26,75), "공백")
+        #MIP
+        draw.text((95, 65), str(MIP), font=ImageFont.truetype('./Source/LeferiBaseRegular.otf',20), fill="black")
+        #포장일자
+        #draw.text((52,75), "공백")
+        #VIN NO.
+        draw.text((85, 120), str(serials), font=ImageFont.truetype('./Source/LeferiBaseRegular.otf',14), fill="black")
+
+        image.save("./Source/textingLabel.png")
+        return True
+
+    # barcdoeList를 받아서 바코드 생성
+    def makeQRcode(barcodeList):
+
+        serialString = ""
+        for i in range(0,len(barcodeList)):
+            serialString = serialString + barcodeList[i]
+
+        img = qrcode.make(serialString)
+        img.save("./Source/qrcode.png")
+
+    # 라벨기초 이미지와 QR코드 합성
+    def makeCompleteLabel():
+        textingLabel = Image.open('./Source/textingLabel.png')
+        QRcode = Image.open('./Source/qrcode.png')
+        QRcode = QRcode.resize((60,60))
+        x = textingLabel.size[0] - QRcode.size[0] - 120
+        y = textingLabel.size[1] - QRcode.size[1] - 10
+        textingLabel.paste(QRcode, (x,y))
+        textingLabel.save('./Source/completeLabel.png')
+
+
+    #barcodeList크기만큼(그룹크기만큼) 반복하면서 라벨을 프린트
+    for i in range(0,len(barcodeList)):
+        MIP = separateMIP(barcodeList[i])
+        modelName = findModelName(MIP)
+        Serial = separateSerials(barcodeList[i])
+        makeLabel(MIP, modelName, Serial)
+        makeQRcode(barcodeList[i])
+        makeCompleteLabel()
