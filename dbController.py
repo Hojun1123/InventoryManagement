@@ -526,7 +526,7 @@ def inventory_payment(allList, sd, ed):
     for row in allList:
         tmpType = row[0]
         tmpMIP = row[1]
-        if row[3] == ed:
+        if sd <= row[3] <= ed:
             if tmpType in receiveDict:
                 if tmpMIP in receiveDict[tmpType]:
                     receiveDict[tmpType][tmpMIP] += 1
@@ -537,7 +537,7 @@ def inventory_payment(allList, sd, ed):
                 print("Type, MIP가 DB에 존재하지 않습니다.")
                 return False, row[2]
 
-        if row[5] == ed:
+        if sd <= row[5] <= ed:
             if tmpType in releaseDict:
                 if tmpMIP in releaseDict[tmpType]:
                     releaseDict[tmpType][tmpMIP] += 1
