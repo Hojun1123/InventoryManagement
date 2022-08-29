@@ -5,20 +5,44 @@
     <title>SJA 재고관리시스템</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link href="/static/css/style.css" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 
+    <script type="text/javascript">
+        function caps_lock(e) {
+            var keyCode = 0;
+            var shiftKey = false;
+            keyCode = e.keyCode;
+            shiftKey = e.shiftKey;
+            if (((keyCode >= 65 && keyCode <= 90) && !shiftKey)
+                || ((keyCode >= 97 && keyCode <= 122) && shiftKey)) {
+                show_caps_lock();
+                setTimeout("hide_caps_lock()", 3500);
+            } else {
+                hide_caps_lock();
+            }
+        }
+
+        function show_caps_lock() {
+            $("#capslock").show();
+        }
+
+        function hide_caps_lock() {
+            $("#capslock").hide();
+        }
+    </script>
 </head>
 <main>
     {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <script type="text/javascript">
-            alert("{{messages[-1]}}");
-        </script>
-    {% endif %}
+        {% if messages %}
+            <script type="text/javascript">
+                alert("{{messages[-1]}}");
+            </script>
+        {% endif %}
     {% endwith %}
 
     {% if session["userid"] %}
         <script>
-            location.href="/main"
+            location.href = "/main"
         </script>
     {% endif %}
 
@@ -40,8 +64,12 @@
                                         <input type="text" id="id" name="id" class="form-control form-control-lg"/>
                                         <label class="form-label" for="form2Example17">ID</label>
                                     </div>
-                                    <div class="form-outline mb-4">
-                                        <input type="password" id="pwd" name="pwd" class="form-control form-control-lg"/>
+                                    <div class="form-outline mb-4 position-relative">
+                                        <input type="password" id="pwd" name="pwd"
+                                               class="form-control form-control-lg" onkeypress="caps_lock(event)"/>
+                                        <p id="capslock" class="login_capslock_box">
+                                            &nbsp;<b>CapsLock</b> 키가 눌려있습니다.&nbsp;
+                                        </p>
                                         <label class="form-label" for="form2Example27">Password</label>
                                     </div>
                                     <div class="pt-1 mb-4">
