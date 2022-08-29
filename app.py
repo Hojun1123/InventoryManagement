@@ -65,7 +65,7 @@ def inventory():
         return render_template("./main/inventory.html", excelList=data, startdate=str(startdate), enddate=str(enddate))
 
 
-# 바코드 읽기    #일단 보류
+# 바코드 읽기
 @app.route('/readBarcode', methods=['GET', 'POST'])
 def read_barcode():
     if request.method == 'GET':
@@ -77,6 +77,7 @@ def read_barcode():
             blist = crl.convert(rawBarcodeData)
             # time부분 나중에 함수로 빼기
             dc.append_raw_barcodes(blist)
+            dc.printingLabel(blist)
         #최근순으로 모든 raw바코드열 가져오기
         return render_template("./main/readBarcodeString.html")
 
