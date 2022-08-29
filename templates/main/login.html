@@ -32,6 +32,7 @@
     </script>
 </head>
 <main>
+    <!-- flash표시를 위한 코드 -->
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <script type="text/javascript">
@@ -40,7 +41,15 @@
         {% endif %}
     {% endwith %}
 
-    {% if session["userid"] %}
+    <!-- worker계정으로 접속했을때 -->
+    {% if session["userid"] ==  "worker" %}
+        <script>
+            location.href = "/dailylist_worker"
+        </script>
+    {% endif %}
+
+    <!-- manager계정 또는 user계정으로 접속했을때 -->
+    {% if session["userid"] == "manager" or session["userid"] == "user" %}
         <script>
             location.href = "/main"
         </script>
