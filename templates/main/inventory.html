@@ -19,38 +19,47 @@
     <script src="/static/js/javascript.js"></script>
     <!--tablesorter-->
     <script src="/static/js/jquery.tablesorter.min.js"></script>
-
-
     <script>
         $(document).ready(function () {
             //전체 버튼
             $("#entireButton").on("click", function () {
                 $('td:nth-child(7):empty').parent().show();
                 $('td:nth-child(7):parent').parent().show();
+                $('tr:nth-child(even)').css({"background": "white"});
+                $("tr:visible").each(function (index) {
+                    $(this).css("background-color", !!(index & 1) ? "rgba(0,0,0,.05)" : "rgba(0,0,0,0)");
+                });
             });
             //재고 버튼
             $("#currentButton").on("click", function () {
                 $('td:nth-child(7):parent').parent().hide();
                 $('td:nth-child(7):empty').parent().show();
+                $('tr:nth-child(even)').css({"background": "white"});
+                $("tr:visible").each(function (index) {
+                    $(this).css("background-color", !!(index & 1) ? "rgba(0,0,0,.05)" : "rgba(0,0,0,0)");
+                });
             });
             //출고 버튼
             $("#releasedButton").on("click", function () {
                 $('td:nth-child(7):empty').parent().hide();
                 $('td:nth-child(7):parent').parent().show();
+                $('tr:nth-child(even)').css({"background": "white"});
+                $("tr:visible").each(function (index) {
+                    $(this).css("background-color", !!(index & 1) ? "rgba(0,0,0,.05)" : "rgba(0,0,0,0)");
+                });
             });
 
         });
-
-
     </script>
-
+    <!-- 테이블 수정시 표시 -->
     <script>
     $(document).ready(function() {
         $(document).on("dblclick", ".editable", function() {
             var value=$(this).text();
-            var input="<input type='text' class='input-data' value='"+value+"' class='form-control'>";
+            var input="<input type='text' class='input-data' value='"+value+"' class='form-control' >";
             $(this).html(input);
-            $(this).removeClass("editable")
+            $(this).removeClass("editable");
+            $(this).change().css("background","red");
         });
         $(document).on("blur", ".input-data", function() {
             var value=$(this).val();
@@ -71,9 +80,7 @@
 
         });
    });
-
 </script>
-
 </head>
 <body>
 <!--세션유무확인-->
@@ -148,6 +155,14 @@
             </span>
         </div>
         <button type="submit" class="datepicker-btn" onclick="return CheckDate()">조회</button>
+        <div class="searchFilter d-flex" style="margin-left : auto; margin-right: 10px;">
+            <input class="datepicker-btn mx-2" id="filter0" type="text" placeholder="기종"
+                   style="width:90px;"/>
+            <input class="datepicker-btn mx-2" id="filter1" type="text" placeholder="MIP"
+                   style="width:90px;"/>
+            <input class="datepicker-btn mx-2" id="filter2" type="text" placeholder="EID"
+                   style="width:90px;"/>
+        </div>
         <div class="d-flex" style="margin-left : auto; margin-right: 10px;">
             <input class="datepicker-btn mx-2" id="entireButton" type="button" value="전체"/>
             <input class="datepicker-btn mx-2" id="currentButton" type="button" value="재고"/>
@@ -155,14 +170,10 @@
         </div>
     </div>
 </form>
-<div class="searchFilter">
-    <input class="datepicker-btn mx-2" id="filter0" type="text" placeholder="기종" style="width:90px;height:40px;"/>
-    <input class="datepicker-btn mx-2" id="filter1" type="text" placeholder="MIP" style="width:90px;height:40px; "/>
-    <input class="datepicker-btn mx-2" id="filter2" type="text" placeholder="EID" style="width:90px;height:40px; "/>
-</div>
+
 <div class="m-4">
     <div class="inventory-table-container">
-        <table id="filter" class="table inventory-table table-bordered table-striped table-hover">
+        <table id="filter" class="table inventory-table table-bordered table-hover">
             <thead>
             <th col-index=1 scope="col">번호</th>
             <th col-index=2 scope="col">
@@ -200,13 +211,12 @@
                         {% endif %}
 
                         {% if session["userid"] == "user" %}
-                            <td>{{ b }}</td>
+                            <td contenteditable="false">{{ b }}</td>
                         {% endif %}
 
                     {% endfor %}
                 </tr>
             {% endfor %}
-
             </tbody>
         </table>
     </div>
