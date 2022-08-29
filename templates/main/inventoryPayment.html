@@ -28,6 +28,14 @@
     </script>
 {% endif %}
 
+<!--worker계정일때 거부-->
+{% if session["userid"] == "worker" %}
+    <script>
+        alert("worker계정으로는 해당 페이지에 접근할 수 없습니다.")
+        location.href = "/"
+    </script>
+{% endif %}
+
 <nav class="navbar navbar-expand-md navbar-light border-bottom navbar-custom">
     <div class="container-fluid">
         <a class="navbar-brand" href="main">SJA.inc</a>

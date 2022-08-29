@@ -33,6 +33,10 @@ def index():  # put application's code here
             session['userid'] = "user"
             flash("사용자님, 안녕하세요!")
             return render_template("./main/login.html")
+        elif id == "worker" and pwd == "worker123!@#":
+            session['userid'] = "worker"
+            flash("입고/출고 가능 계정으로 로그인되었습니다.")
+            return render_template("./main/login.html")
         else:
             flash("아이디 혹은 비빌번호가 잘못되었습니다.")
             return render_template("./main/login.html")
@@ -80,12 +84,6 @@ def read_barcode():
             dc.printingLabel(blist)
         #최근순으로 모든 raw바코드열 가져오기
         return render_template("./main/readBarcodeString.html")
-
-
-# 바코드프린트
-@app.route('/printBarcode', methods=['GET', 'POST'])
-def print_barcode():
-    return "복사완료"
 
 # 출고 바코드 찍기
 @app.route('/releaseEngine', methods=['GET', 'POST'])
@@ -251,6 +249,10 @@ def inventory_payment():
             return render_template("./main/inventoryPayment.html", paymentList=paymentList)
 
         return render_template("./main/inventoryPayment.html", paymentList=paymentList)
+
+@app.route('/dailylist_worker', methods=['GET', 'POST'])
+def dailylist_worker():
+    return render_template("./main/dailylist_worker.html")
 
 
 # flask 구동 (main)
