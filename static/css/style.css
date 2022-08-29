@@ -12166,6 +12166,25 @@ table > tbody > tr > th:first-child:before {
 }
 
 /*불량 엔진 화면*/
+.invalid-table-nav {
+    align-items : center;
+    height: 30px;
+    width: 80vw;
+    margin: 0 auto;
+}
+
+.invalid-table-btn {
+    height: 40px;
+}
+
+.invalid-table-amount {
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 20px;
+    margin-right: 50px;
+
+}
+
 .invalid-table {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
     border: 1px solid #c0c0c0;
@@ -12174,15 +12193,7 @@ table > tbody > tr > th:first-child:before {
     margin: 0 auto;
 }
 
-<
-<
-<
-<
-<
-<
-<
-HEAD
-    /* 테이블 수정 시 input박스 크기 */
+/* 테이블 수정 시 input박스 크기 */
 .input-data {
     width: 100%;
     box-sizing: border-box;
@@ -12190,20 +12201,3 @@ HEAD
     -moz-box-sizing: border-box;
 }
 
-=
-=
-=
-=
-=
-=
-=
-
->>> >>> >
-
-33
-f271a
-
-(
-불량엔진 디폴트 수정, 버튼 추가, 전체조회 editable
-
-)

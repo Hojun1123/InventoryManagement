@@ -53,34 +53,34 @@
     </script>
     <!-- 테이블 수정시 표시 -->
     <script>
-    $(document).ready(function() {
-        $(document).on("dblclick", ".editable", function() {
-            var value=$(this).text();
-            var input="<input type='text' class='input-data' value='"+value+"' class='form-control' >";
-            $(this).html(input);
-            $(this).removeClass("editable");
-            $(this).change().css("background","red");
-        });
-        $(document).on("blur", ".input-data", function() {
-            var value=$(this).val();
-            var td=$(this).parent("td");
-            $(this).remove();
-            td.html(value);
-            td.addClass("editable")
+        $(document).ready(function () {
+            $(document).on("dblclick", ".editable", function () {
+                var value = $(this).text();
+                var input = "<input type='text' class='input-data' value='" + value + "' class='form-control' >";
+                $(this).html(input);
+                $(this).removeClass("editable");
+                $(this).change().css("background", "red");
             });
-        $(document).on("keypress", ".input-data", function(e) {
-            var key=e.which;
-            if(key==13) {
-                var value=$(this).val();
-                var td=$(this).parent("td");
+            $(document).on("blur", ".input-data", function () {
+                var value = $(this).val();
+                var td = $(this).parent("td");
                 $(this).remove();
                 td.html(value);
-                td.addClass("editable");
-            }
+                td.addClass("editable")
+            });
+            $(document).on("keypress", ".input-data", function (e) {
+                var key = e.which;
+                if (key == 13) {
+                    var value = $(this).val();
+                    var td = $(this).parent("td");
+                    $(this).remove();
+                    td.html(value);
+                    td.addClass("editable");
+                }
 
+            });
         });
-   });
-</script>
+    </script>
 </head>
 <body>
 <!--세션유무확인-->
@@ -114,6 +114,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="report">기간별 통계</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="releaseEngine">출고</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button"
