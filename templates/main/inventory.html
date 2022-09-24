@@ -149,7 +149,7 @@
     <div class="d-flex flex-wrap my-2">
         <div class="input-group date datepicker-calendar">
             <input name="startdate" type="text" class="form-control" value="{{ startdate }}" id="startDatepicker"
-                   autocomplete='off'>
+                   autocomplete='off' placeholder="2022-01-01">
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar"></i>
             </span>
@@ -157,7 +157,7 @@
         <span>~</span>
         <div class="input-group date datepicker-calendar">
             <input name="enddate" type="text" class="form-control" value="{{ enddate }}" id="endDatepicker"
-                   autocomplete='off'>
+                   autocomplete='off' placeholder="2022-12-31">
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar"></i>
             </span>
@@ -172,9 +172,9 @@
                    style="width:90px;"/>
         </div>
         <div class="d-flex" style="margin-left : auto; margin-right: 10px;">
-            <input class="datepicker-btn mx-2" id="entireButton" type="button" value="전체"/>
-            <input class="datepicker-btn mx-2" id="currentButton" type="button" value="재고"/>
-            <input class="datepicker-btn mx-2" id="releasedButton" type="button" value="출고"/>
+            <input class="datepicker-btn mx-2 table-btn" id="entireButton" type="button" value="전체"/>
+            <input class="datepicker-btn mx-2 table-btn" id="currentButton" type="button" value="재고"/>
+            <input class="datepicker-btn mx-2 table-btn" id="releasedButton" type="button" value="출고"/>
         </div>
     </div>
 </form>
@@ -256,6 +256,37 @@
         $("#filter").tablesorter();
     });
 </script>
+
+<script>
+    var div2 = document.getElementsByClassName("table-btn");
+
+    function handleClick(event) {
+        console.log(event.target);
+        // console.log(this);
+        // 콘솔창을 보면 둘다 동일한 값이 나온다
+
+        console.log(event.target.classList);
+
+        if (event.target.classList[1] === "clicked") {
+            event.target.classList.remove("clicked");
+        } else {
+            for (var i = 0; i < div2.length; i++) {
+                div2[i].classList.remove("clicked");
+            }
+
+            event.target.classList.add("clicked");
+        }
+      }
+
+        function init() {
+          for (var i = 0; i < div2.length; i++) {
+            div2[i].addEventListener("click", handleClick);
+          }
+        }
+
+        init();
+</script>
+
 <script src="/static/js/TableFilter.min.js" defer></script>
 </body>
 </html>

@@ -12075,6 +12075,10 @@ textarea.form-control-lg {
     margin: 0px 20px;
 }
 
+.clicked {
+    background-color: #c0c0c0;
+}
+
 /*report page css*/
 .report-table-wrapper {
     width: 80vw;
