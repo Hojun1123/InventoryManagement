@@ -19,7 +19,7 @@
 {% endif %}
 
 <!--전용계정세션확인-->
-{% if session["userid"] == 'worker' or session["userid"] == 'manager'%}
+{% if session["userid"] == 'user' %}
     <script>
         alert("해당페이지는 전용계정만 접근가능합니다.")
         location.href = "/"

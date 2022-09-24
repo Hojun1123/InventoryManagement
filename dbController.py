@@ -607,19 +607,23 @@ def printingLabel(barcodeList):
     def makeLabel(MIP, modelName, serials):
         image = Image.open("./Source/orginal.png")
         draw = ImageDraw.Draw(image)
-        #기종작성
+
+        #기종
         draw.text((100, 15), str(modelName), font=ImageFont.truetype('./Source/LeferiBaseRegular.otf',20), fill="black")
+
         #입고일자
-        #draw.text((26,75), "공백")
+        draw.text((240, 21), datetime.now().strftime("%y.%m.%d"), font=ImageFont.truetype('./Source/LeferiBaseRegular.otf',15), fill="black")
+
         #MIP
         draw.text((95, 65), str(MIP), font=ImageFont.truetype('./Source/LeferiBaseRegular.otf',20), fill="black")
+
         #포장일자
-        #draw.text((52,75), "공백")
+        draw.text((240, 71), datetime.now().strftime("%y.%m.%d"), font=ImageFont.truetype('./Source/LeferiBaseRegular.otf',15), fill="black")
+
         #VIN NO.
         draw.text((85, 120), str(serials), font=ImageFont.truetype('./Source/LeferiBaseRegular.otf',14), fill="black")
 
         image.save("./Source/textingLabel.png")
-        return True
 
     # barcdoeList를 받아서 바코드 생성
     def makeQRcode(barcodeList):
