@@ -26,7 +26,34 @@
     </script>
 {% endif %}
 
-
+<nav class="navbar navbar-expand-md navbar-light border-bottom navbar-custom">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="dailylist_worker">SJA.inc</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="dailylist_worker">당일 조회</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link current-page-text" href="readBarcode">바코드 입력</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="releaseEngine">Test-releaseEngine</a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <button type="button" onclick="location.href='/refresh'" class="reload-btn">
+                <img src="/static/assets/img/reload.png" alt="새로고침">
+            </button>
+            <button class="logout-btn" onclick="location.href='/logout'">log out</button>
+        </div>
+    </div>
+</nav>
 
     <section class="vh-100">
         <div class="container py-5 h-100">
